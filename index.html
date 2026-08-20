@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emrah Özbay — Designer</title>
+<meta name="description" content="Emrah Özbay — designer. Selected work and case studies." />
+
+<!-- Open-source stand-ins for the mono/display pairing used throughout -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>PORTFOLIO STATUS: BUILDING</span>
+    <span>/</span>
+    <span>OPEN TO WORK</span>
+    <span>/</span>
+    <span>GITHUB PAGES: DEPLOYED</span>
+    <span>/</span>
+    <span>PORTFOLIO STATUS: BUILDING</span>
+    <span>/</span>
+    <span>OPEN TO WORK</span>
+    <span>/</span>
+    <span>GITHUB PAGES: DEPLOYED</span>
+  </div>
+</div>
+
+<!-- header -->
+<header class="site">
+  <div class="logo">OZBAY<br />EMRAH</div>
+
+  <div class="office">
+    The office of
+    <strong>Emrah Özbay</strong>
+  </div>
+
+  <div class="status-block">
+    <span class="label">STATUS: AVAILABLE</span>
+    <span class="label">DESIGN / PRODUCT / BRAND</span>
+  </div>
+
+  <div class="clock-block">
+    <div class="time mono" id="clock-time">--:--:--</div>
+    <div class="date" id="clock-date">LOADING</div>
+  </div>
+
+  <div class="cta">
+    <a href="mailto:you@example.com">Engage — Contact</a>
+  </div>
+</header>
+
+<!-- hero -->
+<section class="hero">
+  <div class="hero__eyebrow">
+    <span class="label">Designing for &lt;replace with your focus&gt;</span>
+    <span class="label">Status: Deployed in Sector — Web</span>
+  </div>
+  <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
+  <p class="hero__tagline mono">
+    Placeholder tagline — one line on what you design and who it's for.
+    Swap this for your own voice; keep it short and specific.
+  </p>
+  <div class="hero__readout">
+    <span class="chip on"><span class="dot"></span>Status: Online</span>
+    <span class="chip">Based: City, Country</span>
+    <span class="chip">Focus: Brand / Product / Web</span>
+  </div>
+</section>
+
+<!-- live system status, pulled from the GitHub API -->
+<section class="sysstatus reveal">
+  <div class="sysstatus__head">
+    <span class="label">System Status <span id="stat-status" class="accent">CHECKING…</span></span>
+    <span class="label">Source: api.github.com/users/<span class="accent">ozbayemrah</span></span>
+  </div>
+  <div class="sysstatus__grid">
+    <div class="stat">
+      <div class="num accent" id="stat-repos">--</div>
+      <div class="lbl label">Public repos</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-stars">--</div>
+      <div class="lbl label">Total stars</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-lang" style="font-size:20px;">--</div>
+      <div class="lbl label">Top language</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-last" style="font-size:16px;">--</div>
+      <div class="lbl label">Last updated repo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECT 01 ================= -->
+<section class="project reveal">
+  <div class="project__bar">
+    <span>Unit / Project — 01</span>
+    <span>Status: Placeholder</span>
+  </div>
+  <div class="project__grid">
+    <div class="project__media">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="project__placeholder">
+        <div class="ph-title">Cover Image</div>
+        Drop your Behance export here and point the &lt;img&gt; at it
+        <br /><code>assets/project-01-cover.jpg</code>
+      </div>
+      <!-- once you have the export:
+      <img src="assets/project-01-cover.jpg" alt="Project 01 cover" />
+      -->
+    </div>
+    <div class="project__body">
+      <h2 class="project__title">Project Title 01</h2>
+      <p class="project__desc">
+        One or two sentences on the brief, the problem, and what you shipped.
+        Replace with real copy pulled from your Behance case study.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / —</div></div>
+        <div><div class="label">Type</div><div class="val">Brand / Product</div></div>
+      </div>
+      <div class="project__links">
+        <a href="#" target="_blank" rel="noopener">View on Behance</a>
+        <a href="#" target="_blank" rel="noopener">Repo / Live</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECT 02 ================= -->
+<section class="project project--reverse reveal">
+  <div class="project__bar">
+    <span>Unit / Project — 02</span>
+    <span>Status: Placeholder</span>
+  </div>
+  <div class="project__grid">
+    <div class="project__media">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="project__placeholder">
+        <div class="ph-title">Cover Image</div>
+        Drop your Behance export here and point the &lt;img&gt; at it
+        <br /><code>assets/project-02-cover.jpg</code>
+      </div>
+    </div>
+    <div class="project__body">
+      <h2 class="project__title">Project Title 02</h2>
+      <p class="project__desc">
+        One or two sentences on the brief, the problem, and what you shipped.
+        Replace with real copy pulled from your Behance case study.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2025</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / —</div></div>
+        <div><div class="label">Type</div><div class="val">Web / UI</div></div>
+      </div>
+      <div class="project__links">
+        <a href="#" target="_blank" rel="noopener">View on Behance</a>
+        <a href="#" target="_blank" rel="noopener">Repo / Live</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECT 03 ================= -->
+<section class="project reveal">
+  <div class="project__bar">
+    <span>Unit / Project — 03</span>
+    <span>Status: Placeholder</span>
+  </div>
+  <div class="project__grid">
+    <div class="project__media">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="project__placeholder">
+        <div class="ph-title">Cover Image</div>
+        Drop your Behance export here and point the &lt;img&gt; at it
+        <br /><code>assets/project-03-cover.jpg</code>
+      </div>
+    </div>
+    <div class="project__body">
+      <h2 class="project__title">Project Title 03</h2>
+      <p class="project__desc">
+        One or two sentences on the brief, the problem, and what you shipped.
+        Replace with real copy pulled from your Behance case study.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2025</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / —</div></div>
+        <div><div class="label">Type</div><div class="val">Identity</div></div>
+      </div>
+      <div class="project__links">
+        <a href="#" target="_blank" rel="noopener">View on Behance</a>
+        <a href="#" target="_blank" rel="noopener">Repo / Live</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="site">
+  <div class="footer__top">
+    <div class="footer__wordmark">Ozbay Emrah</div>
+    <nav class="footer__links">
+      <a href="https://github.com/ozbayemrah" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.behance.net/ozbayemrah" target="_blank" rel="noopener">Behance</a>
+      <a href="mailto:you@example.com">Email</a>
+    </nav>
+  </div>
+  <div class="footer__bottom">
+    <span>© <span id="footer-year"></span> Emrah Özbay — All rights reserved</span>
+    <span>Built on GitHub Pages — Status: Deployed</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("footer-year").textContent = new Date().getFullYear();
+</script>
+<script src="script.js"></script>
+</body>
+</html>
