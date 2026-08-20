@@ -173,3 +173,207 @@ if (!reducedMotion) startIdCardDecryptLoop();
   document.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
   document.addEventListener("mouseenter", () => cursor.classList.add("is-active"));
 })();
+
+/* ---------- tactical cursor: content-aware +/. halftone lens ----------
+   Reads real pixels — sampled from the actual <img> bitmap, or from a
+   faithful re-render of the hovered text's own glyphs — and draws a
+   density-based +/. pattern through a circular lens that tracks the
+   cursor, 2x its diameter. Dark/ink areas get bigger "+", light areas
+   get small ".". */
+(function () {
+  const shaderCanvas = document.querySelector(".tc-shader");
+  if (!shaderCanvas) return;
+
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!finePointer) {
+    shaderCanvas.remove();
+    return;
+  }
+
+  const sctx = shaderCanvas.getContext("2d", { willReadFrequently: false });
+  const LENS_R = 88; // 2x the 88px cursor diameter
+
+  function resizeShader() {
+    shaderCanvas.width = window.innerWidth;
+    shaderCanvas.height = window.innerHeight;
+  }
+  resizeShader();
+  window.addEventListener("resize", resizeShader, { passive: true });
+
+  const imgRasterCache = new WeakMap();
+  function getImageRaster(img) {
+    if (!img.complete || !img.naturalWidth) return null;
+    let raster = imgRasterCache.get(img);
+    if (raster) return raster;
+    const c = document.createElement("canvas");
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    const cx = c.getContext("2d", { willReadFrequently: true });
+    cx.drawImage(img, 0, 0);
+    let data;
+    try {
+      data = cx.getImageData(0, 0, c.width, c.height);
+    } catch (err) {
+      return null; // CORS-tainted source, skip gracefully
+    }
+    raster = { width: c.width, height: c.height, data };
+    imgRasterCache.set(img, raster);
+    return raster;
+  }
+
+  const textRasterCache = new WeakMap();
+  function getTextRaster(el) {
+    const rect = el.getBoundingClientRect();
+    const w = Math.max(1, Math.ceil(rect.width));
+    const h = Math.max(1, Math.ceil(rect.height));
+    const text = el.textContent;
+    const cached = textRasterCache.get(el);
+    if (cached && cached.srcW === w && cached.srcH === h && cached.text === text) return cached;
+
+    const cs = getComputedStyle(el);
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const cx = c.getContext("2d", { willReadFrequently: true });
+    cx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize}/${cs.lineHeight} ${cs.fontFamily}`;
+    cx.fillStyle = "#fff";
+    cx.textBaseline = "alphabetic";
+    const lineHeight = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.4;
+    const words = text.split(/\s+/).filter(Boolean);
+    let line = "";
+    let y = parseFloat(cs.fontSize);
+    for (const word of words) {
+      const test = line ? line + " " + word : word;
+      if (cx.measureText(test).width > w && line) {
+        cx.fillText(line, 0, y);
+        line = word;
+        y += lineHeight;
+        if (y > h + lineHeight) {
+          line = "";
+          break;
+        }
+      } else {
+        line = test;
+      }
+    }
+    if (line && y <= h + lineHeight) cx.fillText(line, 0, y);
+
+    const data = cx.getImageData(0, 0, w, h);
+    const raster = { width: w, height: h, data, srcW: w, srcH: h, text };
+    textRasterCache.set(el, raster);
+    return raster;
+  }
+
+  const TEXT_SELECTOR =
+    "h1, h2, h3, p, .label, .project__title, .project__desc, .hero__tagline, " +
+    ".bio__body p, .idcard__field-value, .idcard__row-value, .idcard__name, .idcard__footnote";
+
+  function getShaderTarget(x, y) {
+    const el = document.elementFromPoint(x, y);
+    if (!el) return null;
+    const img = el.closest("img");
+    if (img) return { type: "image", el: img };
+    const textEl = el.closest(TEXT_SELECTOR);
+    if (textEl && textEl.textContent.trim()) return { type: "text", el: textEl };
+    return null;
+  }
+
+  let mouseX = -9999;
+  let mouseY = -9999;
+  window.addEventListener(
+    "mousemove",
+    (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    },
+    { passive: true }
+  );
+
+  function drawLensGrid(raster, mode, mapX, mapY) {
+    const step = 9;
+    const cx = mouseX;
+    const cy = mouseY;
+    const d = raster.data.data;
+    sctx.save();
+    sctx.beginPath();
+    sctx.arc(cx, cy, LENS_R, 0, Math.PI * 2);
+    sctx.clip();
+    for (let gx = cx - LENS_R; gx <= cx + LENS_R; gx += step) {
+      for (let gy = cy - LENS_R; gy <= cy + LENS_R; gy += step) {
+        const dx = gx - cx;
+        const dy = gy - cy;
+        if (dx * dx + dy * dy > LENS_R * LENS_R) continue;
+        const rx = Math.round(mapX(gx));
+        const ry = Math.round(mapY(gy));
+        if (rx < 0 || ry < 0 || rx >= raster.width || ry >= raster.height) continue;
+        const idx = (ry * raster.width + rx) * 4;
+        const a = d[idx + 3];
+        if (a < 10) continue;
+
+        let density;
+        if (mode === "image") {
+          const lum = (0.2126 * d[idx] + 0.7152 * d[idx + 1] + 0.0722 * d[idx + 2]) / 255;
+          density = 1 - lum;
+        } else {
+          density = a / 255;
+        }
+
+        if (density > 0.45) {
+          const size = 2 + density * 4;
+          sctx.strokeStyle = `rgba(255,255,255,${0.45 + density * 0.5})`;
+          sctx.lineWidth = 1;
+          sctx.beginPath();
+          sctx.moveTo(gx - size, gy);
+          sctx.lineTo(gx + size, gy);
+          sctx.moveTo(gx, gy - size);
+          sctx.lineTo(gx, gy + size);
+          sctx.stroke();
+        } else {
+          const size = 0.7 + (1 - density) * 0.9;
+          sctx.fillStyle = `rgba(255,255,255,${0.35 + (1 - density) * 0.35})`;
+          sctx.beginPath();
+          sctx.arc(gx, gy, size, 0, Math.PI * 2);
+          sctx.fill();
+        }
+      }
+    }
+    sctx.restore();
+  }
+
+  function drawShader() {
+    sctx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
+    const target = getShaderTarget(mouseX, mouseY);
+
+    if (target && target.type === "image") {
+      const raster = getImageRaster(target.el);
+      if (raster) {
+        const rect = target.el.getBoundingClientRect();
+        const scale = Math.max(rect.width / raster.width, rect.height / raster.height);
+        const dispW = raster.width * scale;
+        const dispH = raster.height * scale;
+        const offX = rect.left + (rect.width - dispW) / 2;
+        const offY = rect.top + (rect.height - dispH) / 2;
+        drawLensGrid(
+          raster,
+          "image",
+          (sx) => (sx - offX) / scale,
+          (sy) => (sy - offY) / scale
+        );
+      }
+    } else if (target && target.type === "text") {
+      const raster = getTextRaster(target.el);
+      if (raster) {
+        const rect = target.el.getBoundingClientRect();
+        drawLensGrid(
+          raster,
+          "text",
+          (sx) => sx - rect.left,
+          (sy) => sy - rect.top
+        );
+      }
+    }
+
+    requestAnimationFrame(drawShader);
+  }
+  requestAnimationFrame(drawShader);
+})();

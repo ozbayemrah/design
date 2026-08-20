@@ -16,6 +16,11 @@
 <body>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- tactical cursor shader — content-aware +/. halftone lens that
+     sits between the cursor and the page, following it over images
+     and text (2x the cursor's own diameter). See script.js. -->
+<canvas class="tc-shader" aria-hidden="true"></canvas>
+
 <!-- tactical cursor — distilled from a full HUD reticle reference
      (Reticle_sample.png): segmented ring, crosshair ticks, bracket
      arc, centre dot. Replaces the native cursor on fine-pointer

@@ -775,6 +775,17 @@ html.has-tactical-cursor button,
 html.has-tactical-cursor .cta a {
   cursor: none;
 }
+.tc-shader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9000;
+}
+@media (hover: none), (pointer: coarse) {
+  .tc-shader { display: none; }
+}
 .tactical-cursor {
   position: fixed;
   top: 0;
@@ -887,6 +898,7 @@ html.has-tactical-cursor .cta a {
 .tc-dot {
   fill: var(--accent);
 }
+
 @media (hover: none), (pointer: coarse) {
   .tactical-cursor { display: none; }
 }
