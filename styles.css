@@ -522,6 +522,68 @@ header.site {
 }
 .idcard__footnote strong { color: #CDCDCD; font-weight: 700; }
 
+/* ---------- biography ---------- */
+.bio {
+  border-bottom: 1px solid var(--line);
+  padding: 64px var(--gap);
+  background: var(--bg-panel);
+}
+.bio__head { margin-bottom: 22px; }
+.bio__body {
+  max-width: none;
+}
+.bio__body p {
+  margin: 0;
+  color: var(--fg);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.bio__timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.bio__role { display: flex; flex-direction: column; gap: 6px; }
+.bio__role-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bio__role-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--fg);
+}
+.bio__role-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.bio__role-company {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bio__role-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.bio__role-desc em { color: var(--fg); font-style: normal; }
+.bio__tags {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 /* ---------- system status panel ---------- */
 .sysstatus {
   border-bottom: 1px solid var(--line);
