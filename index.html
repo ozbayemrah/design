@@ -16,6 +16,14 @@
 <body>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- background music — user-initiated, respects browser autoplay
+     policy. Track credited in the footer per Pixabay license. -->
+<audio id="bg-audio" src="assets/audiocopper-dark.mp3" loop preload="none"></audio>
+<button class="sound-toggle" type="button" aria-pressed="false">
+  <span class="dot"></span>
+  <span class="sound-toggle__label">Audio: Off</span>
+</button>
+
 <!-- tactical cursor shader — content-aware +/. halftone lens that
      sits between the cursor and the page, following it over images
      and text (2x the cursor's own diameter). See script.js. -->
@@ -762,6 +770,10 @@
   <div class="footer__bottom">
     <span>© <span id="footer-year"></span> Emrah Özbay — All rights reserved</span>
     <span>Built on GitHub Pages — Status: Deployed</span>
+  </div>
+  <div class="footer__credits">
+    Music by <a href="https://pixabay.com/users/audiocopper-790745/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">AudioCopper</a>
+    from <a href="https://pixabay.com/music//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">Pixabay</a>
   </div>
 </footer>
 

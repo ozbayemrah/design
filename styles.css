@@ -253,6 +253,38 @@ header.site {
   box-shadow: 0 0 6px currentColor;
 }
 
+/* ---------- background music toggle ---------- */
+.sound-toggle {
+  position: fixed;
+  right: var(--gap);
+  bottom: var(--gap);
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.sound-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.sound-toggle[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.sound-toggle .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.sound-toggle[aria-pressed="true"] .dot {
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
 /* -- hero elements share the ID card's glitch animation -- */
 .hero__eyebrow .label,
 .hero__wordmark,
@@ -763,6 +795,14 @@ footer.site {
   font-size: 11px;
   letter-spacing: 0.06em;
 }
+.footer__credits {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.footer__credits a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+.footer__credits a:hover { color: var(--accent); }
 
 /* section reveal */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }

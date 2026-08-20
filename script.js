@@ -377,3 +377,26 @@ if (!reducedMotion) startIdCardDecryptLoop();
   }
   requestAnimationFrame(drawShader);
 })();
+
+/* ---------- background music toggle ---------- */
+(function () {
+  const audio = document.getElementById("bg-audio");
+  const toggle = document.querySelector(".sound-toggle");
+  if (!audio || !toggle) return;
+  const label = toggle.querySelector(".sound-toggle__label");
+
+  function setState(playing) {
+    toggle.setAttribute("aria-pressed", String(playing));
+    if (label) label.textContent = playing ? "Audio: On" : "Audio: Off";
+  }
+
+  toggle.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  });
+  audio.addEventListener("play", () => setState(true));
+  audio.addEventListener("pause", () => setState(false));
+})();
