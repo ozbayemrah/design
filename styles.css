@@ -701,7 +701,8 @@ header.site {
   justify-content: center;
   overflow: hidden;
 }
-.project__media img { width: 100%; height: 100%; object-fit: cover; }
+.project__media img,
+.project__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .project__media .corner {
   position: absolute;
   width: 8px; height: 8px;
@@ -752,7 +753,7 @@ header.site {
 }
 .project__meta div .label { margin-bottom: 3px; }
 .project__meta div .val { font-size: 13px; color: var(--fg); }
-.project__links { display: flex; gap: 12px; margin-top: 4px; }
+.project__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
 .project__links a {
   border: 1px solid var(--line-strong);
   padding: 8px 14px;
@@ -762,6 +763,12 @@ header.site {
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 .project__links a:hover { border-color: var(--accent); color: var(--accent); }
+.project__links-label {
+  display: block;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
 
 /* ---------- footer ---------- */
 footer.site {

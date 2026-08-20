@@ -82,6 +82,27 @@ if ("IntersectionObserver" in window && revealEls.length) {
   revealEls.forEach((el) => el.classList.add("in"));
 }
 
+/* ---------- project videos: load + autoplay only once visible ---------- */
+const projectVideos = document.querySelectorAll(".project__video");
+if ("IntersectionObserver" in window && projectVideos.length) {
+  const vio = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+  projectVideos.forEach((v) => vio.observe(v));
+} else {
+  projectVideos.forEach((v) => v.play().catch(() => {}));
+}
+
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
    like <br> and <strong> survive the animation intact. */
