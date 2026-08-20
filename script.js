@@ -81,3 +81,68 @@ if ("IntersectionObserver" in window && revealEls.length) {
 } else {
   revealEls.forEach((el) => el.classList.add("in"));
 }
+
+/* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
+/* Operates on individual text nodes (not elements) so structural children
+   like <br> and <strong> survive the animation intact. */
+const DECRYPT_CHARS = "!<>-_\\/[]{}—=+*^?#01";
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const idcOriginal = new WeakMap();
+const idcLocked = new WeakSet();
+
+function scrambleReveal(node, duration) {
+  if (idcLocked.has(node)) return;
+  idcLocked.add(node);
+  if (!idcOriginal.has(node)) idcOriginal.set(node, node.nodeValue);
+  const original = idcOriginal.get(node);
+  const len = original.length;
+  const start = performance.now();
+
+  function frame(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const revealCount = Math.floor(progress * len);
+    let out = "";
+    for (let i = 0; i < len; i++) {
+      const ch = original[i];
+      out += i < revealCount || ch === " " || ch === "\n" ? ch : DECRYPT_CHARS[(Math.random() * DECRYPT_CHARS.length) | 0];
+    }
+    node.nodeValue = out;
+    if (progress < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      node.nodeValue = original;
+      idcLocked.delete(node);
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+function collectIdCardTextNodes(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => (node.nodeValue.trim().length ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
+  });
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) nodes.push(n);
+  return nodes;
+}
+
+function startIdCardDecryptLoop() {
+  const root = document.querySelector(".idcard");
+  if (!root) return;
+  const targets = collectIdCardTextNodes(root);
+  if (!targets.length) return;
+
+  function tick() {
+    const pool = targets.filter((node) => !idcLocked.has(node));
+    const count = 2 + ((Math.random() * 4) | 0);
+    for (let i = 0; i < count && pool.length; i++) {
+      const node = pool.splice((Math.random() * pool.length) | 0, 1)[0];
+      scrambleReveal(node, 400 + Math.random() * 600);
+    }
+    setTimeout(tick, 700 + Math.random() * 1400);
+  }
+  setTimeout(tick, 600 + Math.random() * 800);
+}
+
+if (!reducedMotion) startIdCardDecryptLoop();
