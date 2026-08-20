@@ -77,6 +77,11 @@
       </div>
     </div>
 
+    <!-- S·PEN Eye Sphere — sphere of '+' symbols shaped like an eye,
+         looking around with smooth randomized movement. Ported from
+         Rive/Lua procedural draw script to vanilla Canvas 2D. -->
+    <canvas class="hero__eye" width="460" height="460" aria-hidden="true"></canvas>
+
     <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
     <div class="hero__idcard">
       <div class="idcard">
@@ -702,5 +707,6 @@
   document.getElementById("footer-year").textContent = new Date().getFullYear();
 </script>
 <script src="script.js"></script>
+<script src="eye-sphere.js"></script>
 </body>
 </html>

@@ -199,6 +199,19 @@ header.site {
   .hero__idcard { display: block; }
   .hero__content { padding-right: clamp(200px, 24vw, 400px); }
 }
+.hero__eye {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 460px;
+  height: 460px;
+  pointer-events: none;
+}
+@media (min-width: 1440px) {
+  .hero__eye { display: block; }
+}
 .hero__eyebrow { display: flex; gap: 24px; flex-wrap: wrap; }
 .hero__wordmark {
   font-family: var(--display);
