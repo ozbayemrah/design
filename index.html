@@ -16,6 +16,33 @@
 <body>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- tactical cursor — distilled from a full HUD reticle reference
+     (Reticle_sample.png): segmented ring, crosshair ticks, bracket
+     arc, centre dot. Replaces the native cursor on fine-pointer
+     devices; see script.js for the tracking logic. -->
+<div class="tactical-cursor" aria-hidden="true">
+  <svg viewBox="0 0 64 64" width="88" height="88">
+    <g class="tc-ring-outer-breathe">
+      <circle class="tc-ring-outer" cx="32" cy="32" r="29" />
+    </g>
+    <circle class="tc-ring" cx="32" cy="32" r="24" />
+    <circle class="tc-ring-inner" cx="32" cy="32" r="18" />
+    <path class="tc-bracket tc-bracket--bottom" d="M 20 40 A 12 12 0 0 0 44 40" />
+    <path class="tc-bracket tc-bracket--top" d="M 20 24 A 12 12 0 0 1 44 24" />
+    <line class="tc-tick" x1="32" y1="2" x2="32" y2="9" />
+    <line class="tc-tick" x1="32" y1="55" x2="32" y2="62" />
+    <line class="tc-tick" x1="2" y1="32" x2="9" y2="32" />
+    <line class="tc-tick" x1="55" y1="32" x2="62" y2="32" />
+    <g class="tc-edge-group">
+      <line class="tc-edge tc-edge--left" x1="1" y1="0" x2="8" y2="0" />
+      <line class="tc-edge tc-edge--right" x1="56" y1="0" x2="63" y2="0" />
+      <line class="tc-edge tc-edge--left" x1="1" y1="64" x2="8" y2="64" />
+      <line class="tc-edge tc-edge--right" x1="56" y1="64" x2="63" y2="64" />
+    </g>
+    <circle class="tc-dot" cx="32" cy="32" r="1.6" />
+  </svg>
+</div>
+
 <!-- ticker -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">

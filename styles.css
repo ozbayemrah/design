@@ -767,3 +767,126 @@ footer.site {
 /* section reveal */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ---------- tactical cursor ---------- */
+html.has-tactical-cursor,
+html.has-tactical-cursor a,
+html.has-tactical-cursor button,
+html.has-tactical-cursor .cta a {
+  cursor: none;
+}
+.tactical-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) scale(0.9);
+  transition: opacity 0.2s ease, transform 0.05s linear;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+}
+.tactical-cursor.is-active { opacity: 1; }
+.tactical-cursor.is-down { transform-origin: center; }
+.tactical-cursor.is-down svg { transform: scale(0.82); transition: transform 0.15s ease; }
+.tactical-cursor svg { transition: transform 0.2s ease; overflow: visible; }
+.tc-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.3;
+  opacity: 0.9;
+}
+.tc-ring-inner {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 3.4;
+  opacity: 0.55;
+}
+.tc-ring-outer {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 18 14;
+  opacity: 0.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tc-ring-outer-spin 9s linear infinite;
+}
+.tc-ring-outer-breathe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tc-ring-outer-breathe 3s ease-in-out infinite;
+}
+@keyframes tc-ring-outer-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes tc-ring-outer-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.tc-edge {
+  stroke: var(--accent);
+  stroke-width: 1.1;
+  opacity: 0.6;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tc-edge--left { animation: tc-edge-left 2.2s ease-in-out infinite; }
+.tc-edge--right { animation: tc-edge-right 2.2s ease-in-out infinite; }
+.tc-edge-group {
+  transform-box: fill-box;
+  transform-origin: center;
+  /* 4 breathing cycles (2.2s each = 8.8s) per 90deg step, full turn in 4 steps */
+  animation: tc-edge-group-spin 35.2s steps(4, end) infinite;
+}
+@keyframes tc-edge-group-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes tc-edge-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-6px); }
+}
+@keyframes tc-edge-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tc-edge--left, .tc-edge--right, .tc-edge-group, .tc-ring-outer, .tc-ring-outer-breathe { animation: none; }
+}
+.tc-bracket {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tc-bracket--bottom { animation: tc-bracket-bottom 2.2s ease-in-out infinite; }
+.tc-bracket--top { animation: tc-bracket-top 2.2s ease-in-out infinite; }
+@keyframes tc-bracket-bottom {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes tc-bracket-top {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tc-bracket--bottom, .tc-bracket--top { animation: none; }
+}
+.tc-tick {
+  stroke: var(--accent);
+  stroke-width: 1.3;
+  opacity: 0.9;
+}
+.tc-dot {
+  fill: var(--accent);
+}
+@media (hover: none), (pointer: coarse) {
+  .tactical-cursor { display: none; }
+}

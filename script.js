@@ -146,3 +146,30 @@ function startIdCardDecryptLoop() {
 }
 
 if (!reducedMotion) startIdCardDecryptLoop();
+
+/* ---------- tactical cursor ---------- */
+(function () {
+  const cursor = document.querySelector(".tactical-cursor");
+  if (!cursor) return;
+
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!finePointer) {
+    cursor.remove();
+    return;
+  }
+
+  document.documentElement.classList.add("has-tactical-cursor");
+
+  window.addEventListener(
+    "mousemove",
+    (e) => {
+      cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      cursor.classList.add("is-active");
+    },
+    { passive: true }
+  );
+  window.addEventListener("mousedown", () => cursor.classList.add("is-down"), { passive: true });
+  window.addEventListener("mouseup", () => cursor.classList.remove("is-down"), { passive: true });
+  document.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
+  document.addEventListener("mouseenter", () => cursor.classList.add("is-active"));
+})();
