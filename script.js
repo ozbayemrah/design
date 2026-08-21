@@ -5,15 +5,34 @@
 
 const GITHUB_USER = "ozbayemrah";
 
-/* ---------- live clock ---------- */
+/* ---------- live clock: Vienna (home base) + the visitor's own local time ---------- */
+const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+const DATE_OPTS = { weekday: "long", month: "short", day: "2-digit", year: "numeric" };
+
+const localZoneLabel = (() => {
+  try {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    const city = zone.split("/").pop();
+    return city ? city.replace(/_/g, " ") : "Your Time";
+  } catch (e) {
+    return "Your Time";
+  }
+})();
+
 function tickClock() {
   const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-  const date = now.toLocaleDateString([], { weekday: "long", month: "short", day: "2-digit", year: "numeric" }).toUpperCase();
+  const viennaTime = now.toLocaleTimeString("en-GB", { ...TIME_OPTS, timeZone: "Europe/Vienna" });
+  const viennaDate = now.toLocaleDateString("en-GB", { ...DATE_OPTS, timeZone: "Europe/Vienna" }).toUpperCase();
+  const localTime = now.toLocaleTimeString([], TIME_OPTS);
+
   const timeEl = document.getElementById("clock-time");
   const dateEl = document.getElementById("clock-date");
-  if (timeEl) timeEl.textContent = time;
-  if (dateEl) dateEl.textContent = date;
+  const localTimeEl = document.getElementById("clock-time-local");
+  const localZoneEl = document.getElementById("clock-zone-local");
+  if (timeEl) timeEl.textContent = viennaTime;
+  if (dateEl) dateEl.textContent = viennaDate;
+  if (localTimeEl) localTimeEl.textContent = localTime;
+  if (localZoneEl) localZoneEl.textContent = localZoneLabel;
 }
 tickClock();
 setInterval(tickClock, 1000);
@@ -79,6 +98,80 @@ if ("IntersectionObserver" in window && revealEls.length) {
 } else {
   revealEls.forEach((el) => el.classList.add("in"));
 }
+
+/* ---------- prev/next project hints: track whichever unit is
+   centered in the viewport while scrolling through the project list ---------- */
+(function () {
+  const prevEl = document.querySelector(".project-jump--prev");
+  const nextEl = document.querySelector(".project-jump--next");
+  const sections = Array.from(document.querySelectorAll(".project"));
+  if (!prevEl || !nextEl || !sections.length) return;
+
+  // titles are captured once, up front — reading them live later could
+  // catch a project mid decrypt-reveal and show scrambled text
+  const items = sections.map((section) => ({
+    id: section.id,
+    title: section.querySelector(".project__title")?.textContent.trim() || "",
+    section,
+  }));
+
+  const prevTitleEl = prevEl.querySelector(".project-jump__title");
+  const nextTitleEl = nextEl.querySelector(".project-jump__title");
+
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const viewportMid = window.innerHeight / 2;
+    let bestIndex = -1;
+    let bestDist = Infinity;
+
+    items.forEach((item, i) => {
+      const rect = item.section.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        const dist = Math.abs((rect.top + rect.bottom) / 2 - viewportMid);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIndex = i;
+        }
+      }
+    });
+
+    if (bestIndex === -1) {
+      prevEl.classList.remove("is-visible");
+      nextEl.classList.remove("is-visible");
+      return;
+    }
+
+    const prevItem = items[bestIndex - 1];
+    const nextItem = items[bestIndex + 1];
+
+    if (prevItem) {
+      prevEl.href = "#" + prevItem.id;
+      prevTitleEl.textContent = prevItem.title;
+      prevEl.classList.add("is-visible");
+    } else {
+      prevEl.classList.remove("is-visible");
+    }
+    if (nextItem) {
+      nextEl.href = "#" + nextItem.id;
+      nextTitleEl.textContent = nextItem.title;
+      nextEl.classList.add("is-visible");
+    } else {
+      nextEl.classList.remove("is-visible");
+    }
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  update();
+})();
 
 /* ---------- bio panel toggle: one arrow opens/closes all three panels ---------- */
 document.querySelectorAll("[data-toggle-group]").forEach((btn) => {
@@ -289,6 +382,17 @@ createImageSlideshow("fui-slideshow", "assets/Project_assets/FUI/", [
   "Fui (4).jpg",
   "Fui (5).jpg",
   "Fui (6).jpg",
+]);
+
+createImageSlideshow("starwars-slideshow", "assets/Project_assets/Starwars/", [
+  "starwars (1).jpg",
+  "starwars (2).jpg",
+  "starwars (3).jpg",
+  "starwars (4).jpg",
+  "starwars (5).jpg",
+  "starwars (6).jpg",
+  "starwars (7).jpg",
+  "starwars (8).jpg",
 ]);
 
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */

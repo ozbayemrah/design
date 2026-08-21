@@ -37,8 +37,6 @@
   <svg viewBox="0 0 64 64" width="88" height="88">
     <circle class="tc-ring" cx="32" cy="32" r="24" />
     <circle class="tc-ring-inner" cx="32" cy="32" r="18" />
-    <path class="tc-bracket tc-bracket--bottom" d="M 20 40 A 12 12 0 0 0 44 40" />
-    <path class="tc-bracket tc-bracket--top" d="M 20 24 A 12 12 0 0 1 44 24" />
     <line class="tc-tick" x1="32" y1="2" x2="32" y2="9" />
     <line class="tc-tick" x1="32" y1="55" x2="32" y2="62" />
     <line class="tc-tick" x1="2" y1="32" x2="9" y2="32" />
@@ -52,6 +50,19 @@
     <circle class="tc-dot" cx="32" cy="32" r="1.6" />
   </svg>
 </div>
+
+<!-- prev/next project hints — track whichever unit is centered while
+     scrolling through the project list, jump on click -->
+<a class="project-jump project-jump--prev" href="#">
+  <span class="project-jump__arrow" aria-hidden="true"></span>
+  <span class="project-jump__label">Previous</span>
+  <span class="project-jump__title"></span>
+</a>
+<a class="project-jump project-jump--next" href="#">
+  <span class="project-jump__title"></span>
+  <span class="project-jump__label">Next</span>
+  <span class="project-jump__arrow" aria-hidden="true"></span>
+</a>
 
 <!-- ticker -->
 <div class="ticker" aria-hidden="true">
@@ -97,7 +108,14 @@
   </div>
 
   <div class="clock-block">
-    <div class="time mono" id="clock-time">--:--:--</div>
+    <div class="clock-block__row">
+      <span class="clock-block__zone">Vienna</span>
+      <span class="time mono" id="clock-time">--:--:--</span>
+    </div>
+    <div class="clock-block__row clock-block__row--local">
+      <span class="clock-block__zone" id="clock-zone-local">Your Time</span>
+      <span class="time mono" id="clock-time-local">--:--:--</span>
+    </div>
     <div class="date" id="clock-date">LOADING</div>
   </div>
 
@@ -295,6 +313,7 @@
       <span class="projectnav__title">Interstellar Navigation &amp; Flight Control FUI</span>
     </a>
     <a class="projectnav__item" href="#project-08">
+      <img class="projectnav__media" src="assets/Project_assets/Starwars/starwars%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">08</span>
@@ -715,11 +734,7 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-08-cover.jpg</code>
-      </div>
+      <img id="starwars-slideshow" class="project__slideshow" alt="STAR WARS, Project: RAXAR screens" />
     </div>
     <div class="project__body">
       <h2 class="project__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</h2>

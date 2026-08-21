@@ -205,13 +205,30 @@ header.site {
 .status-block .label { display: block; margin-bottom: 2px; }
 .status-block .label:first-child { color: var(--fg); }
 
-.clock-block { text-align: right; min-width: 128px; }
+.clock-block { text-align: right; min-width: 148px; }
+.clock-block__row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 8px;
+}
+.clock-block__zone {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .clock-block .time {
   font-size: 15px;
   color: var(--fg);
   font-variant-numeric: tabular-nums;
 }
-.clock-block .date { color: var(--muted); font-size: 11px; margin-top: 2px; }
+.clock-block__row--local {
+  margin-top: 2px;
+  opacity: 0.6;
+}
+.clock-block__row--local .time { font-size: 12px; }
+.clock-block .date { color: var(--muted); font-size: 11px; margin-top: 5px; }
 
 .cta {
   grid-column: 1 / -1;
@@ -371,6 +388,56 @@ header.site {
 .sound-toggle[aria-pressed="true"] .dot {
   background: currentColor;
   box-shadow: 0 0 6px currentColor;
+}
+
+/* ---------- prev/next project hints ---------- */
+.project-jump {
+  position: fixed;
+  left: 50%;
+  z-index: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(90vw, 420px);
+  padding: 9px 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.project-jump--prev { top: 78px; transform: translate(-50%, -6px); }
+.project-jump--next { bottom: var(--gap); transform: translate(-50%, 6px); }
+.project-jump.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.project-jump:hover { border-color: var(--accent); color: var(--accent); }
+.project-jump:hover .project-jump__title { color: var(--accent); }
+.project-jump__title {
+  color: var(--fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+.project-jump__arrow {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.project-jump--prev .project-jump__arrow { border-bottom: 7px solid currentColor; }
+.project-jump--next .project-jump__arrow { border-top: 7px solid currentColor; }
+@media (max-width: 640px) {
+  .project-jump__title { display: none; }
 }
 
 /* -- hero elements share the ID card's glitch animation -- */
@@ -1152,27 +1219,6 @@ html.has-tactical-cursor .cta a {
 }
 @media (prefers-reduced-motion: reduce) {
   .tc-edge--left, .tc-edge--right, .tc-edge-group { animation: none; }
-}
-.tc-bracket {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1;
-  opacity: 0.75;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.tc-bracket--bottom { animation: tc-bracket-bottom 2.2s ease-in-out infinite; }
-.tc-bracket--top { animation: tc-bracket-top 2.2s ease-in-out infinite; }
-@keyframes tc-bracket-bottom {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-@keyframes tc-bracket-top {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .tc-bracket--bottom, .tc-bracket--top { animation: none; }
 }
 .tc-tick {
   stroke: var(--accent);
