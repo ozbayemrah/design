@@ -19,6 +19,18 @@ const localZoneLabel = (() => {
   }
 })();
 
+// "GMT+1" / "GMT+2" — computed live so it stays correct across DST
+// changes instead of hardcoding Vienna's offset.
+function gmtOffsetLabel(date, timeZone) {
+  try {
+    const parts = new Intl.DateTimeFormat("en-GB", { timeZone, timeZoneName: "shortOffset" }).formatToParts(date);
+    const tz = parts.find((p) => p.type === "timeZoneName");
+    return tz ? tz.value : "GMT";
+  } catch (e) {
+    return "GMT";
+  }
+}
+
 function tickClock() {
   const now = new Date();
   const viennaTime = now.toLocaleTimeString("en-GB", { ...TIME_OPTS, timeZone: "Europe/Vienna" });
@@ -27,10 +39,12 @@ function tickClock() {
 
   const timeEl = document.getElementById("clock-time");
   const dateEl = document.getElementById("clock-date");
+  const viennaZoneEl = document.getElementById("clock-zone-vienna");
   const localTimeEl = document.getElementById("clock-time-local");
   const localZoneEl = document.getElementById("clock-zone-local");
   if (timeEl) timeEl.textContent = viennaTime;
   if (dateEl) dateEl.textContent = viennaDate;
+  if (viennaZoneEl) viennaZoneEl.textContent = gmtOffsetLabel(now, "Europe/Vienna");
   if (localTimeEl) localTimeEl.textContent = localTime;
   if (localZoneEl) localZoneEl.textContent = localZoneLabel;
 }
@@ -204,31 +218,15 @@ if ("IntersectionObserver" in window && projectVideos.length) {
   projectVideos.forEach((v) => v.play().catch(() => {}));
 }
 
-/* ---------- SPG-StaticPen cover: cycles through the numbered set of
-   stills/clips in filename order, only while it's on screen. The
-   formerly-gif slides are now webm loops, so cycling swaps between
-   a <video> and an <img> element rather than reassigning one <img>. ---------- */
-(function () {
-  const videoEl = document.getElementById("spg-slideshow-video");
-  const imgEl = document.getElementById("spg-slideshow-img");
-  if (!videoEl || !imgEl) return;
+/* ---------- generic mixed slideshow: cycles a set of stills AND
+   webm clips (in filename order), only while its card is on screen.
+   Swaps between a <video> and an <img> element rather than trying to
+   reassign one element's src across two media types. ---------- */
+function createMixedSlideshow(videoId, imgId, base, slides) {
+  const videoEl = document.getElementById(videoId);
+  const imgEl = document.getElementById(imgId);
+  if (!videoEl || !imgEl || !slides.length) return;
   const container = videoEl.closest(".project__media");
-
-  const base = "assets/Project_assets/SPG-Staticpen/";
-  const slides = [
-    { file: "SPG_elements (1).webm", video: true },
-    { file: "SPG_elements (2).jpg" },
-    { file: "SPG_elements (3).jpg" },
-    { file: "SPG_elements (4).jpg" },
-    { file: "SPG_elements (5).webm", video: true },
-    { file: "SPG_elements (6).jpg" },
-    { file: "SPG_elements (7).jpg" },
-    { file: "SPG_elements (8).jpg" },
-    { file: "SPG_elements (9).webm", video: true },
-    { file: "SPG_elements (10).jpg" },
-    { file: "SPG_elements (11).jpg" },
-    { file: "SPG_elements (12).jpg" },
-  ];
 
   function url(file) {
     return base + encodeURIComponent(file);
@@ -294,7 +292,101 @@ if ("IntersectionObserver" in window && projectVideos.length) {
   } else {
     start();
   }
-})();
+}
+
+createMixedSlideshow("spg-slideshow-video", "spg-slideshow-img", "assets/Project_assets/SPG-Staticpen/", [
+  { file: "SPG_elements (1).webm", video: true },
+  { file: "SPG_elements (2).jpg" },
+  { file: "SPG_elements (3).jpg" },
+  { file: "SPG_elements (4).jpg" },
+  { file: "SPG_elements (5).webm", video: true },
+  { file: "SPG_elements (6).jpg" },
+  { file: "SPG_elements (7).jpg" },
+  { file: "SPG_elements (8).jpg" },
+  { file: "SPG_elements (9).webm", video: true },
+  { file: "SPG_elements (10).jpg" },
+  { file: "SPG_elements (11).jpg" },
+  { file: "SPG_elements (12).jpg" },
+]);
+
+createMixedSlideshow("hyperion-slideshow-video", "hyperion-slideshow-img", "assets/Project_assets/WT-hyperion/", [
+  { file: "WT-hyperion (1).webm", video: true },
+  { file: "WT-hyperion (2).jpg" },
+  { file: "WT-hyperion (3).webm", video: true },
+  { file: "WT-hyperion (4).webm", video: true },
+  { file: "WT-hyperion (5).jpg" },
+  { file: "WT-hyperion (6).jpg" },
+]);
+
+createMixedSlideshow("paradox-slideshow-video", "paradox-slideshow-img", "assets/Project_assets/WT-paradox/", [
+  { file: "WT-paradox (1).webm", video: true },
+  { file: "WT-paradox (2).webm", video: true },
+  { file: "WT-paradox (3).webm", video: true },
+  { file: "WT-paradox (4).jpg" },
+  { file: "WT-paradox (5).jpg" },
+  { file: "WT-paradox (6).jpg" },
+  { file: "WT-paradox (7).jpg" },
+]);
+
+/* ---------- generic video-only slideshow: plays each clip through
+   to its natural end, then advances — no artificial dwell timer. ---------- */
+function createVideoSlideshow(videoId, base, files) {
+  const video = document.getElementById(videoId);
+  if (!video || !files.length) return;
+  const container = video.closest(".project__media");
+
+  function url(file) {
+    return base + encodeURIComponent(file);
+  }
+
+  let index = 0;
+  let running = false;
+
+  function playCurrent() {
+    video.src = url(files[index]);
+    video.play().catch(() => {});
+  }
+
+  video.addEventListener("ended", () => {
+    index = (index + 1) % files.length;
+    playCurrent();
+  });
+
+  function start() {
+    if (running) return;
+    running = true;
+    if (!video.src) playCurrent();
+    else video.play().catch(() => {});
+  }
+  function stop() {
+    running = false;
+    video.pause();
+  }
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
+      { threshold: 0.25 }
+    );
+    io.observe(container);
+  } else {
+    start();
+  }
+}
+
+createVideoSlideshow("reckoning-slideshow-video", "assets/Project_assets/WT-reckoning/", [
+  "WT-Reckoning (1).webm",
+  "WT-Reckoning (6).webm",
+  "WT-Reckoning (7).webm",
+  "WT-Reckoning (8).webm",
+  "WT-Reckoning (9).webm",
+]);
+
+createVideoSlideshow("postmortem-slideshow-video", "assets/Project_assets/DestroyCam/", [
+  "Destorycam (2).webm",
+  "Destorycam (3).webm",
+  "Destorycam (4).webm",
+]);
 
 /* ---------- generic image slideshow: cycles a set of stills in
    filename order, only while its card is on screen. Used for the

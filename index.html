@@ -95,8 +95,6 @@
 
 <!-- header -->
 <header class="site">
-  <div class="logo">ÖZBAY<br />EMRAH</div>
-
   <div class="office">
     The office of
     <strong>Creative Design</strong>
@@ -109,7 +107,7 @@
 
   <div class="clock-block">
     <div class="clock-block__row">
-      <span class="clock-block__zone">Vienna</span>
+      <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
       <span class="time mono" id="clock-time">--:--:--</span>
     </div>
     <div class="clock-block__row clock-block__row--local">
@@ -158,6 +156,8 @@
     <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
     <div class="hero__idcard">
       <div class="idcard">
+        <span class="idcard__corner tl"></span><span class="idcard__corner tr"></span>
+        <span class="idcard__corner bl"></span><span class="idcard__corner br"></span>
         <span class="idcard__index">01</span>
         <div class="idcard__ticks idcard__ticks--l"></div>
         <div class="idcard__ticks idcard__ticks--r"></div>
@@ -254,7 +254,7 @@
     <a class="projectnav__item" href="#project-01">
       <video
         class="projectnav__media project__video"
-        src="assets/Project_assets/SPEN-System.mp4"
+        src="assets/Project_assets/SPEN-System.webm"
         muted
         loop
         playsinline
@@ -267,24 +267,28 @@
       <span class="projectnav__title">S·PEN — Silent Predictive Enforcement Network FUI-HUD</span>
     </a>
     <a class="projectnav__item" href="#project-02">
+      <video class="projectnav__media project__video" src="assets/Project_assets/WT-hyperion/WT-hyperion%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">02</span>
       <span class="projectnav__title">Waffenträger: Projekt Hyperion — World of Tanks</span>
     </a>
     <a class="projectnav__item" href="#project-03">
+      <video class="projectnav__media project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">03</span>
       <span class="projectnav__title">Waffenträger: Reckoning — World of Tanks</span>
     </a>
     <a class="projectnav__item" href="#project-04">
+      <video class="projectnav__media project__video" src="assets/Project_assets/WT-paradox/WT-paradox%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">04</span>
       <span class="projectnav__title">Waffenträger: Paradox — World of Tanks</span>
     </a>
     <a class="projectnav__item" href="#project-05">
+      <video class="projectnav__media project__video" src="assets/Project_assets/DestroyCam/Destorycam%20(2).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">05</span>
@@ -458,7 +462,7 @@
       <span class="corner bl"></span><span class="corner br"></span>
       <video
         class="project__video"
-        src="assets/Project_assets/SPEN-System.mp4"
+        src="assets/Project_assets/SPEN-System.webm"
         muted
         loop
         playsinline
@@ -504,11 +508,17 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-02-cover.jpg</code>
-      </div>
+      <video
+        id="hyperion-slideshow-video"
+        class="project__slideshow"
+        src="assets/Project_assets/WT-hyperion/WT-hyperion%20(1).webm"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
+      <img id="hyperion-slideshow-img" class="project__slideshow" alt="Waffenträger: Projekt Hyperion screens" style="display: none;" />
     </div>
     <div class="project__body">
       <h2 class="project__title">Waffenträger: Projekt Hyperion — World of Tanks</h2>
@@ -541,11 +551,14 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-03-cover.jpg</code>
-      </div>
+      <video
+        id="reckoning-slideshow-video"
+        class="project__slideshow"
+        muted
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
     </div>
     <div class="project__body">
       <h2 class="project__title">Waffenträger: Reckoning — World of Tanks</h2>
@@ -578,11 +591,17 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-04-cover.jpg</code>
-      </div>
+      <video
+        id="paradox-slideshow-video"
+        class="project__slideshow"
+        src="assets/Project_assets/WT-paradox/WT-paradox%20(1).webm"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
+      <img id="paradox-slideshow-img" class="project__slideshow" alt="Waffenträger: Paradox screens" style="display: none;" />
     </div>
     <div class="project__body">
       <h2 class="project__title">Waffenträger: Paradox — World of Tanks</h2>
@@ -615,11 +634,14 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-05-cover.jpg</code>
-      </div>
+      <video
+        id="postmortem-slideshow-video"
+        class="project__slideshow"
+        muted
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
     </div>
     <div class="project__body">
       <h2 class="project__title">World of Tanks — Post Mortem Mode</h2>
