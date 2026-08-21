@@ -42,16 +42,27 @@
     return `rgba(${r},${g},${b},${a})`;
   }
 
-  const COL_SCLERA_100 = argb(0xffe5e3e6);
-  const COL_SCLERA_80 = argb(0xcce5e3e6);
-  const COL_SCLERA_60 = argb(0x99e5e3e6);
-  const COL_SCLERA_40 = argb(0x66e5e3e6);
-  const COL_SCLERA_25 = argb(0x40e5e3e6);
-  const COL_IRIS = argb(0xbfe5e3e6);
-  const COL_IRIS_INNER = argb(0x80e5e3e6);
   const COL_PUPIL = argb(0x0a000000);
-  const COL_DETAIL = argb(0x66e5e3e6);
-  const COL_HIGHLIGHT = argb(0xffe5e3e6);
+
+  // Eye "material" color follows the page theme (light fg on dark ground,
+  // dark fg on light ground) — recomputed each frame in updateEyeColors().
+  let COL_SCLERA_100, COL_SCLERA_80, COL_SCLERA_60, COL_SCLERA_40, COL_SCLERA_25;
+  let COL_IRIS, COL_IRIS_INNER, COL_DETAIL, COL_HIGHLIGHT;
+
+  function updateEyeColors() {
+    const light = document.documentElement.getAttribute("data-theme") === "light";
+    const base = light ? 0x16171a : 0xe5e3e6;
+    COL_SCLERA_100 = argb(0xff000000 | base);
+    COL_SCLERA_80 = argb(0xcc000000 | base);
+    COL_SCLERA_60 = argb(0x99000000 | base);
+    COL_SCLERA_40 = argb(0x66000000 | base);
+    COL_SCLERA_25 = argb(0x40000000 | base);
+    COL_IRIS = argb(0xbf000000 | base);
+    COL_IRIS_INNER = argb(0x80000000 | base);
+    COL_DETAIL = argb(0x66000000 | base);
+    COL_HIGHLIGHT = argb(0xff000000 | base);
+  }
+  updateEyeColors();
 
   // Fixed-point LCG RNG, matches the Lua source exactly.
   function rng(s) {
@@ -203,6 +214,7 @@
   }
 
   function draw() {
+    updateEyeColors();
     ctx.clearRect(0, 0, W, H);
     ctx.save();
     ctx.translate(W / 2, H / 2);
@@ -388,6 +400,10 @@
 
     ctx.restore();
   }
+
+  // Redraw immediately on theme toggle instead of waiting for the next
+  // animation frame (keeps the eye in sync even if rAF is throttled).
+  window.addEventListener("theme:change", draw);
 
   if (reducedMotion) {
     update(0);

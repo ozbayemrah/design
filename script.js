@@ -5,6 +5,34 @@
 
 const GITHUB_USER = "ozbayemrah";
 
+/* ---------- theme toggle: light/dark, persisted in localStorage ---------- */
+(function () {
+  const root = document.documentElement;
+  const btn = document.querySelector(".theme-toggle");
+  if (!btn) return;
+
+  function isLight() {
+    return root.getAttribute("data-theme") === "light";
+  }
+  function updateButton() {
+    btn.setAttribute("aria-pressed", String(isLight()));
+    btn.setAttribute("aria-label", isLight() ? "Switch to dark theme" : "Switch to light theme");
+  }
+  updateButton();
+
+  btn.addEventListener("click", () => {
+    if (isLight()) {
+      root.removeAttribute("data-theme");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+    updateButton();
+    window.dispatchEvent(new Event("theme:change"));
+  });
+})();
+
 /* ---------- live clock: Vienna (home base) + the visitor's own local time ---------- */
 const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
 const DATE_OPTS = { weekday: "long", month: "short", day: "2-digit", year: "numeric" };
