@@ -478,6 +478,39 @@ createImageSlideshow("starwars-slideshow", "assets/Project_assets/Starwars/", [
   "starwars (8).jpg",
 ]);
 
+createImageSlideshow("language-slideshow", "assets/Project_assets/Language/", [
+  "language (1).jpg",
+  "language (2).jpg",
+  "language (3).jpg",
+  "language (4).jpg",
+  "language (5).jpg",
+  "language (6).jpg",
+]);
+
+createVideoSlideshow("lol-slideshow-video", "assets/Project_assets/Leaugeoflegends/", [
+  "lol1.webm",
+  "lol2.webm",
+  "lol3.webm",
+]);
+
+createImageSlideshow("dcen-slideshow", "assets/Project_assets/DCEN/", [
+  "Dcen (1).jpg",
+  "Dcen (2).jpg",
+  "Dcen (3).jpg",
+  "Dcen (4).jpg",
+  "Dcen (5).jpg",
+  "Dcen (6).jpg",
+  "Dcen (7).jpg",
+  "Dcen (8).jpg",
+]);
+
+createImageSlideshow("austriawealth-slideshow", "assets/Project_assets/Austria-Wealth/", [
+  "Austria_wealth (1).jpg",
+  "Austria_wealth (2).jpg",
+  "Austria_wealth (3).jpg",
+  "Austria_wealth (4).jpg",
+]);
+
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
    like <br> and <strong> survive the animation intact. */
