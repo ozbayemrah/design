@@ -66,10 +66,9 @@ img { max-width: 100%; display: block; }
 /* ---------- ticker ---------- */
 .ticker {
   --ticker-h: 28.5px;
-  --ticker-margin: 100px;
-  display: flex;
-  align-items: stretch;
+  position: relative;
   height: var(--ticker-h);
+  overflow: hidden;
   background-color: var(--bg-panel-alt);
   background-image: url("assets/scanning_shape1.png");
   background-repeat: repeat;
@@ -78,18 +77,42 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--line-strong);
 }
 
+/* -- the whole plate (corner badge + text pill + index badge) rides
+   as one rigid group at one speed: enters from the right, drifts
+   left, exits, loops back around. transform keeps the maths correct
+   regardless of the plate's own (content-driven) width. -- */
+.ticker__unit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: inline-flex;
+  align-items: stretch;
+  white-space: nowrap;
+  animation: ticker-slide 60s linear infinite;
+}
+@keyframes ticker-slide {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker__unit { animation: none; transform: none; }
+}
+
 /* -- left badge: corner-bracket + centre mark, cut from one square.
-   Cells reveal the same tiled scan texture; the opaque backing
-   plate masks it everywhere else in the badge. -- */
+   The badge itself has no background — only the 5 small cells are
+   filled white (matching the text pill), so the gaps between them
+   stay transparent over the ticker's own tile. -- */
 .ticker__corner {
   flex-shrink: 0;
   width: var(--ticker-h);
+  margin-right: 8px;
   display: grid;
   grid-template-columns: 4fr 9fr 4fr;
   grid-template-rows: 4fr 9fr 4fr;
-  background: var(--bg-panel-alt);
 }
 .ticker__corner-cell {
+  background-color: var(--accent);
   background-image: url("assets/scanning_shape1.png");
   background-repeat: repeat;
   background-position: center;
@@ -101,44 +124,31 @@ img { max-width: 100%; display: block; }
 .ticker__corner-cell--bl { grid-column: 1; grid-row: 3; }
 .ticker__corner-cell--br { grid-column: 3; grid-row: 3; }
 
-/* -- middle: scrolling status text on a light band, inset from
-   both edge badges so the tiled scan texture shows either side -- */
+/* -- middle: the white text pill, sized to its own content and
+   riding along with the badges — no separate scroll of its own -- */
 .ticker__band {
-  flex: 1 1 auto;
-  min-width: 0;
-  margin: 0 var(--ticker-margin);
-  overflow: hidden;
+  flex-shrink: 0;
   white-space: nowrap;
   background: var(--accent);
   color: var(--accent-fg);
 }
 .ticker__track {
-  display: inline-block;
-  padding-left: 100%;
-  animation: ticker 60s linear infinite;
+  display: block;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 6px 100px;
 }
 .ticker__track span { margin-right: 48px; }
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ticker__track { animation: none; padding-left: 16px; }
-}
+.ticker__track span:last-child { margin-right: 0; }
 
-/* -- right badge: inset frame + index number over the scan-texture fill -- */
+/* -- right badge: inset frame + index number, no backing plate -- */
 .ticker__index {
   position: relative;
   flex-shrink: 0;
   width: var(--ticker-h);
-  background-color: var(--bg-panel-alt);
   background-image: url("assets/scanning_shape1.png");
   background-repeat: repeat;
   background-position: center;
