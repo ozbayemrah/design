@@ -318,14 +318,20 @@ header.site {
   margin-top: 8px;
 }
 .chip {
-  border: 1px solid var(--line-strong);
-  padding: 6px 12px;
+  padding: 6px 10px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--accent-dim),
+    var(--accent-dim) 6px,
+    transparent 6px,
+    transparent 12px
+  );
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.chip.on { border-color: var(--accent); color: var(--accent); }
+.chip.on { color: var(--accent); }
 .chip .dot {
   display: inline-block;
   width: 6px; height: 6px;
@@ -682,7 +688,7 @@ header.site {
   padding: 12px 12px 14px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 4px;
   overflow: hidden;
   border: 1px dashed var(--line-strong);
@@ -696,7 +702,8 @@ header.site {
   background: var(--accent-dim);
   transform: translateY(-3px);
 }
-/* -- cover media, dimmed so the number/title stay legible on top -- */
+/* -- cover media, grayscale + dimmed so it reads as texture, not a
+   full-color photo, and stays out of the way of the number/title -- */
 .projectnav__media {
   position: absolute;
   inset: 0;
@@ -704,7 +711,8 @@ header.site {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.5;
+  opacity: 0.35;
+  filter: grayscale(1);
 }
 .projectnav__item .corner {
   position: absolute;
@@ -916,7 +924,10 @@ header.site {
   scroll-margin-top: 90px; /* clears the sticky header when jumped to via anchor */
   border-bottom: 1px solid var(--line);
   padding: var(--gap);
+  background: var(--bg);
 }
+/* alternating tone so each unit reads as its own card while scrolling */
+.project:nth-of-type(even) { background: var(--bg-panel); }
 .project__bar {
   display: flex;
   justify-content: space-between;
@@ -1104,42 +1115,19 @@ html.has-tactical-cursor .cta a {
   fill: none;
   stroke: var(--accent);
   stroke-width: 1.3;
-  opacity: 0.9;
+  opacity: 0.75;
 }
 .tc-ring-inner {
   fill: none;
   stroke: var(--accent);
   stroke-width: 0.8;
   stroke-dasharray: 2 3.4;
-  opacity: 0.55;
-}
-.tc-ring-outer {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1;
-  stroke-dasharray: 18 14;
-  opacity: 0.5;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: tc-ring-outer-spin 9s linear infinite;
-}
-.tc-ring-outer-breathe {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: tc-ring-outer-breathe 3s ease-in-out infinite;
-}
-@keyframes tc-ring-outer-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes tc-ring-outer-breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  opacity: 0.75;
 }
 .tc-edge {
   stroke: var(--accent);
   stroke-width: 1.1;
-  opacity: 0.6;
+  opacity: 0.75;
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -1163,13 +1151,13 @@ html.has-tactical-cursor .cta a {
   50% { transform: translateX(6px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tc-edge--left, .tc-edge--right, .tc-edge-group, .tc-ring-outer, .tc-ring-outer-breathe { animation: none; }
+  .tc-edge--left, .tc-edge--right, .tc-edge-group { animation: none; }
 }
 .tc-bracket {
   fill: none;
   stroke: var(--accent);
   stroke-width: 1;
-  opacity: 0.7;
+  opacity: 0.75;
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -1189,10 +1177,11 @@ html.has-tactical-cursor .cta a {
 .tc-tick {
   stroke: var(--accent);
   stroke-width: 1.3;
-  opacity: 0.9;
+  opacity: 0.75;
 }
 .tc-dot {
   fill: var(--accent);
+  opacity: 0.75;
 }
 
 @media (hover: none), (pointer: coarse) {

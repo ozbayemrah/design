@@ -203,6 +203,94 @@ if ("IntersectionObserver" in window && projectVideos.length) {
   }
 })();
 
+/* ---------- generic image slideshow: cycles a set of stills in
+   filename order, only while its card is on screen. Used for the
+   project covers that are plain jpg sequences (no gif/webm slides). ---------- */
+function createImageSlideshow(imgId, base, files, dwell) {
+  const img = document.getElementById(imgId);
+  if (!img || !files.length) return;
+  const container = img.closest(".project__media");
+
+  function url(file) {
+    return base + encodeURIComponent(file);
+  }
+
+  let index = 0;
+  let timer = null;
+  let running = false;
+
+  function preloadNext() {
+    new Image().src = url(files[(index + 1) % files.length]);
+  }
+
+  function show(i) {
+    index = i;
+    img.style.opacity = "0";
+    img.addEventListener("load", () => { img.style.opacity = "1"; }, { once: true });
+    img.src = url(files[index]);
+    preloadNext();
+  }
+
+  function scheduleNext() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      show((index + 1) % files.length);
+      scheduleNext();
+    }, dwell || 2600);
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    if (!img.src) show(0);
+    scheduleNext();
+  }
+  function stop() {
+    running = false;
+    clearTimeout(timer);
+  }
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
+      { threshold: 0.25 }
+    );
+    io.observe(container);
+  } else {
+    start();
+  }
+}
+
+createImageSlideshow("interstellar-slideshow", "assets/Project_assets/Interstellar-nav/", [
+  "interstellar (1).jpg",
+  "interstellar (2).jpg",
+  "interstellar (3).jpg",
+  "interstellar (4).jpg",
+  "interstellar (5).jpg",
+  "interstellar (6).jpg",
+  "interstellar (7).jpg",
+]);
+
+createImageSlideshow("cyberpunk-slideshow", "assets/Project_assets/Cyberpunk-Hud/", [
+  "Cyberpunk (1).jpg",
+  "Cyberpunk (2).jpg",
+  "Cyberpunk (3).jpg",
+  "Cyberpunk (4).jpg",
+  "Cyberpunk (5).jpg",
+  "Cyberpunk (6).jpg",
+  "Cyberpunk (7).jpg",
+  "Cyberpunk (8).jpg",
+]);
+
+createImageSlideshow("fui-slideshow", "assets/Project_assets/FUI/", [
+  "Fui (1).jpg",
+  "Fui (2).jpg",
+  "Fui (3).jpg",
+  "Fui (4).jpg",
+  "Fui (5).jpg",
+  "Fui (6).jpg",
+]);
+
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
    like <br> and <strong> survive the animation intact. */

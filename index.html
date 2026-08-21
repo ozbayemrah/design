@@ -35,9 +35,6 @@
      devices; see script.js for the tracking logic. -->
 <div class="tactical-cursor" aria-hidden="true">
   <svg viewBox="0 0 64 64" width="88" height="88">
-    <g class="tc-ring-outer-breathe">
-      <circle class="tc-ring-outer" cx="32" cy="32" r="29" />
-    </g>
     <circle class="tc-ring" cx="32" cy="32" r="24" />
     <circle class="tc-ring-inner" cx="32" cy="32" r="18" />
     <path class="tc-bracket tc-bracket--bottom" d="M 20 40 A 12 12 0 0 0 44 40" />
@@ -233,7 +230,7 @@
 <section class="projectnav reveal">
   <div class="projectnav__bar">
     <span>Index / Selected Projects</span>
-    <span>12 Units — Click to Jump</span>
+    <span>12 Units — Go to Project</span>
   </div>
   <div class="projectnav__track">
     <a class="projectnav__item" href="#project-01">
@@ -291,6 +288,7 @@
       <span class="projectnav__title">SPG-StaticPen — A Cinematic Terminal/HUD System</span>
     </a>
     <a class="projectnav__item" href="#project-07">
+      <img class="projectnav__media" src="assets/Project_assets/Interstellar-nav/interstellar%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">07</span>
@@ -303,12 +301,14 @@
       <span class="projectnav__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</span>
     </a>
     <a class="projectnav__item" href="#project-09">
+      <img class="projectnav__media" src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">09</span>
       <span class="projectnav__title">Cyberpunk HUD &amp; Reticle Exploration</span>
     </a>
     <a class="projectnav__item" href="#project-10">
+      <img class="projectnav__media" src="assets/Project_assets/FUI/Fui%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
       <span class="projectnav__num">10</span>
@@ -681,11 +681,7 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-07-cover.jpg</code>
-      </div>
+      <img id="interstellar-slideshow" class="project__slideshow" alt="Interstellar Navigation &amp; Flight Control FUI screens" />
     </div>
     <div class="project__body">
       <h2 class="project__title">Interstellar Navigation &amp; Flight Control FUI</h2>
@@ -756,11 +752,7 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-09-cover.jpg</code>
-      </div>
+      <img id="cyberpunk-slideshow" class="project__slideshow" alt="Cyberpunk HUD &amp; Reticle Exploration screens" />
     </div>
     <div class="project__body">
       <h2 class="project__title">Cyberpunk HUD &amp; Reticle Exploration</h2>
@@ -793,11 +785,7 @@
     <div class="project__media">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div class="project__placeholder">
-        <div class="ph-title">Cover Image</div>
-        Drop your Behance export here and point the &lt;img&gt; at it
-        <br /><code>assets/project-10-cover.jpg</code>
-      </div>
+      <img id="fui-slideshow" class="project__slideshow" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design screens" />
     </div>
     <div class="project__body">
       <h2 class="project__title">Futuristic Aircraft HUD / FUI &amp; Reticle Design</h2>
