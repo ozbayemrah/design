@@ -951,6 +951,7 @@ header.site {
 }
 .project__media img,
 .project__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.project__slideshow { transition: opacity 0.35s ease; }
 .project__media .corner {
   position: absolute;
   width: 8px; height: 8px;

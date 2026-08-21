@@ -68,6 +68,7 @@ if ("IntersectionObserver" in window && revealEls.length) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("in");
+          if (entry.target.classList.contains("project")) decryptRevealProject(entry.target);
           io.unobserve(entry.target);
         }
       });
@@ -110,6 +111,98 @@ if ("IntersectionObserver" in window && projectVideos.length) {
   projectVideos.forEach((v) => v.play().catch(() => {}));
 }
 
+/* ---------- SPG-StaticPen cover: cycles through the numbered set of
+   stills/clips in filename order, only while it's on screen. The
+   formerly-gif slides are now webm loops, so cycling swaps between
+   a <video> and an <img> element rather than reassigning one <img>. ---------- */
+(function () {
+  const videoEl = document.getElementById("spg-slideshow-video");
+  const imgEl = document.getElementById("spg-slideshow-img");
+  if (!videoEl || !imgEl) return;
+  const container = videoEl.closest(".project__media");
+
+  const base = "assets/Project_assets/SPG-Staticpen/";
+  const slides = [
+    { file: "SPG_elements (1).webm", video: true },
+    { file: "SPG_elements (2).jpg" },
+    { file: "SPG_elements (3).jpg" },
+    { file: "SPG_elements (4).jpg" },
+    { file: "SPG_elements (5).webm", video: true },
+    { file: "SPG_elements (6).jpg" },
+    { file: "SPG_elements (7).jpg" },
+    { file: "SPG_elements (8).jpg" },
+    { file: "SPG_elements (9).webm", video: true },
+    { file: "SPG_elements (10).jpg" },
+    { file: "SPG_elements (11).jpg" },
+    { file: "SPG_elements (12).jpg" },
+  ];
+
+  function url(file) {
+    return base + encodeURIComponent(file);
+  }
+
+  let index = 0;
+  let timer = null;
+  let running = false;
+
+  function preloadNext() {
+    const next = slides[(index + 1) % slides.length];
+    if (!next.video) new Image().src = url(next.file);
+  }
+
+  function show(i) {
+    index = i;
+    const slide = slides[index];
+    if (slide.video) {
+      imgEl.style.display = "none";
+      videoEl.style.display = "";
+      videoEl.style.opacity = "0";
+      videoEl.addEventListener("loadeddata", () => { videoEl.style.opacity = "1"; }, { once: true });
+      videoEl.src = url(slide.file);
+      videoEl.play().catch(() => {});
+    } else {
+      videoEl.pause();
+      videoEl.style.display = "none";
+      imgEl.style.display = "";
+      imgEl.style.opacity = "0";
+      imgEl.addEventListener("load", () => { imgEl.style.opacity = "1"; }, { once: true });
+      imgEl.src = url(slide.file);
+    }
+    preloadNext();
+  }
+
+  function scheduleNext() {
+    clearTimeout(timer);
+    const dwell = slides[index].video ? 5000 : 2200;
+    timer = setTimeout(() => {
+      show((index + 1) % slides.length);
+      scheduleNext();
+    }, dwell);
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    if (slides[index].video) videoEl.play().catch(() => {});
+    scheduleNext();
+  }
+  function stop() {
+    running = false;
+    clearTimeout(timer);
+    videoEl.pause();
+  }
+
+  if ("IntersectionObserver" in window) {
+    const sio = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
+      { threshold: 0.25 }
+    );
+    sio.observe(container);
+  } else {
+    start();
+  }
+})();
+
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
    like <br> and <strong> survive the animation intact. */
@@ -145,7 +238,7 @@ function scrambleReveal(node, duration) {
   requestAnimationFrame(frame);
 }
 
-function collectIdCardTextNodes(root) {
+function collectTextNodes(root) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode: (node) => (node.nodeValue.trim().length ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
   });
@@ -158,7 +251,7 @@ function collectIdCardTextNodes(root) {
 function startIdCardDecryptLoop() {
   const root = document.querySelector(".idcard");
   if (!root) return;
-  const targets = collectIdCardTextNodes(root);
+  const targets = collectTextNodes(root);
   if (!targets.length) return;
 
   function tick() {
@@ -174,6 +267,20 @@ function startIdCardDecryptLoop() {
 }
 
 if (!reducedMotion) startIdCardDecryptLoop();
+
+/* ---------- project cards: same decrypt-reveal motion, once per card,
+   the first time it scrolls into view. Copy text only — buttons/links
+   keep their plain fade-in from .reveal. ---------- */
+function decryptRevealProject(section) {
+  if (reducedMotion) return;
+  const nodes = [];
+  section
+    .querySelectorAll(".project__title, .project__desc, .project__meta .label, .project__meta .val")
+    .forEach((el) => nodes.push(...collectTextNodes(el)));
+  nodes.forEach((node, i) => {
+    setTimeout(() => scrambleReveal(node, 500 + Math.random() * 400), i * 55);
+  });
+}
 
 /* ---------- tactical cursor ---------- */
 (function () {
