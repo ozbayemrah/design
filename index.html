@@ -95,36 +95,45 @@
 
 <!-- header -->
 <header class="site">
-  <div class="office">
-    The office of
-    <strong>Creative Design</strong>
-  </div>
-
-  <div class="status-block">
-    <span class="label">STATUS: AVAILABLE</span>
-    <span class="label">UI/UX / INTERFACE SYSTEMS</span>
-  </div>
-
-  <div class="clock-block">
-    <div class="clock-block__row">
-      <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
-      <span class="time mono" id="clock-time">--:--:--</span>
+  <div class="header__left">
+    <div class="cta">
+      <a href="mailto:ozbayemrah@gmail.com">
+        <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+          <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Comms — Activate</span>
+      </a>
     </div>
-    <div class="clock-block__row clock-block__row--local">
-      <span class="clock-block__zone" id="clock-zone-local">Your Time</span>
-      <span class="time mono" id="clock-time-local">--:--:--</span>
+
+    <div class="office">
+      The office of
+      <strong>Creative Design</strong>
     </div>
-    <div class="date" id="clock-date">LOADING</div>
   </div>
 
-  <div class="cta">
-    <a href="mailto:ozbayemrah@gmail.com">
-      <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-        <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <span>Comms — Activate</span>
-    </a>
+  <div class="header__right">
+    <div class="status-block">
+      <span class="label">STATUS: AVAILABLE</span>
+      <span class="label">INTERACTIVE SYSTEMS</span>
+    </div>
+
+    <div class="clock-block">
+      <div class="clock-block__col">
+        <div class="clock-block__timerow">
+          <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
+          <span class="time mono" id="clock-time">--:--:--</span>
+        </div>
+        <span class="date" id="clock-date">LOADING</span>
+      </div>
+      <div class="clock-block__col clock-block__col--local">
+        <div class="clock-block__timerow">
+          <span class="clock-block__zone" id="clock-zone-local">Local Time</span>
+          <span class="time mono" id="clock-time-local">--:--:--</span>
+        </div>
+        <span class="date" id="clock-date-local">LOADING</span>
+      </div>
+    </div>
   </div>
 </header>
 

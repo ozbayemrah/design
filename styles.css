@@ -176,14 +176,18 @@ header.site {
   position: sticky;
   top: 0;
   z-index: 100;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--gap);
-  align-items: start;
   padding: 18px var(--gap) 14px;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
+.header__left { display: flex; align-items: center; gap: 20px; }
+.header__right { display: flex; align-items: center; gap: 28px; }
+
 .office {
   font-family: var(--display);
   font-weight: 700;
@@ -197,40 +201,38 @@ header.site {
 .status-block .label { display: block; margin-bottom: 2px; }
 .status-block .label:first-child { color: var(--fg); }
 
-.clock-block { text-align: right; min-width: 148px; }
-.clock-block__row {
+.clock-block { display: flex; align-items: stretch; min-width: 260px; }
+.clock-block__col {
   display: flex;
-  justify-content: flex-end;
-  align-items: baseline;
-  gap: 8px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 16px;
 }
-.clock-block__zone {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.clock-block .time {
-  font-size: 15px;
-  color: var(--fg);
-  font-variant-numeric: tabular-nums;
-}
-.clock-block__row--local {
-  margin-top: 2px;
+.clock-block__col:first-child { padding-left: 0; }
+.clock-block__col--local {
   opacity: 0.6;
+  border-left: 1px solid var(--line);
 }
-.clock-block__row--local .time { font-size: 12px; }
-.clock-block .date { color: var(--muted); font-size: 11px; margin-top: 5px; }
+.clock-block__timerow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.clock-block__zone,
+.clock-block .time,
+.clock-block .date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.clock-block__zone { color: var(--muted); }
+.clock-block .time { color: var(--fg); font-variant-numeric: tabular-nums; }
+.clock-block .date { color: var(--muted); }
 
-.cta {
-  grid-column: 1 / -1;
-  justify-self: end;
-  margin-top: 10px;
-  display: none;
-}
+.cta { display: none; }
 @media (min-width: 860px) {
-  .cta { display: inline-block; grid-column: auto; grid-row: 1; margin-top: 0; }
-  header.site { grid-template-columns: 1fr auto auto auto; }
+  .cta { display: inline-block; }
 }
 .cta a {
   display: inline-flex;
@@ -257,8 +259,7 @@ header.site {
 .cta__icon { flex-shrink: 0; }
 
 @media (max-width: 859px) {
-  header.site { grid-template-columns: 1fr; }
-  .status-block, .clock-block { display: none; }
+  .header__right { display: none; }
 }
 
 /* ---------- hero ---------- */

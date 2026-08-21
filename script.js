@@ -9,16 +9,6 @@ const GITHUB_USER = "ozbayemrah";
 const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
 const DATE_OPTS = { weekday: "long", month: "short", day: "2-digit", year: "numeric" };
 
-const localZoneLabel = (() => {
-  try {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-    const city = zone.split("/").pop();
-    return city ? city.replace(/_/g, " ") : "Your Time";
-  } catch (e) {
-    return "Your Time";
-  }
-})();
-
 // "GMT+1" / "GMT+2" — computed live so it stays correct across DST
 // changes instead of hardcoding Vienna's offset.
 function gmtOffsetLabel(date, timeZone) {
@@ -35,18 +25,19 @@ function tickClock() {
   const now = new Date();
   const viennaTime = now.toLocaleTimeString("en-GB", { ...TIME_OPTS, timeZone: "Europe/Vienna" });
   const viennaDate = now.toLocaleDateString("en-GB", { ...DATE_OPTS, timeZone: "Europe/Vienna" }).toUpperCase();
-  const localTime = now.toLocaleTimeString([], TIME_OPTS);
+  const localTime = now.toLocaleTimeString("en-GB", TIME_OPTS);
+  const localDate = now.toLocaleDateString("en-GB", DATE_OPTS).toUpperCase();
 
   const timeEl = document.getElementById("clock-time");
   const dateEl = document.getElementById("clock-date");
   const viennaZoneEl = document.getElementById("clock-zone-vienna");
   const localTimeEl = document.getElementById("clock-time-local");
-  const localZoneEl = document.getElementById("clock-zone-local");
+  const localDateEl = document.getElementById("clock-date-local");
   if (timeEl) timeEl.textContent = viennaTime;
   if (dateEl) dateEl.textContent = viennaDate;
   if (viennaZoneEl) viennaZoneEl.textContent = gmtOffsetLabel(now, "Europe/Vienna");
   if (localTimeEl) localTimeEl.textContent = localTime;
-  if (localZoneEl) localZoneEl.textContent = localZoneLabel;
+  if (localDateEl) localDateEl.textContent = localDate;
 }
 tickClock();
 setInterval(tickClock, 1000);
