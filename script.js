@@ -21,7 +21,6 @@ setInterval(tickClock, 1000);
 /* ---------- GitHub live stats ---------- */
 async function loadGithubStats() {
   const elRepos = document.getElementById("stat-repos");
-  const elStars = document.getElementById("stat-stars");
   const elLang = document.getElementById("stat-lang");
   const elLast = document.getElementById("stat-last");
   const statusEl = document.getElementById("stat-status");
@@ -32,7 +31,6 @@ async function loadGithubStats() {
     const repos = await res.json();
 
     const repoCount = repos.length;
-    const starCount = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
 
     const langCounts = {};
     repos.forEach((r) => {
@@ -43,7 +41,6 @@ async function loadGithubStats() {
     const mostRecent = repos[0];
 
     if (elRepos) elRepos.textContent = String(repoCount).padStart(2, "0");
-    if (elStars) elStars.textContent = String(starCount).padStart(2, "0");
     if (elLang) elLang.textContent = topLang ? topLang[0].toUpperCase() : "—";
     if (elLast) elLast.textContent = mostRecent ? mostRecent.name.toUpperCase() : "—";
     if (statusEl) {
@@ -56,7 +53,7 @@ async function loadGithubStats() {
       statusEl.textContent = "OFFLINE";
       statusEl.classList.remove("on");
     }
-    [elRepos, elStars, elLang, elLast].forEach((el) => {
+    [elRepos, elLang, elLast].forEach((el) => {
       if (el) el.textContent = "--";
     });
   }
@@ -81,6 +78,16 @@ if ("IntersectionObserver" in window && revealEls.length) {
 } else {
   revealEls.forEach((el) => el.classList.add("in"));
 }
+
+/* ---------- bio panel toggle: one arrow opens/closes all three panels ---------- */
+document.querySelectorAll("[data-toggle-group]").forEach((btn) => {
+  const group = document.querySelectorAll(`.${btn.dataset.toggleGroup}__panel`);
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    group.forEach((panel) => panel.classList.toggle("is-open", !open));
+  });
+});
 
 /* ---------- project videos: load + autoplay only once visible ---------- */
 const projectVideos = document.querySelectorAll(".project__video");
