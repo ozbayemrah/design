@@ -55,12 +55,19 @@
 </div>
 
 <!-- prev/next project hints — track whichever unit is centered while
-     scrolling through the project list, jump on click -->
-<a class="project-jump project-jump--prev" href="#">
-  <span class="project-jump__arrow" aria-hidden="true"></span>
-  <span class="project-jump__label">Previous</span>
-  <span class="project-jump__title"></span>
-</a>
+     scrolling through the project list, jump on click. The "top" button
+     rides alongside prev, both shown/hidden together (see script.js). -->
+<div class="project-jump-group">
+  <a class="project-jump project-jump--prev" href="#">
+    <span class="project-jump__arrow" aria-hidden="true"></span>
+    <span class="project-jump__label">Previous</span>
+    <span class="project-jump__title"></span>
+  </a>
+  <button class="project-jump project-jump--top" type="button" aria-label="Scroll to top">
+    <span class="project-jump__arrow project-jump__arrow--up" aria-hidden="true"></span>
+    <span class="project-jump__label">Top</span>
+  </button>
+</div>
 <a class="project-jump project-jump--next" href="#">
   <span class="project-jump__title"></span>
   <span class="project-jump__label">Next</span>

@@ -135,10 +135,11 @@ if ("IntersectionObserver" in window && revealEls.length) {
 /* ---------- prev/next project hints: track whichever unit is
    centered in the viewport while scrolling through the project list ---------- */
 (function () {
+  const prevGroupEl = document.querySelector(".project-jump-group");
   const prevEl = document.querySelector(".project-jump--prev");
   const nextEl = document.querySelector(".project-jump--next");
   const sections = Array.from(document.querySelectorAll(".project"));
-  if (!prevEl || !nextEl || !sections.length) return;
+  if (!prevGroupEl || !prevEl || !nextEl || !sections.length) return;
 
   // titles are captured once, up front — reading them live later could
   // catch a project mid decrypt-reveal and show scrambled text
@@ -171,7 +172,7 @@ if ("IntersectionObserver" in window && revealEls.length) {
     });
 
     if (bestIndex === -1) {
-      prevEl.classList.remove("is-visible");
+      prevGroupEl.classList.remove("is-visible");
       nextEl.classList.remove("is-visible");
       return;
     }
@@ -182,9 +183,9 @@ if ("IntersectionObserver" in window && revealEls.length) {
     if (prevItem) {
       prevEl.href = "#" + prevItem.id;
       prevTitleEl.textContent = prevItem.title;
-      prevEl.classList.add("is-visible");
+      prevGroupEl.classList.add("is-visible");
     } else {
-      prevEl.classList.remove("is-visible");
+      prevGroupEl.classList.remove("is-visible");
     }
     if (nextItem) {
       nextEl.href = "#" + nextItem.id;
@@ -204,6 +205,13 @@ if ("IntersectionObserver" in window && revealEls.length) {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
   update();
+
+  const topBtn = document.querySelector(".project-jump--top");
+  if (topBtn) {
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 })();
 
 /* ---------- bio panel toggle: one arrow opens/closes all three panels ---------- */

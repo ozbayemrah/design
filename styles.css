@@ -452,9 +452,6 @@ header.site {
 
 /* ---------- prev/next project hints ---------- */
 .project-jump {
-  position: fixed;
-  left: 50%;
-  z-index: 400;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -467,13 +464,20 @@ header.site {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.project-jump--next {
+  position: fixed;
+  left: 50%;
+  z-index: 400;
+  bottom: var(--gap);
+  transform: translate(-50%, 6px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.project-jump--prev { top: 78px; transform: translate(-50%, -6px); }
-.project-jump--next { bottom: var(--gap); transform: translate(-50%, 6px); }
-.project-jump.is-visible {
+.project-jump--next.is-visible {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0);
@@ -496,8 +500,36 @@ header.site {
 }
 .project-jump--prev .project-jump__arrow { border-bottom: 7px solid currentColor; }
 .project-jump--next .project-jump__arrow { border-top: 7px solid currentColor; }
+.project-jump__arrow--up { border-bottom: 7px solid currentColor; }
 @media (max-width: 640px) {
   .project-jump__title { display: none; }
+}
+
+/* -- "back to top" rides alongside the previous-project hint, both
+   shown/hidden as one unit near the top of the viewport -- */
+.project-jump-group {
+  position: fixed;
+  top: 78px;
+  left: 50%;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translate(-50%, -6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.project-jump-group.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.project-jump-group .project-jump--prev { max-width: min(60vw, 340px); }
+.project-jump--top {
+  flex-shrink: 0;
+  max-width: none;
+  padding: 9px 14px;
 }
 
 /* -- hero elements share the ID card's glitch animation -- */
