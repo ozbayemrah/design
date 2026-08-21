@@ -76,6 +76,41 @@
     nextBlink: rngR(41, 0.8, 2.5),
   };
 
+  // ---- cursor tracking: once the pointer enters the page, the eye
+  // looks toward it instead of wandering; it resumes idle drifting
+  // when the pointer leaves the viewport. ----
+  let cursorActive = false;
+  let originX = 0;
+  let originY = 0;
+  const cursor = { x: 0, y: 0 };
+
+  function updateOrigin() {
+    const rect = canvas.getBoundingClientRect();
+    originX = rect.left + rect.width / 2;
+    originY = rect.top + rect.height / 2;
+  }
+  updateOrigin();
+  window.addEventListener("resize", updateOrigin, { passive: true });
+  window.addEventListener("scroll", updateOrigin, { passive: true });
+
+  if (!reducedMotion) {
+    document.addEventListener(
+      "mousemove",
+      (e) => {
+        cursorActive = true;
+        cursor.x = e.clientX;
+        cursor.y = e.clientY;
+      },
+      { passive: true }
+    );
+    document.documentElement.addEventListener("mouseleave", () => {
+      cursorActive = false;
+    });
+    window.addEventListener("blur", () => {
+      cursorActive = false;
+    });
+  }
+
   function addPlus(segments, x, y, arm) {
     segments.push(x - arm, y, x + arm, y);
     segments.push(x, y - arm, x, y + arm);
@@ -101,7 +136,18 @@
 
     const t = eye.time;
 
-    if (eye.state === STATE_HOLD) {
+    if (cursorActive) {
+      const dxRaw = cursor.x - originX;
+      const dyRaw = cursor.y - originY;
+      const rx = dxRaw < 0 ? originX : window.innerWidth - originX;
+      const ry = dyRaw < 0 ? originY : window.innerHeight - originY;
+      const nx = Math.max(-1, Math.min(1, rx > 0 ? dxRaw / rx : 0));
+      const ny = Math.max(-1, Math.min(1, ry > 0 ? dyRaw / ry : 0));
+      eye.targetX = nx * LOOK_MAX;
+      eye.targetY = ny * LOOK_MAX;
+      eye.gazeX += (eye.targetX - eye.gazeX) * Math.min(1, LOOK_SPEED * seconds);
+      eye.gazeY += (eye.targetY - eye.gazeY) * Math.min(1, LOOK_SPEED * seconds);
+    } else if (eye.state === STATE_HOLD) {
       if (eye.stateTimer >= eye.holdTime) {
         eye.state = rng(t * 137) > 0.35 ? STATE_SNAP : STATE_DRIFT;
         eye.stateTimer = 0;
