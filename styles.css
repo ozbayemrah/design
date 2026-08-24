@@ -1156,8 +1156,10 @@ header.site {
   padding: var(--gap);
   background: var(--bg);
 }
-/* alternating tone so each unit reads as its own card while scrolling */
-.project:nth-of-type(even) { background: var(--bg-panel); }
+/* alternating tone so each unit reads as its own card while scrolling —
+   tied to .project--reverse (not nth-of-type) so it stays correct
+   regardless of how many non-.project sections sit before the list */
+.project--reverse { background: var(--bg-panel); }
 .project__bar {
   display: flex;
   justify-content: space-between;
@@ -1276,6 +1278,78 @@ header.site {
   padding-top: 14px;
   border-top: 1px solid var(--line);
 }
+
+/* ---------- git projects: quick links to live GitHub Pages prototypes ---------- */
+.gitprojects {
+  border-bottom: 1px solid var(--line);
+  padding: var(--gap);
+  background: var(--bg-panel);
+}
+.gitprojects__bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.gitprojects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+.gitprojects__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  background: var(--bg-panel-alt);
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+.gitprojects__card:hover {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--accent-dim);
+  transform: translateY(-3px);
+}
+.gitprojects__card .corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--hazard);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.gitprojects__card:hover .corner { opacity: 1; }
+.gitprojects__card .corner.tl { top: -1px; left: -1px; }
+.gitprojects__card .corner.tr { top: -1px; right: -1px; }
+.gitprojects__card .corner.bl { bottom: -1px; left: -1px; }
+.gitprojects__card .corner.br { bottom: -1px; right: -1px; }
+.gitprojects__title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.gitprojects__desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  flex: 1;
+}
+.gitprojects__link {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.gitprojects__card:hover .gitprojects__link { color: var(--hazard); }
 
 /* ---------- footer ---------- */
 footer.site {
