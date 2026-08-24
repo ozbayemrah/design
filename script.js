@@ -547,6 +547,30 @@ createImageSlideshow("austriawealth-slideshow", "assets/Project_assets/Austria-W
   "Austria_wealth (4).jpg",
 ]);
 
+createImageSlideshow("aestimo-slideshow", "assets/Project_assets/Aestimo/", [
+  "Aestimo (1).jpg",
+  "Aestimo (2).jpg",
+  "Aestimo (3).jpg",
+]);
+
+createImageSlideshow("palma-slideshow", "assets/Project_assets/Palma/", [
+  "Palma (1).jpg",
+  "Palma (2).jpg",
+  "Palma (3).jpg",
+]);
+
+createImageSlideshow("dopps-slideshow", "assets/Project_assets/Dopps-Forest/", [
+  "Dopps (1).jpg",
+  "Dopps (2).jpg",
+  "Dopps (3).jpg",
+]);
+
+createImageSlideshow("bookinit-slideshow", "assets/Project_assets/BookinIT/", [
+  "BookinIT (1).jpg",
+  "BookinIT (2).jpg",
+  "BookinIT (3).jpg",
+]);
+
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
    like <br> and <strong> survive the animation intact. */
