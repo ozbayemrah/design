@@ -303,6 +303,14 @@ header.site {
 .cta a:hover { background: var(--accent); color: var(--accent-fg); }
 .cta__icon { flex-shrink: 0; }
 
+/* -- hero's own comms-activate button, under the wordmark; visible at
+   every width (unlike the header's copy, which hides below 860px) -- */
+.hero__cta {
+  display: inline-block;
+  width: fit-content;
+  margin: 6px 0 4px;
+}
+
 @media (max-width: 859px) {
   .header__right { display: none; }
 }
@@ -349,6 +357,20 @@ header.site {
 @media (min-width: 1440px) {
   .hero__eye { display: block; }
 }
+
+/* -- satellite eyes: smaller spheres orbiting the central one, offset
+   from the same shared centre point so they scale together with it.
+   Slightly dimmed so the central eye stays the focal point. -- */
+.hero__eye--tl,
+.hero__eye--tr,
+.hero__eye--bl,
+.hero__eye--br {
+  opacity: 0.6;
+}
+.hero__eye--tl { width: 130px; height: 130px; top: calc(50% - 175px); left: calc(50% - 250px); }
+.hero__eye--tr { width: 150px; height: 150px; top: calc(50% - 195px); left: calc(50% + 240px); }
+.hero__eye--bl { width: 190px; height: 190px; top: calc(50% + 145px); left: calc(50% - 265px); }
+.hero__eye--br { width: 130px; height: 130px; top: calc(50% + 180px); left: calc(50% + 255px); }
 .hero__eyebrow { display: flex; gap: 24px; flex-wrap: wrap; }
 .hero__wordmark {
   font-family: var(--display);

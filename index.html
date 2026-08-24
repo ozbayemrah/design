@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="styles.css" />
 <script>
-  try { if (localStorage.getItem("theme") === "light") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
+  try { if (localStorage.getItem("theme") !== "dark") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
 </script>
 </head>
 <body>
@@ -74,40 +74,11 @@
   <span class="project-jump__arrow" aria-hidden="true"></span>
 </a>
 
-<!-- ticker -->
-<div class="ticker" aria-hidden="true">
- <div class="ticker__unit">
-  <div class="ticker__corner">
-    <span class="ticker__corner-cell ticker__corner-cell--tl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--tr"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--c"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--bl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--br"></span>
-  </div>
-  <div class="ticker__band">
-    <div class="ticker__track">
-      <span>PORTFOLIO STATUS: LIVE</span>
-      <span>/</span>
-      <span>OPEN TO COLLABORATION</span>
-      <span>/</span>
-      <span>REACH OUT FOR INQUIRIES</span>
-      <span>/</span>
-      <span>LET'S TAKE YOUR PROJECT TO THE NEXT LEVEL</span>
-      <span>/</span>
-      <span>FOLLOW: LINKEDIN · BEHANCE · GITHUB</span>
-    </div>
-  </div>
-  <div class="ticker__index">
-    <span class="ticker__index-num">01</span>
-  </div>
- </div>
-</div>
-
 <!-- header -->
 <header class="site">
   <div class="header__left">
     <div class="cta">
-      <a href="mailto:ozbayemrah@gmail.com">
+      <a href="mailto:ozbayemrah.design@gmail.com">
         <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
           <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
           <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -177,6 +148,15 @@
         <span class="label">Status: Deployed in Sector — Anywhere</span>
       </div>
       <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
+      <div class="cta hero__cta">
+        <a href="mailto:ozbayemrah.design@gmail.com">
+          <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+            <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Contact now</span>
+        </a>
+      </div>
       <p class="hero__tagline mono">
         UI/UX designer building interface systems that hold up under pressure —
         FUI/HUD, game UI, and product design across SaaS, enterprise, defence, space, games, movies, and startups.
@@ -190,8 +170,14 @@
 
     <!-- S·PEN Eye Sphere — sphere of '+' symbols shaped like an eye,
          looking around with smooth randomized movement. Ported from
-         Rive/Lua procedural draw script to vanilla Canvas 2D. -->
+         Rive/Lua procedural draw script to vanilla Canvas 2D. One
+         central eye plus four smaller satellites orbiting it, all
+         watching the cursor together. See eye-sphere.js. -->
     <canvas class="hero__eye" width="460" height="460" aria-hidden="true"></canvas>
+    <canvas class="hero__eye hero__eye--tl" width="130" height="130" aria-hidden="true"></canvas>
+    <canvas class="hero__eye hero__eye--tr" width="150" height="150" aria-hidden="true"></canvas>
+    <canvas class="hero__eye hero__eye--bl" width="190" height="190" aria-hidden="true"></canvas>
+    <canvas class="hero__eye hero__eye--br" width="130" height="130" aria-hidden="true"></canvas>
 
     <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
     <div class="hero__idcard">
@@ -282,6 +268,35 @@
     </div>
   </div>
 </section>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true">
+ <div class="ticker__unit">
+  <div class="ticker__corner">
+    <span class="ticker__corner-cell ticker__corner-cell--tl"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--tr"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--c"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--bl"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--br"></span>
+  </div>
+  <div class="ticker__band">
+    <div class="ticker__track">
+      <span>PORTFOLIO STATUS: LIVE</span>
+      <span>/</span>
+      <span>OPEN TO COLLABORATION</span>
+      <span>/</span>
+      <span>REACH OUT FOR INQUIRIES</span>
+      <span>/</span>
+      <span>LET'S TAKE YOUR PROJECT TO THE NEXT LEVEL</span>
+      <span>/</span>
+      <span>FOLLOW: LINKEDIN · BEHANCE · GITHUB</span>
+    </div>
+  </div>
+  <div class="ticker__index">
+    <span class="ticker__index-num">01</span>
+  </div>
+ </div>
+</div>
 
 <!-- project index — small clickable tiles, jump straight to a unit below.
      Grouped into 3 categories (GUI / FUI-HUD / SaaS); the sections
@@ -1086,7 +1101,7 @@
       <a href="https://github.com/ozbayemrah" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.artstation.com/ozbayemrah" target="_blank" rel="noopener">ArtStation</a>
       <a href="https://www.imdb.com/name/nm4696089/" target="_blank" rel="noopener">IMDb</a>
-      <a href="mailto:ozbayemrah@gmail.com">Email</a>
+      <a href="mailto:ozbayemrah.design@gmail.com">Email</a>
     </nav>
   </div>
   <div class="footer__bottom">
