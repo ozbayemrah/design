@@ -310,6 +310,10 @@ header.site {
   width: fit-content;
   margin: 6px 0 4px;
 }
+.hero__cta a {
+  width: 330px;
+  justify-content: center;
+}
 
 @media (max-width: 859px) {
   .header__right { display: none; }
@@ -359,18 +363,11 @@ header.site {
 }
 
 /* -- satellite eyes: smaller spheres orbiting the central one, offset
-   from the same shared centre point so they scale together with it.
-   Slightly dimmed so the central eye stays the focal point. -- */
-.hero__eye--tl,
-.hero__eye--tr,
-.hero__eye--bl,
-.hero__eye--br {
-  opacity: 0.6;
-}
-.hero__eye--tl { width: 130px; height: 130px; top: calc(50% - 175px); left: calc(50% - 250px); }
-.hero__eye--tr { width: 150px; height: 150px; top: calc(50% - 195px); left: calc(50% + 240px); }
-.hero__eye--bl { width: 190px; height: 190px; top: calc(50% + 145px); left: calc(50% - 265px); }
-.hero__eye--br { width: 130px; height: 130px; top: calc(50% + 180px); left: calc(50% + 255px); }
+   from the same shared centre point so they scale together with it. -- */
+.hero__eye--tl { width: 160px; height: 160px; top: calc(50% - 185px); left: calc(50% - 260px); }
+.hero__eye--tr { width: 180px; height: 180px; top: calc(50% - 205px); left: calc(50% + 230px); }
+.hero__eye--bl { width: 220px; height: 220px; top: calc(50% + 140px); left: calc(50% - 275px); }
+.hero__eye--br { width: 160px; height: 160px; top: calc(50% + 175px); left: calc(50% + 245px); }
 .hero__eyebrow { display: flex; gap: 24px; flex-wrap: wrap; }
 .hero__wordmark {
   font-family: var(--display);
