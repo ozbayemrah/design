@@ -204,6 +204,7 @@ header.site {
 }
 .header__left { display: flex; align-items: center; gap: 20px; }
 .header__right { display: flex; align-items: center; gap: 28px; }
+.header__clockgroup { display: flex; align-items: center; gap: 28px; }
 
 .office {
   font-family: var(--display);
@@ -315,8 +316,13 @@ header.site {
   justify-content: center;
 }
 
+/* -- below 860px the location/clock readout doesn't fit alongside the
+   wordmark and office label — hide just that group. The theme toggle
+   stays in .header__right at every width: it's core functionality
+   (not decorative status text) and shouldn't disappear on tablets
+   and phones. -- */
 @media (max-width: 859px) {
-  .header__right { display: none; }
+  .header__clockgroup { display: none; }
 }
 
 /* ---------- hero ---------- */
@@ -336,17 +342,133 @@ header.site {
 }
 .hero__grid { position: relative; }
 .hero__content { display: flex; flex-direction: column; gap: 20px; }
-.hero__idcard {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  aspect-ratio: 1 / 1;
+
+/* ---------- hero flip card ----------
+   The ID badge no longer sits beside the name/tagline (that whole
+   responsive song-and-dance — reserved padding columns, clamp()'d
+   card widths, breakpoint cliffs — kept breaking at some new width
+   every time). It now sits BEHIND them instead, as the back face of
+   a flip card occupying the exact same box at every width, toggled
+   by .hero__flip-toggle (see script.js). .hero__readout (the status
+   chips) lives outside this, in .hero__content, so it stays visible
+   no matter which face is showing. -- */
+.hero__flip {
+  position: relative;
+  perspective: 1800px;
+  /* shrink-wrap to the front face's own content width (the wordmark,
+     the 330px contact button, the 640px-capped tagline) instead of
+     stretching to fill .hero__content — keeps the card left-aligned
+     and human-sized instead of spanning the full hero width. -- */
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
 }
-@media (min-width: 980px) {
-  .hero__idcard { display: block; }
-  .hero__content { padding-right: clamp(200px, 24vw, 400px); }
+.hero__flip-inner {
+  position: relative;
+  transition: transform 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.hero__flip.is-flipped .hero__flip-inner {
+  transform: rotateY(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__flip-inner { transition: none; }
+}
+.hero__flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+/* -- front face is the only one in normal flow — its content (name,
+   contact button, tagline) is what determines the box's size. The
+   back face is absolutely positioned to match that exact box. -- */
+.hero__flip-face--front {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  pointer-events: auto;
+}
+.hero__flip.is-flipped .hero__flip-face--front {
+  pointer-events: none;
+}
+.hero__flip-face--back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  /* the front face (wordmark + contact + tagline) is usually taller
+     than it is wide, so the letterboxed square card ends up shorter
+     than this box — top-align it flush under the toggle button
+     instead of centering it, which was leaving as much dead space
+     above the card as below it. -- */
+  align-items: flex-start;
+  justify-content: center;
+  transform: rotateY(180deg);
+  pointer-events: none;
+  /* lets the .idcard below size itself off this box's actual
+     resolved width/height via cqw/cqh, instead of its own auto
+     content size — its children are all position:absolute, so it
+     has no in-flow content to measure and would otherwise collapse
+     to zero. -- */
+  container-type: size;
+}
+.hero__flip.is-flipped .hero__flip-face--back {
+  pointer-events: auto;
+}
+/* -- the ID card is built to a fixed 1:1 canvas (see .idcard comment
+   below) — keep it a true square, sized to whichever axis of the box
+   is tighter (min of its full width/height as cqw/cqh), rather than
+   stretching off-square to fill a wide-short or narrow-tall box. -- */
+.hero__flip-face--back .idcard {
+  width: min(100cqw, 100cqh);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+}
+
+.hero__flip-toggle {
+  align-self: flex-start;
+  /* fixed, and wide enough for the longer "Review Designer Profile"
+     label — so the button doesn't resize/reflow when the label
+     swaps on flip -- */
+  width: 260px;
+  margin-bottom: -12px; /* the flip card sits right under this; .hero__content's 20px column gap read as too much air between them */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid var(--hazard);
+  background-color: var(--bg-panel);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--hazard-dim),
+    var(--hazard-dim) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.hero__flip-toggle:hover {
+  background-color: var(--accent);
+  background-image: none;
+  color: var(--accent-fg);
+}
+.hero__flip-toggle svg {
+  flex-shrink: 0;
+  transition: transform 0.6s ease;
+}
+.hero__flip.is-flipped .hero__flip-toggle svg {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__flip-toggle svg { transition: none; }
 }
 .hero__eye {
   display: none;
@@ -360,6 +482,30 @@ header.site {
 }
 @media (min-width: 1440px) {
   .hero__eye { display: block; }
+}
+/* -- tablet landscape / small laptop (980-1599px, same band as the
+   capped ID card above): there's no room for the full cluster (the
+   4 satellites reach ~500px out from centre), so show just the
+   central eye, shrunk to fit the same reserved right-hand column as
+   the card, tucked in the space below it instead of centred behind
+   the wordmark. -- */
+@media (min-width: 980px) and (max-width: 1599px) {
+  .hero__eye {
+    display: block;
+    top: auto;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    transform: none;
+    width: clamp(110px, 15vw, 240px);
+    height: clamp(110px, 15vw, 240px);
+  }
+  .hero__eye--tl,
+  .hero__eye--tr,
+  .hero__eye--bl,
+  .hero__eye--br {
+    display: none;
+  }
 }
 
 /* -- satellite eyes: smaller spheres orbiting the central one, offset
@@ -572,19 +718,40 @@ header.site {
    percentages of that so the card scales as one unit. */
 .idcard {
   --idc-fg: #ededed;
+  --idc-strong: #cdcdcd;
   --idc-muted: #9a9a9a;
   --idc-dim: rgba(255, 255, 255, 0.32);
   --idc-line: rgba(255, 255, 255, 0.14);
+  --idc-tick: rgba(255, 255, 255, 0.1);
+  --idc-coord: rgba(255, 255, 255, 0.55);
+  --idc-bg: #373737;
+  --idc-panel-bg: #070707;
+  --idc-invert: 0;
   position: relative;
   width: 100%;
   height: 100%;
-  background: #373737;
+  background: var(--idc-bg);
   border: 1px solid var(--hazard);
   overflow: hidden;
   container-type: inline-size;
   container-name: idcard;
   font-family: var(--mono);
   color: var(--idc-fg);
+}
+/* -- follows the site's own light theme instead of staying locked
+   dark — same tokens as :root[data-theme="light"] above, just
+   re-mapped onto the card's own variable names. -- */
+:root[data-theme="light"] .idcard {
+  --idc-fg: #16171a;
+  --idc-strong: #16171a;
+  --idc-muted: #6b6f73;
+  --idc-dim: rgba(0, 0, 0, 0.32);
+  --idc-line: rgba(0, 0, 0, 0.14);
+  --idc-tick: rgba(0, 0, 0, 0.1);
+  --idc-coord: rgba(0, 0, 0, 0.55);
+  --idc-bg: #dfdcd3;
+  --idc-panel-bg: #f2f1ec;
+  --idc-invert: 1;
 }
 .idcard__corner {
   position: absolute;
@@ -604,7 +771,7 @@ header.site {
   left: 50%;
   transform: translateX(-50%);
   width: 89.8438%; /* 920 / 1024 */
-  background: #070707;
+  background: var(--idc-panel-bg);
   overflow: hidden;
 }
 
@@ -621,7 +788,7 @@ header.site {
   top: 0;
   height: 100%;
   width: 5.08%;
-  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 8px);
+  background: repeating-linear-gradient(to bottom, var(--idc-tick) 0 1px, transparent 1px 8px);
 }
 .idcard__ticks--l { left: 0; }
 .idcard__ticks--r { right: 0; }
@@ -672,9 +839,9 @@ header.site {
   flex: 1;
   background: repeating-linear-gradient(
     90deg,
-    #cfcfcf 0 2px, transparent 2px 3px,
-    #cfcfcf 5px 6px, transparent 6px 9px,
-    #cfcfcf 10px 11px, transparent 11px 12px
+    var(--idc-fg) 0 2px, transparent 2px 3px,
+    var(--idc-fg) 5px 6px, transparent 6px 9px,
+    var(--idc-fg) 10px 11px, transparent 11px 12px
   );
   opacity: 0.85;
 }
@@ -712,23 +879,39 @@ header.site {
   overflow: hidden;
   border: 1px solid var(--idc-line);
 }
-.idcard__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); display: block; }
+.idcard__photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  display: block;
+  /* it's a photo, not line art — don't invert it along with the
+     icon graphics when the card switches to light colours */
+  --idc-invert: 0;
+}
 .idcard__crosshair {
   position: absolute;
   inset: 4% 4% 12% 4%;
   border: 2px dashed var(--hazard);
   pointer-events: none;
 }
+/* -- filter here always leads with invert(var(--idc-invert, 0)) so
+   the idcard's own icon images (which inherit --idc-invert from
+   .idcard — 1 in light theme, to flip their white line-art dark)
+   keep that inversion through every glitch frame, not just at rest.
+   invert(0) is a no-op, so this is silently inert for every other
+   element sharing this animation (hero wordmark/tagline/chips, and
+   the idcard's own photo, which resets --idc-invert to 0 below). -- */
 @keyframes idcard-glitch {
-  0%, 78%, 100% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: none; }
-  79% { transform: translate(-4px, 1px) scaleY(1); box-shadow: 3px 0 rgba(255, 40, 80, 0.7), -3px 0 rgba(40, 220, 255, 0.7); filter: brightness(1.3) contrast(1.2); }
-  80% { transform: translate(3px, -1px) scaleY(0.85); box-shadow: none; filter: none; }
-  81% { transform: translate(-3px, 0) scaleY(1); box-shadow: -3px 0 rgba(255, 40, 80, 0.6), 3px 0 rgba(40, 220, 255, 0.6); filter: hue-rotate(40deg); }
-  82% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: none; }
-  84% { transform: translate(5px, 1px) scaleY(1); box-shadow: 2px 0 rgba(255, 40, 80, 0.5), -2px 0 rgba(40, 220, 255, 0.5); filter: none; }
+  0%, 78%, 100% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: invert(var(--idc-invert, 0)); }
+  79% { transform: translate(-4px, 1px) scaleY(1); box-shadow: 3px 0 rgba(255, 40, 80, 0.7), -3px 0 rgba(40, 220, 255, 0.7); filter: invert(var(--idc-invert, 0)) brightness(1.3) contrast(1.2); }
+  80% { transform: translate(3px, -1px) scaleY(0.85); box-shadow: none; filter: invert(var(--idc-invert, 0)); }
+  81% { transform: translate(-3px, 0) scaleY(1); box-shadow: -3px 0 rgba(255, 40, 80, 0.6), 3px 0 rgba(40, 220, 255, 0.6); filter: invert(var(--idc-invert, 0)) hue-rotate(40deg); }
+  82% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: invert(var(--idc-invert, 0)); }
+  84% { transform: translate(5px, 1px) scaleY(1); box-shadow: 2px 0 rgba(255, 40, 80, 0.5), -2px 0 rgba(40, 220, 255, 0.5); filter: invert(var(--idc-invert, 0)); }
   85% { transform: translate(0, 0) scaleY(0.9); box-shadow: none; }
-  87% { transform: translate(-3px, 0) scaleY(1); box-shadow: -2px 0 rgba(255, 40, 80, 0.6), 2px 0 rgba(40, 220, 255, 0.6); filter: brightness(1.2); }
-  88%, 100% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: none; }
+  87% { transform: translate(-3px, 0) scaleY(1); box-shadow: -2px 0 rgba(255, 40, 80, 0.6), 2px 0 rgba(40, 220, 255, 0.6); filter: invert(var(--idc-invert, 0)) brightness(1.2); }
+  88%, 100% { transform: translate(0, 0) scaleY(1); box-shadow: none; filter: invert(var(--idc-invert, 0)); }
 }
 .idcard__slogo,
 .idcard__bar img,
@@ -761,7 +944,7 @@ header.site {
     animation: none;
   }
 }
-.idcard__coord { position: absolute; font-size: 0.95cqw; color: rgba(255, 255, 255, 0.55); }
+.idcard__coord { position: absolute; font-size: 0.95cqw; color: var(--idc-coord); }
 .idcard__coord--a { left: 6%; top: 66%; }
 .idcard__coord--b { left: 52%; top: 74%; }
 
@@ -782,7 +965,7 @@ header.site {
   font-size: 2.5cqw;
   line-height: 1.08;
   text-transform: uppercase;
-  color: #CDCDCD;
+  color: var(--idc-strong);
 }
 .idcard__comcode { margin: 1cqw 0 1.4cqw; }
 .idcard__comcode img { width: 75%; height: auto; opacity: 0.9; }
@@ -793,7 +976,7 @@ header.site {
   text-transform: uppercase;
   color: var(--idc-muted);
 }
-.idcard__field-value { font-size: 1.4cqw; font-weight: 700; color: #CDCDCD; word-break: break-all; }
+.idcard__field-value { font-size: 1.4cqw; font-weight: 700; color: var(--idc-strong); word-break: break-all; }
 
 /* -- bottom block -- */
 .idcard__bottom {
@@ -813,7 +996,7 @@ header.site {
   font-size: 1.6cqw;
   line-height: 1.15;
   text-transform: uppercase;
-  color: #CDCDCD;
+  color: var(--idc-strong);
 }
 .idcard__active { font-size: 1.1cqw; color: var(--idc-muted); }
 .idcard__row {
@@ -824,7 +1007,7 @@ header.site {
   border-top: 1px solid var(--idc-line);
 }
 .idcard__row-label { font-size: 1.05cqw; color: var(--idc-muted); min-width: 9cqw; }
-.idcard__row-value { font-size: 1.25cqw; color: #CDCDCD; text-transform: uppercase; }
+.idcard__row-value { font-size: 1.25cqw; color: var(--idc-strong); text-transform: uppercase; }
 .idcard__row--split { justify-content: flex-start; gap: 6cqw; }
 .idcard__barcode--bottom { padding-top: 0.8cqw; }
 .idcard__barcode--bottom .idcard__barcode-ticks {
@@ -842,7 +1025,7 @@ header.site {
   font-size: 0.85cqw;
   color: var(--idc-muted);
 }
-.idcard__footnote strong { color: #CDCDCD; font-weight: 700; }
+.idcard__footnote strong { color: var(--idc-strong); font-weight: 700; }
 
 /* ---------- project index: small clickable tiles, one horizontal rail ---------- */
 .projectnav {

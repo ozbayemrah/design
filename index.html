@@ -94,29 +94,31 @@
   </div>
 
   <div class="header__right">
-    <div class="status-block">
-      <span class="label">LOCATION: AUSTRIA</span>
-      <span class="label">READY TO DEPLOY</span>
-    </div>
-
-    <div class="clock-block">
-      <div class="clock-block__col">
-        <div class="clock-block__timerow">
-          <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
-          <span class="time mono" id="clock-time">--:--:--</span>
-        </div>
-        <span class="date" id="clock-date">LOADING</span>
+    <div class="header__clockgroup">
+      <div class="status-block">
+        <span class="label">LOCATION: AUSTRIA</span>
+        <span class="label">READY TO DEPLOY</span>
       </div>
-      <div class="clock-block__col clock-block__col--local">
-        <div class="clock-block__timerow">
-          <span class="clock-block__zone" id="clock-zone-local">Local Time</span>
-          <span class="time mono" id="clock-time-local">--:--:--</span>
-        </div>
-        <span class="date" id="clock-date-local">LOADING</span>
-      </div>
-    </div>
 
-    <span class="header__sep" aria-hidden="true"></span>
+      <div class="clock-block">
+        <div class="clock-block__col">
+          <div class="clock-block__timerow">
+            <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
+            <span class="time mono" id="clock-time">--:--:--</span>
+          </div>
+          <span class="date" id="clock-date">LOADING</span>
+        </div>
+        <div class="clock-block__col clock-block__col--local">
+          <div class="clock-block__timerow">
+            <span class="clock-block__zone" id="clock-zone-local">Local Time</span>
+            <span class="time mono" id="clock-time-local">--:--:--</span>
+          </div>
+          <span class="date" id="clock-date-local">LOADING</span>
+        </div>
+      </div>
+
+      <span class="header__sep" aria-hidden="true"></span>
+    </div>
 
     <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to light theme">
       <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
@@ -142,46 +144,58 @@
 <!-- hero -->
 <section class="hero">
   <div class="hero__grid">
-    <div class="hero__content">
-      <div class="hero__eyebrow">
-        <span class="label">Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
-        <span class="label">Status: Deployed in Sector — Anywhere</span>
-      </div>
-      <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
-      <div class="cta hero__cta">
-        <a href="mailto:ozbayemrah.design@gmail.com">
-          <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-            <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
-            <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <span>Contact now</span>
-        </a>
-      </div>
-      <p class="hero__tagline mono">
-        I design complex digital products, game interfaces and information systems, from early concepts through working prototypes and production.
-        13+ years across AAA games, enterprise SaaS and interactive systems. I combine UX, UI, visual design and technical understanding to turn complex workflows into clear, usable experiences.
-      </p>
-      <div class="hero__readout">
-        <span class="chip on"><span class="dot"></span>Status: Online</span>
-        <span class="chip">Based: Gralla, Austria</span>
-        <span class="chip">Focus: Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
-      </div>
-    </div>
-
     <!-- S·PEN Eye Sphere — sphere of '+' symbols shaped like an eye,
          looking around with smooth randomized movement. Ported from
          Rive/Lua procedural draw script to vanilla Canvas 2D. One
          central eye plus four smaller satellites orbiting it, all
-         watching the cursor together. See eye-sphere.js. -->
+         watching the cursor together. See eye-sphere.js. Sits behind
+         the flip card (declared first, so it paints underneath). -->
     <canvas class="hero__eye" width="460" height="460" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--tl" width="160" height="160" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--tr" width="180" height="180" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--bl" width="220" height="220" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--br" width="160" height="160" aria-hidden="true"></canvas>
 
-    <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
-    <div class="hero__idcard">
-      <div class="idcard">
+    <div class="hero__content">
+      <div class="hero__eyebrow">
+        <span class="label">Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
+        <span class="label">Status: Deployed in Sector — Anywhere</span>
+      </div>
+
+      <button class="hero__flip-toggle" type="button" id="heroFlipToggle" aria-pressed="false" aria-label="Review Designer ID">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path d="M4 12a8 8 0 0 1 13.5-5.8M20 12a8 8 0 0 1-13.5 5.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          <path d="M17 3v4h-4M7 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="hero__flip-toggle-label">Review Designer ID</span>
+      </button>
+
+      <!-- Flip card: name / contact / tagline up front, the SPEN ID
+           badge on the reverse. .hero__eyebrow and .hero__readout
+           stay outside it — persistent readouts, not part of what
+           flips. -->
+      <div class="hero__flip" id="heroFlip">
+        <div class="hero__flip-inner">
+          <div class="hero__flip-face hero__flip-face--front">
+            <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
+            <div class="cta hero__cta">
+              <a href="mailto:ozbayemrah.design@gmail.com">
+                <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                  <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>Contact now</span>
+              </a>
+            </div>
+            <p class="hero__tagline mono">
+              I design complex digital products, game interfaces and information systems, from early concepts through working prototypes and production.
+              13+ years across AAA games, enterprise SaaS and interactive systems. I combine UX, UI, visual design and technical understanding to turn complex workflows into clear, usable experiences.
+            </p>
+          </div>
+
+          <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
+          <div class="hero__flip-face hero__flip-face--back">
+            <div class="idcard">
         <span class="idcard__corner tl"></span><span class="idcard__corner tr"></span>
         <span class="idcard__corner bl"></span><span class="idcard__corner br"></span>
         <span class="idcard__index">01</span>
@@ -262,10 +276,19 @@
               <span class="idcard__barcode-num">7987 - 897 + 897 4 / 7 97 4- 74 9 970IE UIA7E 4- 74 9 87/840</span>
             </div>
             <p class="idcard__footnote">AUTHORIZED FOR OPT3 and DESIGNATED RESEARCH AREAS AND DIVISIONS: <strong>IOE)+(20734*/-*)/2</strong></p>
-          </div>
-        </div>
+          </div><!-- /.idcard__bottom -->
+        </div><!-- /.idcard__panel -->
+            </div><!-- /.idcard -->
+          </div><!-- /.hero__flip-face--back -->
+        </div><!-- /.hero__flip-inner -->
+      </div><!-- /.hero__flip -->
+
+      <div class="hero__readout">
+        <span class="chip on"><span class="dot"></span>Status: Online</span>
+        <span class="chip">Based: Gralla, Austria</span>
+        <span class="chip">Focus: Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
       </div>
-    </div>
+    </div><!-- /.hero__content -->
   </div>
 </section>
 

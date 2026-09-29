@@ -33,6 +33,34 @@ const GITHUB_USER = "ozbayemrah";
   });
 })();
 
+/* ---------- hero flip card: name/contact/tagline <-> SPEN ID badge ---------- */
+(function () {
+  const flip = document.querySelector(".hero__flip");
+  const toggle = document.getElementById("heroFlipToggle");
+  if (!flip || !toggle) return;
+
+  const front = flip.querySelector(".hero__flip-face--front");
+  const back = flip.querySelector(".hero__flip-face--back");
+  const label = toggle.querySelector(".hero__flip-toggle-label");
+
+  function setFlipped(flipped) {
+    flip.classList.toggle("is-flipped", flipped);
+    toggle.setAttribute("aria-pressed", String(flipped));
+    toggle.setAttribute("aria-label", flipped ? "Review Designer Profile" : "Review Designer ID");
+    if (label) label.textContent = flipped ? "Review Designer Profile" : "Review Designer ID";
+    // keep the face that's rotated away from the viewer out of tab
+    // order / assistive-tech reach, not just visually hidden
+    if (front) front.inert = flipped;
+    if (back) back.inert = !flipped;
+  }
+
+  setFlipped(false);
+
+  toggle.addEventListener("click", () => {
+    setFlipped(!flip.classList.contains("is-flipped"));
+  });
+})();
+
 /* ---------- live clock: Vienna (home base) + the visitor's own local time ---------- */
 const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
 const DATE_OPTS = { weekday: "long", month: "short", day: "2-digit", year: "numeric" };
