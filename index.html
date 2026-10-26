@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="styles.css" />
 <script>
+  document.documentElement.classList.add("js");
   try { if (localStorage.getItem("theme") !== "dark") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
 </script>
 </head>
@@ -76,28 +77,16 @@
 
 <!-- header -->
 <header class="site">
-  <div class="header__left">
-    <div class="cta">
-      <a href="mailto:ozbayemrah.design@gmail.com">
-        <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-          <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
-          <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span>Comms — Activate</span>
-      </a>
-    </div>
-
-    <div class="office">
-      Contact with
-      <strong>Design Solution Department</strong>
-    </div>
-  </div>
-
+  <nav class="header__nav" aria-label="Page sections">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
   <div class="header__right">
     <div class="header__clockgroup">
       <div class="status-block">
-        <span class="label">LOCATION: AUSTRIA</span>
-        <span class="label">READY TO DEPLOY</span>
+        <span class="label">Based in Austria</span>
+        <span class="label">Open to work</span>
       </div>
 
       <div class="clock-block">
@@ -148,8 +137,8 @@
          looking around with smooth randomized movement. Ported from
          Rive/Lua procedural draw script to vanilla Canvas 2D. One
          central eye plus four smaller satellites orbiting it, all
-         watching the cursor together. See eye-sphere.js. Sits behind
-         the flip card (declared first, so it paints underneath). -->
+         watching the cursor together. See eye-sphere.js. Declared first
+         so it paints underneath the content and ID card. -->
     <canvas class="hero__eye" width="460" height="460" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--tl" width="160" height="160" aria-hidden="true"></canvas>
     <canvas class="hero__eye hero__eye--tr" width="180" height="180" aria-hidden="true"></canvas>
@@ -159,43 +148,735 @@
     <div class="hero__content">
       <div class="hero__eyebrow">
         <span class="label">Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
-        <span class="label">Status: Deployed in Sector — Anywhere</span>
+        <span class="label">Open to work — Austria / Remote</span>
       </div>
 
-      <button class="hero__flip-toggle" type="button" id="heroFlipToggle" aria-pressed="false" aria-label="Review Designer ID">
-        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-          <path d="M4 12a8 8 0 0 1 13.5-5.8M20 12a8 8 0 0 1-13.5 5.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-          <path d="M17 3v4h-4M7 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span class="hero__flip-toggle-label">Review Designer ID</span>
-      </button>
+      <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
+      <div class="cta hero__cta">
+        <a href="mailto:ozbayemrah.design@gmail.com">
+          <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+            <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Contact now</span>
+        </a>
+      </div>
+      <div class="hero__contact-alt">
+        <button class="hero__copy" type="button" data-copy="ozbayemrah.design@gmail.com">Copy email</button>
+        <a class="hero__linkedin" href="https://www.linkedin.com/in/ozbayemrah/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+      <p class="hero__tagline mono">
+        I design complex digital products, game interfaces and information systems, from early concepts through working prototypes and production.
+        13+ years across AAA games, enterprise SaaS and interactive systems. I combine UX, UI, visual design and technical understanding to turn complex workflows into clear, usable experiences.
+      </p>
 
-      <!-- Flip card: name / contact / tagline up front, the SPEN ID
-           badge on the reverse. .hero__eyebrow and .hero__readout
-           stay outside it — persistent readouts, not part of what
-           flips. -->
-      <div class="hero__flip" id="heroFlip">
-        <div class="hero__flip-inner">
-          <div class="hero__flip-face hero__flip-face--front">
-            <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
-            <div class="cta hero__cta">
-              <a href="mailto:ozbayemrah.design@gmail.com">
-                <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                  <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
-                  <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span>Contact now</span>
-              </a>
-            </div>
-            <p class="hero__tagline mono">
-              I design complex digital products, game interfaces and information systems, from early concepts through working prototypes and production.
-              13+ years across AAA games, enterprise SaaS and interactive systems. I combine UX, UI, visual design and technical understanding to turn complex workflows into clear, usable experiences.
-            </p>
-          </div>
+      <div class="hero__readout">
+        <span class="chip on"><span class="dot"></span>Status: Online</span>
+        <span class="chip">Based: Gralla, Austria</span>
+      </div>
+    </div><!-- /.hero__content -->
 
-          <!-- ID card — built to spec from SPEN Figma file, node 2026-151336 -->
-          <div class="hero__flip-face hero__flip-face--back">
-            <div class="idcard">
+
+  </div>
+</section>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true">
+ <div class="ticker__unit">
+  <div class="ticker__corner">
+    <span class="ticker__corner-cell ticker__corner-cell--tl"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--tr"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--c"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--bl"></span>
+    <span class="ticker__corner-cell ticker__corner-cell--br"></span>
+  </div>
+  <div class="ticker__band">
+    <div class="ticker__track">
+      <span>PORTFOLIO STATUS: LIVE</span>
+      <span>/</span>
+      <span>LAST UPDATE: 08.2026</span>
+      <span>/</span>
+      <span>UPCOMING PROJECT: 4 PROFILES — MOVIE</span>
+      <span>/</span>
+      <span>OPEN TO COLLABORATION</span>
+      <span>/</span>
+      <span>REACH OUT FOR INQUIRIES</span>
+      <span>/</span>
+      <span>LET'S TAKE YOUR PROJECT TO THE NEXT LEVEL</span>
+      <span>/</span>
+      <span>FOLLOW: LINKEDIN · BEHANCE · GITHUB</span>
+    </div>
+  </div>
+  <div class="ticker__index">
+    <span class="ticker__index-num">01</span>
+  </div>
+ </div>
+</div>
+
+<!-- project index — small clickable tiles, jump straight to a unit below.
+     Grouped into 2 categories (GUI / FUI-HUD); the sections
+     below follow this same category order. -->
+<section class="projectnav reveal" id="work">
+  <div class="projectnav__bar">
+    <span>Index / Selected Projects</span>
+    <span>12 projects — click to jump</span>
+  </div>
+  <div class="projectnav__categories">
+    <div class="projectnav__category">
+      <div class="projectnav__category-head">
+        <span class="projectnav__category-name">GUI</span>
+        <span class="projectnav__category-count">07</span>
+      </div>
+      <div class="projectnav__track">
+        <a class="projectnav__item" href="#project-01" title="Waffenträger: Projekt Hyperion — World of Tanks">
+          <img class="projectnav__media" src="assets/thumbs/WT-hyperion-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">01</span>
+          <span class="projectnav__title">Waffenträger: Projekt Hyperion — World of Tanks</span>
+        </a>
+        <a class="projectnav__item" href="#project-02" title="Waffenträger: Reckoning — World of Tanks">
+          <img class="projectnav__media" src="assets/thumbs/WT-Reckoning-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">02</span>
+          <span class="projectnav__title">Waffenträger: Reckoning — World of Tanks</span>
+        </a>
+        <a class="projectnav__item" href="#project-03" title="Waffenträger: Paradox — World of Tanks">
+          <img class="projectnav__media" src="assets/thumbs/WT-paradox-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">03</span>
+          <span class="projectnav__title">Waffenträger: Paradox — World of Tanks</span>
+        </a>
+        <a class="projectnav__item" href="#project-04" title="World of Tanks — Post Mortem Mode">
+          <img class="projectnav__media" src="assets/thumbs/Destorycam-2.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">04</span>
+          <span class="projectnav__title">World of Tanks — Post Mortem Mode</span>
+        </a>
+        <a class="projectnav__item" href="#project-05" title="League of Legends — League+ UI/UX Project">
+          <img class="projectnav__media" src="assets/thumbs/lol1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">05</span>
+          <span class="projectnav__title">League of Legends — League+ UI/UX Project</span>
+        </a>
+        <a class="projectnav__item" href="#project-06" title="Regional Languages, Scripts, and Typefaces of PH1b">
+          <img class="projectnav__media" src="assets/thumbs/language-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">06</span>
+          <span class="projectnav__title">Regional Languages, Scripts, and Typefaces of PH1b</span>
+        </a>
+        <a class="projectnav__item" href="#project-07" title="STAR WARS, Project: RAXAR — UI &amp; Visual Identity">
+          <img class="projectnav__media" src="assets/thumbs/starwars-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">07</span>
+          <span class="projectnav__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="projectnav__category">
+      <div class="projectnav__category-head">
+        <span class="projectnav__category-name">FUI / HUD</span>
+        <span class="projectnav__category-count">05</span>
+      </div>
+      <div class="projectnav__track">
+        <a class="projectnav__item" href="#project-08" title="S·PEN — Silent Predictive Enforcement Network FUI-HUD">
+          <img class="projectnav__media" src="assets/thumbs/SPEN-System.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">08</span>
+          <span class="projectnav__title">S·PEN — Silent Predictive Enforcement Network FUI-HUD</span>
+        </a>
+        <a class="projectnav__item" href="#project-09" title="SPG-StaticPen — A Cinematic Terminal/HUD System">
+          <img class="projectnav__media" src="assets/thumbs/SPG_elements-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">09</span>
+          <span class="projectnav__title">SPG-StaticPen — A Cinematic Terminal/HUD System</span>
+        </a>
+        <a class="projectnav__item" href="#project-10" title="Interstellar Navigation &amp; Flight Control FUI">
+          <img class="projectnav__media" src="assets/thumbs/interstellar-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">10</span>
+          <span class="projectnav__title">Interstellar Navigation &amp; Flight Control FUI</span>
+        </a>
+        <a class="projectnav__item" href="#project-11" title="Cyberpunk HUD &amp; Reticle Exploration">
+          <img class="projectnav__media" src="assets/thumbs/Cyberpunk-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">11</span>
+          <span class="projectnav__title">Cyberpunk HUD &amp; Reticle Exploration</span>
+        </a>
+        <a class="projectnav__item" href="#project-12" title="Futuristic Aircraft HUD / FUI &amp; Reticle Design">
+          <img class="projectnav__media" src="assets/thumbs/Fui-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="projectnav__num">12</span>
+          <span class="projectnav__title">Futuristic Aircraft HUD / FUI &amp; Reticle Design</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- git projects: live interactive prototypes/experiments hosted on
+     GitHub Pages, outside the numbered case-study index below -->
+<section class="gitprojects reveal">
+  <div class="gitprojects__bar">
+    <span>Git Projects / Live Prototypes</span>
+    <span>4 Repos — Open on GitHub Pages</span>
+  </div>
+  <!-- same tile component as the GUI / FUI-HUD index above, but each
+       opens the live prototype in a new tab (↗ instead of a number) -->
+  <div class="projectnav__track">
+    <a class="projectnav__item" href="https://ozbayemrah.github.io/WorldInformationCenter/" target="_blank" rel="noopener" title="World Information Center — Interactive WebGL globe — a particle-cloud Earth rendered in plain Three.js, no framework.">
+      <img class="projectnav__media" src="assets/thumbs/git-wic.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="projectnav__num projectnav__num--link" aria-hidden="true">↗</span>
+      <span class="projectnav__title">World Information Center</span>
+    </a>
+    <a class="projectnav__item" href="https://ozbayemrah.github.io/UIS/" target="_blank" rel="noopener" title="UIS — Universe Information Center — Galaxy → star system → planet explorer, real star systems and exoplanets on the same particle engine.">
+      <img class="projectnav__media" src="assets/thumbs/git-uis.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="projectnav__num projectnav__num--link" aria-hidden="true">↗</span>
+      <span class="projectnav__title">UIS — Universe Information Center</span>
+    </a>
+    <a class="projectnav__item" href="https://ozbayemrah.github.io/SPEN-Satellite-Network/" target="_blank" rel="noopener" title="SPEN — Satellite Network — Geospatial intel console — CesiumJS 2D/3D globe with real-time TLE satellite tracking.">
+      <img class="projectnav__media" src="assets/thumbs/git-spen-sat.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="projectnav__num projectnav__num--link" aria-hidden="true">↗</span>
+      <span class="projectnav__title">SPEN — Satellite Network</span>
+    </a>
+    <a class="projectnav__item" href="https://ozbayemrah.github.io/MRI-Volume-Viewer/" target="_blank" rel="noopener" title="MRI Volume Viewer — In-browser neuroimaging viewer — decodes and renders MINC / NIfTI-1 / FreeSurfer MGH volumes.">
+      <img class="projectnav__media" src="assets/thumbs/git-mri.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="projectnav__num projectnav__num--link" aria-hidden="true">↗</span>
+      <span class="projectnav__title">MRI Volume Viewer</span>
+    </a>
+  </div>
+</section>
+
+<!-- live system status, pulled from the GitHub API -->
+<section class="sysstatus reveal" id="sysstatus">
+  <div class="sysstatus__row">
+    <span class="label">System Status <span id="stat-status" class="accent">CHECKING…</span></span>
+    <span class="sysstatus__stats">
+      <span class="sysstatus__stat"><span class="accent" id="stat-repos">--</span> Public repos</span>
+      <span class="sysstatus__sep">/</span>
+      <span class="sysstatus__stat">Top language: <span class="accent" id="stat-lang">--</span></span>
+      <span class="sysstatus__sep">/</span>
+      <span class="sysstatus__stat">Last updated: <span class="accent" id="stat-last">--</span></span>
+    </span>
+    <span class="label">Source: api.github.com/users/<span class="accent">ozbayemrah</span></span>
+  </div>
+</section>
+
+<!-- ============= CATEGORY: GUI (01–07) ============= -->
+
+<!-- ================= PROJECT 01 ================= -->
+<section class="project reveal" id="project-01">
+  <div class="project__bar">
+    <span>Project 01</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-hyperion/WT-hyperion%20(1).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 695" aria-label="Waffenträger: Projekt Hyperion — World of Tanks — 01"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-hyperion/WT-hyperion%20(2).jpg" alt="Waffenträger: Projekt Hyperion — World of Tanks — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-hyperion/WT-hyperion%20(3).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="Waffenträger: Projekt Hyperion — World of Tanks — 03"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-hyperion/WT-hyperion%20(4).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="Waffenträger: Projekt Hyperion — World of Tanks — 04"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-hyperion/WT-hyperion%20(5).jpg" alt="Waffenträger: Projekt Hyperion — World of Tanks — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-hyperion/WT-hyperion%20(6).jpg" alt="Waffenträger: Projekt Hyperion — World of Tanks — 06" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 06</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Waffenträger: Projekt Hyperion — World of Tanks</h2>
+      <p class="project__desc">
+        UI/UX design of the gameplay and meta-game for Projekt Hyperion, a major
+        World of Tanks event. Built with a small team spanning three cities.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2023</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / AE</div></div>
+        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 02 ================= -->
+<section class="project project--reverse reveal" id="project-02">
+  <div class="project__bar">
+    <span>Project 02</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(1).webm" muted loop playsinline preload="none" style="aspect-ratio: 1800 / 1008" aria-label="Waffenträger: Reckoning — World of Tanks — 01"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(6).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="Waffenträger: Reckoning — World of Tanks — 02"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(7).webm" muted loop playsinline preload="none" style="aspect-ratio: 1800 / 1008" aria-label="Waffenträger: Reckoning — World of Tanks — 03"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(8).webm" muted loop playsinline preload="none" style="aspect-ratio: 1800 / 1008" aria-label="Waffenträger: Reckoning — World of Tanks — 04"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(9).webm" muted loop playsinline preload="none" style="aspect-ratio: 2000 / 993" aria-label="Waffenträger: Reckoning — World of Tanks — 05"></video></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 05</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Waffenträger: Reckoning — World of Tanks</h2>
+      <p class="project__desc">
+        UI/UX for an asymmetric 6v1 event mode — modified tanks and special abilities
+        in an alternate WoT universe, covering gameplay, meta-game, and shop.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2024</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / AE / Premiere</div></div>
+        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 03 ================= -->
+<section class="project reveal" id="project-03">
+  <div class="project__bar">
+    <span>Project 03</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-paradox/WT-paradox%20(1).webm" muted loop playsinline preload="none" style="aspect-ratio: 1600 / 900" aria-label="Waffenträger: Paradox — World of Tanks — 01"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-paradox/WT-paradox%20(2).webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 953" aria-label="Waffenträger: Paradox — World of Tanks — 02"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/WT-paradox/WT-paradox%20(3).webm" muted loop playsinline preload="none" style="aspect-ratio: 1600 / 900" aria-label="Waffenträger: Paradox — World of Tanks — 03"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-paradox/WT-paradox%20(4).jpg" alt="Waffenträger: Paradox — World of Tanks — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-paradox/WT-paradox%20(5).jpg" alt="Waffenträger: Paradox — World of Tanks — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-paradox/WT-paradox%20(6).jpg" alt="Waffenträger: Paradox — World of Tanks — 06" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/WT-paradox/WT-paradox%20(7).jpg" alt="Waffenträger: Paradox — World of Tanks — 07" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 07</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Waffenträger: Paradox — World of Tanks</h2>
+      <p class="project__desc">
+        HUD and interface design for the Paradox event mode, covering the
+        in-match UI and its supporting meta-game screens.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2025</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator / AE</div></div>
+        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 04 ================= -->
+<section class="project project--reverse reveal" id="project-04">
+  <div class="project__bar">
+    <span>Project 04</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/DestroyCam/Destorycam%20(2).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="World of Tanks — Post Mortem Mode — 01"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/DestroyCam/Destorycam%20(3).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="World of Tanks — Post Mortem Mode — 02"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/DestroyCam/Destorycam%20(4).webm" muted loop playsinline preload="none" style="aspect-ratio: 1400 / 784" aria-label="World of Tanks — Post Mortem Mode — 03"></video></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 03</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">World of Tanks — Post Mortem Mode</h2>
+      <p class="project__desc">
+        UX/UI for a post-mortem feature giving players detailed feedback on tank
+        destruction, supporting learning, map exploration, and tactical review.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2024</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Photoshop</div></div>
+        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 05 ================= -->
+<section class="project reveal" id="project-05">
+  <div class="project__bar">
+    <span>Project 05</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/Leaugeoflegends/lol1.webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1147" aria-label="League of Legends — League+ UI/UX Project — 01"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/Leaugeoflegends/lol2.webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1080" aria-label="League of Legends — League+ UI/UX Project — 02"></video></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/Leaugeoflegends/lol3.webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1580" aria-label="League of Legends — League+ UI/UX Project — 03"></video></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 03</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">League of Legends — League+ UI/UX Project</h2>
+      <p class="project__desc">
+        A mobile UX case study redesigning League+, the companion app for LoL summoners —
+        making match tracking, profiles, and game updates more connected and effective for players.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2020</div></div>
+        <div><div class="label">Tools</div><div class="val">Adobe XD / Illustrator / AE</div></div>
+        <div><div class="label">Type</div><div class="val">Mobile UX</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 06 ================= -->
+<section class="project project--reverse reveal" id="project-06">
+  <div class="project__bar">
+    <span>Project 06</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(1).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 01" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(2).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(3).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(4).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(5).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Language/language%20(6).jpg" alt="Regional Languages, Scripts, and Typefaces of PH1b — 06" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 06</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Regional Languages, Scripts, and Typefaces of PH1b</h2>
+      <p class="project__desc">
+        Speculative typography for the KATU people of PH1b (Kepler-64b) —
+        writing systems shaped by a two-sun, three-moon cosmology, from an
+        ancient canyon script to a unified cross-community language.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Illustrator / Photoshop</div></div>
+        <div><div class="label">Type</div><div class="val">Typography / Worldbuilding</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 07 ================= -->
+<section class="project reveal" id="project-07">
+  <div class="project__bar">
+    <span>Project 07</span>
+    <span>Category: GUI</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(1).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 01" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(2).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(3).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(4).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(5).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(6).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 06" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(7).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 07" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Starwars/starwars%20(8).jpg" alt="STAR WARS, Project: RAXAR — UI &amp; Visual Identity — 08" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 08</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</h2>
+      <p class="project__desc">
+        A study on translating the Star Wars universe into a mobile RPG —
+        balancing visual fidelity with device constraints and usability.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Photoshop</div></div>
+        <div><div class="label">Type</div><div class="val">UI/UX / Identity</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ============= CATEGORY: FUI / HUD (08–12) ============= -->
+
+<!-- ================= PROJECT 08 ================= -->
+<section class="project project--reverse reveal" id="project-08">
+  <div class="project__bar">
+    <span>Project 08</span>
+    <span>Category: FUI / HUD</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/SPEN-System.webm" muted loop playsinline preload="none" style="aspect-ratio: 1600 / 900" aria-label="S·PEN — Silent Predictive Enforcement Network FUI-HUD — 01"></video></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 01</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">S·PEN — Silent Predictive Enforcement Network FUI-HUD</h2>
+      <p class="project__desc">
+        A speculative UX system for covert global threat monitoring, real-time operations,
+        and neural data extraction — a near-future tactical interface built around
+        decision-making under pressure.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Rive</div></div>
+        <div><div class="label">Type</div><div class="val">FUI / HUD</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 09 ================= -->
+<section class="project reveal" id="project-09">
+  <div class="project__bar">
+    <span>Project 09</span>
+    <span>Category: FUI / HUD</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(1).webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1080" aria-label="SPG-StaticPen — A Cinematic Terminal/HUD System — 01"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(2).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(3).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(4).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(5).webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1080" aria-label="SPG-StaticPen — A Cinematic Terminal/HUD System — 05"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(6).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 06" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(7).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 07" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(8).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 08" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><video class="project__video" src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(9).webm" muted loop playsinline preload="none" style="aspect-ratio: 1920 / 1080" aria-label="SPG-StaticPen — A Cinematic Terminal/HUD System — 09"></video></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(10).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 10" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(11).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 11" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(12).jpg" alt="SPG-StaticPen — A Cinematic Terminal/HUD System — 12" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 12</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">SPG-StaticPen — A Cinematic Terminal/HUD System</h2>
+      <p class="project__desc">
+        A full simulated operating system: an animated boot log, an IP-authentication sequence,
+        and a system-select menu across four distinct tactical consoles.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Adobe XD / VS Code</div></div>
+        <div><div class="label">Type</div><div class="val">HUD / Terminal</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 10 ================= -->
+<section class="project project--reverse reveal" id="project-10">
+  <div class="project__bar">
+    <span>Project 10</span>
+    <span>Category: FUI / HUD</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(1).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 01" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(2).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(3).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(4).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(5).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(6).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 06" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Interstellar-nav/interstellar%20(7).jpg" alt="Interstellar Navigation &amp; Flight Control FUI — 07" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 07</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Interstellar Navigation &amp; Flight Control FUI</h2>
+      <p class="project__desc">
+        A functional interface concept for a sub-light interstellar spacecraft,
+        grounded in real aerospace instrumentation, physics-driven data, and
+        transparent machine decision-making.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator</div></div>
+        <div><div class="label">Type</div><div class="val">FUI / Aerospace</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 11 ================= -->
+<section class="project reveal" id="project-11">
+  <div class="project__bar">
+    <span>Project 11</span>
+    <span>Category: FUI / HUD</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(1).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 01" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(2).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(3).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(4).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(5).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(6).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 06" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(7).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 07" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(8).jpg" alt="Cyberpunk HUD &amp; Reticle Exploration — 08" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 08</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Cyberpunk HUD &amp; Reticle Exploration</h2>
+      <p class="project__desc">
+        Futuristic targeting systems and control interfaces exploring how
+        minimal shapes and light communicate complex information.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Illustrator / Photoshop</div></div>
+        <div><div class="label">Type</div><div class="val">FUI / HUD</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= PROJECT 12 ================= -->
+<section class="project project--reverse reveal" id="project-12">
+  <div class="project__bar">
+    <span>Project 12</span>
+    <span>Category: FUI / HUD</span>
+  </div>
+  <div class="project__gallery">
+    <div class="project__track" tabindex="0" role="region" aria-label="Project images — use left/right arrow keys">
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(1).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 01" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(2).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 02" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(3).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 03" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(4).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 04" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(5).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 05" loading="lazy" draggable="false" /></figure>
+        <figure class="project__slide"><img src="assets/Project_assets/FUI/Fui%20(6).jpg" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design — 06" loading="lazy" draggable="false" /></figure>
+    </div>
+    <div class="project__gallery-ui">
+      <button class="project__gallery-btn" type="button" data-dir="-1" aria-label="Previous image">&larr;</button>
+      <span class="project__gallery-count"><span class="project__gallery-index">01</span> / 06</span>
+      <button class="project__gallery-btn" type="button" data-dir="1" aria-label="Next image">&rarr;</button>
+    </div>
+  </div>
+  <div class="project__grid">
+    <div class="project__body">
+      <h2 class="project__title">Futuristic Aircraft HUD / FUI &amp; Reticle Design</h2>
+      <p class="project__desc">
+        Interface explorations for military aircraft systems built for games
+        and film — near-future realism balanced against cinematic sci-fi.
+      </p>
+      <div class="project__meta">
+        <div><div class="label">Role</div><div class="val">Designer</div></div>
+        <div><div class="label">Year</div><div class="val">2026</div></div>
+        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator</div></div>
+        <div><div class="label">Type</div><div class="val">FUI / HUD / Military</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- biography -->
+<section class="bio reveal" id="about">
+  <div class="bio__layout">
+    <!-- ID card — built to spec from SPEN Figma file, node 2026-151336.
+         Left column of the bio block. -->
+    <div class="bio__idcard">
+      <div class="idcard">
         <span class="idcard__corner tl"></span><span class="idcard__corner tr"></span>
         <span class="idcard__corner bl"></span><span class="idcard__corner br"></span>
         <span class="idcard__index">01</span>
@@ -278,1070 +959,137 @@
             <p class="idcard__footnote">AUTHORIZED FOR OPT3 and DESIGNATED RESEARCH AREAS AND DIVISIONS: <strong>IOE)+(20734*/-*)/2</strong></p>
           </div><!-- /.idcard__bottom -->
         </div><!-- /.idcard__panel -->
-            </div><!-- /.idcard -->
-          </div><!-- /.hero__flip-face--back -->
-        </div><!-- /.hero__flip-inner -->
-      </div><!-- /.hero__flip -->
+      </div><!-- /.idcard -->
+    </div><!-- /.bio__idcard -->
 
-      <div class="hero__readout">
-        <span class="chip on"><span class="dot"></span>Status: Online</span>
-        <span class="chip">Based: Gralla, Austria</span>
-        <span class="chip">Focus: Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
-      </div>
-    </div><!-- /.hero__content -->
-  </div>
-</section>
+    <div class="bio__content">
+    <h2 class="bio__heading">Biography / Curriculum / Skills</h2>
 
-<!-- ticker -->
-<div class="ticker" aria-hidden="true">
- <div class="ticker__unit">
-  <div class="ticker__corner">
-    <span class="ticker__corner-cell ticker__corner-cell--tl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--tr"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--c"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--bl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--br"></span>
-  </div>
-  <div class="ticker__band">
-    <div class="ticker__track">
-      <span>PORTFOLIO STATUS: LIVE</span>
-      <span>/</span>
-      <span>LAST UPDATE: 08.2026</span>
-      <span>/</span>
-      <span>UPCOMING PROJECT: 4 PROFILES — MOVIE</span>
-      <span>/</span>
-      <span>OPEN TO COLLABORATION</span>
-      <span>/</span>
-      <span>REACH OUT FOR INQUIRIES</span>
-      <span>/</span>
-      <span>LET'S TAKE YOUR PROJECT TO THE NEXT LEVEL</span>
-      <span>/</span>
-      <span>FOLLOW: LINKEDIN · BEHANCE · GITHUB</span>
-    </div>
-  </div>
-  <div class="ticker__index">
-    <span class="ticker__index-num">01</span>
-  </div>
- </div>
-</div>
-
-<!-- project index — small clickable tiles, jump straight to a unit below.
-     Grouped into 3 categories (GUI / FUI-HUD / SaaS); the sections
-     below follow this same category order. -->
-<section class="projectnav reveal">
-  <div class="projectnav__bar">
-    <span>Index / Selected Projects</span>
-    <span>18 Units — Go to Project</span>
-  </div>
-  <div class="projectnav__categories">
-    <div class="projectnav__category">
-      <div class="projectnav__category-head">
-        <span class="projectnav__category-name">GUI</span>
-        <span class="projectnav__category-count">07</span>
-      </div>
-      <div class="projectnav__track">
-        <a class="projectnav__item" href="#project-01">
-          <video class="projectnav__media project__video" src="assets/Project_assets/WT-hyperion/WT-hyperion%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">01</span>
-          <span class="projectnav__title">Waffenträger: Projekt Hyperion — World of Tanks</span>
-        </a>
-        <a class="projectnav__item" href="#project-02">
-          <video class="projectnav__media project__video" src="assets/Project_assets/WT-reckoning/WT-Reckoning%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">02</span>
-          <span class="projectnav__title">Waffenträger: Reckoning — World of Tanks</span>
-        </a>
-        <a class="projectnav__item" href="#project-03">
-          <video class="projectnav__media project__video" src="assets/Project_assets/WT-paradox/WT-paradox%20(1).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">03</span>
-          <span class="projectnav__title">Waffenträger: Paradox — World of Tanks</span>
-        </a>
-        <a class="projectnav__item" href="#project-04">
-          <video class="projectnav__media project__video" src="assets/Project_assets/DestroyCam/Destorycam%20(2).webm" muted loop playsinline preload="none" aria-hidden="true"></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">04</span>
-          <span class="projectnav__title">World of Tanks — Post Mortem Mode</span>
-        </a>
-        <a class="projectnav__item" href="#project-05">
-          <video class="projectnav__media project__video" src="assets/Project_assets/Leaugeoflegends/lol1.webm" muted loop playsinline preload="none" aria-hidden="true"></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">05</span>
-          <span class="projectnav__title">League of Legends — League+ UI/UX Project</span>
-        </a>
-        <a class="projectnav__item" href="#project-06">
-          <img class="projectnav__media" src="assets/Project_assets/Language/language%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">06</span>
-          <span class="projectnav__title">Regional Languages, Scripts, and Typefaces of PH1b</span>
-        </a>
-        <a class="projectnav__item" href="#project-07">
-          <img class="projectnav__media" src="assets/Project_assets/Starwars/starwars%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">07</span>
-          <span class="projectnav__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="projectnav__category">
-      <div class="projectnav__category-head">
-        <span class="projectnav__category-name">FUI / HUD</span>
-        <span class="projectnav__category-count">05</span>
-      </div>
-      <div class="projectnav__track">
-        <a class="projectnav__item" href="#project-08">
-          <video
-            class="projectnav__media project__video"
-            src="assets/Project_assets/SPEN-System.webm"
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-hidden="true"
-          ></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">08</span>
-          <span class="projectnav__title">S·PEN — Silent Predictive Enforcement Network FUI-HUD</span>
-        </a>
-        <a class="projectnav__item" href="#project-09">
-          <video
-            class="projectnav__media project__video"
-            src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(1).webm"
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-hidden="true"
-          ></video>
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">09</span>
-          <span class="projectnav__title">SPG-StaticPen — A Cinematic Terminal/HUD System</span>
-        </a>
-        <a class="projectnav__item" href="#project-10">
-          <img class="projectnav__media" src="assets/Project_assets/Interstellar-nav/interstellar%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">10</span>
-          <span class="projectnav__title">Interstellar Navigation &amp; Flight Control FUI</span>
-        </a>
-        <a class="projectnav__item" href="#project-11">
-          <img class="projectnav__media" src="assets/Project_assets/Cyberpunk-Hud/Cyberpunk%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">11</span>
-          <span class="projectnav__title">Cyberpunk HUD &amp; Reticle Exploration</span>
-        </a>
-        <a class="projectnav__item" href="#project-12">
-          <img class="projectnav__media" src="assets/Project_assets/FUI/Fui%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">12</span>
-          <span class="projectnav__title">Futuristic Aircraft HUD / FUI &amp; Reticle Design</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="projectnav__category">
-      <div class="projectnav__category-head">
-        <span class="projectnav__category-name">SaaS</span>
-        <span class="projectnav__category-count">06</span>
-      </div>
-      <div class="projectnav__track">
-        <a class="projectnav__item" href="#project-13">
-          <img class="projectnav__media" src="assets/Project_assets/DCEN/Dcen%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">13</span>
-          <span class="projectnav__title">DCen — Smart City Energy Management Dashboard</span>
-        </a>
-        <a class="projectnav__item" href="#project-14">
-          <img class="projectnav__media" src="assets/Project_assets/Austria-Wealth/Austria_wealth%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">14</span>
-          <span class="projectnav__title">Austria Wealth — Fintech Landing Page, Web &amp; Mobile App</span>
-        </a>
-        <a class="projectnav__item" href="#project-15">
-          <img class="projectnav__media" src="assets/Project_assets/Aestimo/Aestimo%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">15</span>
-          <span class="projectnav__title">Aestimo — Remote Valuation Platform for Insurers</span>
-        </a>
-        <a class="projectnav__item" href="#project-16">
-          <img class="projectnav__media" src="assets/Project_assets/Palma/Palma%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">16</span>
-          <span class="projectnav__title">Palma — Travel Agency Booking Platform</span>
-        </a>
-        <a class="projectnav__item" href="#project-17">
-          <img class="projectnav__media" src="assets/Project_assets/Dopps-Forest/Dopps%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">17</span>
-          <span class="projectnav__title">DOPPS Forest Specialists — Conservation Donation Platform</span>
-        </a>
-        <a class="projectnav__item" href="#project-18">
-          <img class="projectnav__media" src="assets/Project_assets/BookinIT/BookinIT%20(1).jpg" alt="" aria-hidden="true" loading="lazy" />
-          <span class="corner tl"></span><span class="corner tr"></span>
-          <span class="corner bl"></span><span class="corner br"></span>
-          <span class="projectnav__num">18</span>
-          <span class="projectnav__title">BookinIT — Centralised Travel Booking Platform</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- git projects: live interactive prototypes/experiments hosted on
-     GitHub Pages, outside the numbered case-study index below -->
-<section class="gitprojects reveal">
-  <div class="gitprojects__bar">
-    <span>Git Projects / Live Prototypes</span>
-    <span>4 Repos — Open on GitHub Pages</span>
-  </div>
-  <div class="gitprojects__grid">
-    <a class="gitprojects__card" href="https://ozbayemrah.github.io/WorldInformationCenter/" target="_blank" rel="noopener">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <span class="gitprojects__title">World Information Center</span>
-      <span class="gitprojects__desc">Interactive WebGL globe — a particle-cloud Earth rendered in plain Three.js, no framework.</span>
-      <span class="gitprojects__link">Launch Prototype <span aria-hidden="true">↗</span></span>
-    </a>
-    <a class="gitprojects__card" href="https://ozbayemrah.github.io/UIS/" target="_blank" rel="noopener">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <span class="gitprojects__title">UIS — Universe Information Center</span>
-      <span class="gitprojects__desc">Galaxy → star system → planet explorer, real star systems and exoplanets on the same particle engine.</span>
-      <span class="gitprojects__link">Launch Prototype <span aria-hidden="true">↗</span></span>
-    </a>
-    <a class="gitprojects__card" href="https://ozbayemrah.github.io/SPEN-Satellite-Network/" target="_blank" rel="noopener">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <span class="gitprojects__title">SPEN — Satellite Network</span>
-      <span class="gitprojects__desc">Geospatial intel console — CesiumJS 2D/3D globe with real-time TLE satellite tracking.</span>
-      <span class="gitprojects__link">Launch Prototype <span aria-hidden="true">↗</span></span>
-    </a>
-    <a class="gitprojects__card" href="https://ozbayemrah.github.io/MRI-Volume-Viewer/" target="_blank" rel="noopener">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <span class="gitprojects__title">MRI Volume Viewer</span>
-      <span class="gitprojects__desc">In-browser neuroimaging viewer — decodes and renders MINC / NIfTI-1 / FreeSurfer MGH volumes.</span>
-      <span class="gitprojects__link">Launch Prototype <span aria-hidden="true">↗</span></span>
-    </a>
-  </div>
-</section>
-
-<!-- biography -->
-<section class="bio reveal">
-  <div class="bio__head">
-    <button class="bio__toggle" type="button" aria-expanded="false" data-toggle-group="bio">
-      <span class="bio__toggle-arrow-box" aria-hidden="true">
-        <span class="bio__toggle-arrow"></span>
-      </span>
-      <span class="bio__toggle-label">Biography / Curriculum / Skills</span>
-    </button>
-  </div>
-
-  <div class="bio__panel" id="bio-panel-body">
-    <div class="bio__panel-inner">
-      <div class="bio__body">
-        <p>
-          Hello, I'm Emrah Özbay — a senior, product-minded UX/UI designer with 13+ years
-          shaping complex interactive systems across AAA gaming, defence, and B2B SaaS
-          platforms. I own features end-to-end — discovery, stakeholder alignment,
-          wireframes, high-fidelity prototypes, developer-ready delivery — bridging design
-          and engineering in agile, cross-functional teams. Before design, I spent years on
-          film and TV sets as a photographer and crew member, which still shapes how
-          I think about pacing, framing, and story inside every interface I build.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="bio__panel" id="bio-panel-timeline">
-    <div class="bio__panel-inner">
-      <div class="bio__timeline">
-        <div class="bio__role">
-          <div class="bio__role-head">
-            <span class="bio__role-title">FUI &amp; Motion Designer</span>
-            <span class="bio__role-date">Feb 2026 — Present</span>
-          </div>
-          <span class="bio__role-company">United Media Ideas · Contract · Graz (Remote)</span>
-          <p class="bio__role-desc">HUD/FUI visuals and motion graphics for the sci-fi film <em>4 Profiles</em>.</p>
-        </div>
-        <div class="bio__role">
-          <div class="bio__role-head">
-            <span class="bio__role-title">UX/UI Designer → Interface Specialist</span>
-            <span class="bio__role-date">Feb 2022 — Feb 2026</span>
-          </div>
-          <span class="bio__role-company">Bongfish GmbH · Full-time · Graz</span>
-          <p class="bio__role-desc">Four years designing scalable UI systems for AAA console/PC development, including World of Tanks' Waffenträger project.</p>
-        </div>
-        <div class="bio__role">
-          <div class="bio__role-head">
-            <span class="bio__role-title">Project Manager &amp; UX/UI Designer</span>
-            <span class="bio__role-date">Dec 2020 — Jan 2022</span>
-          </div>
-          <span class="bio__role-company">U-centrix · Full-time</span>
-          <p class="bio__role-desc">UX strategy and interface design for enterprise B2B logistics — multinational truck, rail, and cargo platforms.</p>
-        </div>
-        <div class="bio__role">
-          <div class="bio__role-head">
-            <span class="bio__role-title">UX/UI Designer</span>
-            <span class="bio__role-date">Aug 2020 — Sep 2021</span>
-          </div>
-          <span class="bio__role-company">Shockwork Games · Full-time · Remote</span>
-          <p class="bio__role-desc">Gameplay HUD, menus, and meta systems on Alder's Blood and Nadir.</p>
-        </div>
-        <div class="bio__role">
-          <div class="bio__role-head">
-            <span class="bio__role-title">Creative &amp; Experience Designer</span>
-            <span class="bio__role-date">Mar 2018 — Dec 2020</span>
-          </div>
-          <span class="bio__role-company">Marprom · Full-time · Slovenia</span>
-          <p class="bio__role-desc">Branding and visual systems for the Mercedes-Benz UCI MTB World Cup Maribor and FIS Alpine Ski, with Red Bull Media House.</p>
+    <div class="bio__panel" id="bio-panel-body">
+      <div class="bio__panel-inner">
+        <div class="bio__body">
+          <p>
+            Hello, I'm Emrah Özbay — a senior, product-minded UX/UI designer with 13+ years
+            shaping complex interactive systems across AAA gaming, defence, and B2B SaaS
+            platforms. I own features end-to-end — discovery, stakeholder alignment,
+            wireframes, high-fidelity prototypes, developer-ready delivery — bridging design
+            and engineering in agile, cross-functional teams. Before design, I spent years on
+            film and TV sets as a photographer and crew member, which still shapes how
+            I think about pacing, framing, and story inside every interface I build.
+          </p>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="bio__panel" id="bio-panel-tags">
-    <div class="bio__panel-inner">
-      <div class="bio__tags">
-        <span class="label">Photoshop / Illustrator / After Effects / XD / Lightroom / Rive / Figma / Figma Make / ProtoPie / Unity / Unreal Engine / ArcGIS / GitHub / Claude Code</span>
+    <div class="bio__panel" id="bio-panel-timeline">
+      <div class="bio__panel-inner">
+        <div class="bio__timeline">
+          <div class="bio__role">
+            <div class="bio__role-head">
+              <span class="bio__role-title">FUI &amp; Motion Designer</span>
+              <span class="bio__role-date">Feb 2026 — Present</span>
+            </div>
+            <span class="bio__role-company">United Media Ideas · Contract · Graz (Remote)</span>
+            <p class="bio__role-desc">HUD/FUI visuals and motion graphics for the sci-fi film <em>4 Profiles</em>.</p>
+          </div>
+          <div class="bio__role">
+            <div class="bio__role-head">
+              <span class="bio__role-title">UX/UI Designer → Interface Specialist</span>
+              <span class="bio__role-date">Feb 2022 — Feb 2026</span>
+            </div>
+            <span class="bio__role-company">Bongfish GmbH · Full-time · Graz</span>
+            <p class="bio__role-desc">Four years designing scalable UI systems for AAA console/PC development, including World of Tanks' Waffenträger project.</p>
+          </div>
+          <div class="bio__role">
+            <div class="bio__role-head">
+              <span class="bio__role-title">Project Manager &amp; UX/UI Designer</span>
+              <span class="bio__role-date">Dec 2020 — Jan 2022</span>
+            </div>
+            <span class="bio__role-company">U-centrix · Full-time</span>
+            <p class="bio__role-desc">UX strategy and interface design for enterprise B2B logistics — multinational truck, rail, and cargo platforms.</p>
+          </div>
+          <div class="bio__role">
+            <div class="bio__role-head">
+              <span class="bio__role-title">UX/UI Designer</span>
+              <span class="bio__role-date">Aug 2020 — Sep 2021</span>
+            </div>
+            <span class="bio__role-company">Shockwork Games · Full-time · Remote</span>
+            <p class="bio__role-desc">Gameplay HUD, menus, and meta systems on Alder's Blood and Nadir.</p>
+          </div>
+          <div class="bio__role">
+            <div class="bio__role-head">
+              <span class="bio__role-title">Creative &amp; Experience Designer</span>
+              <span class="bio__role-date">Mar 2018 — Dec 2020</span>
+            </div>
+            <span class="bio__role-company">Marprom · Full-time · Slovenia</span>
+            <p class="bio__role-desc">Branding and visual systems for the Mercedes-Benz UCI MTB World Cup Maribor and FIS Alpine Ski, with Red Bull Media House.</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- live system status, pulled from the GitHub API -->
-<section class="sysstatus reveal">
-  <div class="sysstatus__row">
-    <span class="label">System Status <span id="stat-status" class="accent">CHECKING…</span></span>
-    <span class="sysstatus__stats">
-      <span class="sysstatus__stat"><span class="accent" id="stat-repos">--</span> Public repos</span>
-      <span class="sysstatus__sep">/</span>
-      <span class="sysstatus__stat">Top language: <span class="accent" id="stat-lang">--</span></span>
-      <span class="sysstatus__sep">/</span>
-      <span class="sysstatus__stat">Last updated: <span class="accent" id="stat-last">--</span></span>
-    </span>
-    <span class="label">Source: api.github.com/users/<span class="accent">ozbayemrah</span></span>
-  </div>
-</section>
-
-<!-- ============= CATEGORY: GUI (01–07) ============= -->
-
-<!-- ================= PROJECT 01 ================= -->
-<section class="project reveal" id="project-01">
-  <div class="project__bar">
-    <span>Unit / Project — 01</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="hyperion-slideshow-video"
-        class="project__slideshow"
-        src="assets/Project_assets/WT-hyperion/WT-hyperion%20(1).webm"
-        muted
-        loop
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-      <img id="hyperion-slideshow-img" class="project__slideshow" alt="Waffenträger: Projekt Hyperion screens" style="display: none;" />
+    <div class="bio__panel" id="bio-panel-tags">
+      <div class="bio__panel-inner">
+        <div class="bio__tags">
+          <span class="label">Photoshop / Illustrator / After Effects / XD / Lightroom / Rive / Figma / Figma Make / ProtoPie / Unity / Unreal Engine / ArcGIS / GitHub / Claude Code</span>
+        </div>
+      </div>
     </div>
-    <div class="project__body">
-      <h2 class="project__title">Waffenträger: Projekt Hyperion — World of Tanks</h2>
-      <p class="project__desc">
-        UI/UX design of the gameplay and meta-game for Projekt Hyperion, a major
-        World of Tanks event. Built with a small team spanning three cities.
+    </div><!-- /.bio__content -->
+  </div>
+</section>
+
+<!-- contact / footer — the "Contact" nav target: one full screen, so
+     the jump lands on a clear destination instead of a thin strip -->
+<footer class="site" id="contact">
+  <div class="contact">
+    <div class="contact__head">
+      <span class="label">Contact</span>
+      <h2 class="contact__title">Let's work together</h2>
+    </div>
+    <div class="contact__main">
+      <p class="contact__lead">
+        Open to full-time and contract roles in product UX, game UI/UX and
+        FUI/HUD design. Based in Austria, working on-site or remote.
       </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2023</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / AE</div></div>
-        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/179751385/Waffentraeger-Projekt-Hyperion-World-of-Tanks" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 02 ================= -->
-<section class="project project--reverse reveal" id="project-02">
-  <div class="project__bar">
-    <span>Unit / Project — 02</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="reckoning-slideshow-video"
-        class="project__slideshow"
-        muted
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Waffenträger: Reckoning — World of Tanks</h2>
-      <p class="project__desc">
-        UI/UX for an asymmetric 6v1 event mode — modified tanks and special abilities
-        in an alternate WoT universe, covering gameplay, meta-game, and shop.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2024</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / AE / Premiere</div></div>
-        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/208579589/Waffentraeger-Reckoning-World-of-Tanks" target="_blank" rel="noopener">View on Behance</a>
+      <div class="contact__actions">
+        <div class="cta contact__cta">
+          <a href="mailto:ozbayemrah.design@gmail.com">
+            <svg class="cta__icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <rect x="1.5" y="4.5" width="21" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M2.5 6 L12 13 L21.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Contact now</span>
+          </a>
+        </div>
+        <div class="hero__contact-alt contact__alt">
+          <button class="hero__copy" type="button" data-copy="ozbayemrah.design@gmail.com">Copy email</button>
+        </div>
       </div>
     </div>
+
+    <dl class="contact__facts">
+      <div><dt class="label">Availability</dt><dd>Open to work</dd></div>
+      <div><dt class="label">Location</dt><dd>Gralla, Austria</dd></div>
+      <div><dt class="label">Local time</dt><dd><span data-vienna-time>--:--</span> <span class="contact__tz" data-vienna-zone></span></dd></div>
+      <div><dt class="label">Work mode</dt><dd>On-site / Remote</dd></div>
+    </dl>
   </div>
-</section>
 
+  <nav class="footer__links" aria-label="Profiles">
+    <a href="https://www.linkedin.com/in/ozbayemrah/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+    <a href="https://www.behance.net/ozbayemrah" target="_blank" rel="noopener">Behance <span aria-hidden="true">↗</span></a>
+    <a href="https://github.com/ozbayemrah" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+    <a href="https://www.artstation.com/ozbayemrah" target="_blank" rel="noopener">ArtStation <span aria-hidden="true">↗</span></a>
+    <a href="https://www.imdb.com/name/nm4696089/" target="_blank" rel="noopener">IMDb <span aria-hidden="true">↗</span></a>
+  </nav>
 
-
-<!-- ================= PROJECT 03 ================= -->
-<section class="project reveal" id="project-03">
-  <div class="project__bar">
-    <span>Unit / Project — 03</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="paradox-slideshow-video"
-        class="project__slideshow"
-        src="assets/Project_assets/WT-paradox/WT-paradox%20(1).webm"
-        muted
-        loop
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-      <img id="paradox-slideshow-img" class="project__slideshow" alt="Waffenträger: Paradox screens" style="display: none;" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Waffenträger: Paradox — World of Tanks</h2>
-      <p class="project__desc">
-        HUD and interface design for the Paradox event mode, covering the
-        in-match UI and its supporting meta-game screens.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2025</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator / AE</div></div>
-        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/236019541/Waffentraeger-Paradox-World-of-Tanks" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 04 ================= -->
-<section class="project project--reverse reveal" id="project-04">
-  <div class="project__bar">
-    <span>Unit / Project — 04</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="postmortem-slideshow-video"
-        class="project__slideshow"
-        muted
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">World of Tanks — Post Mortem Mode</h2>
-      <p class="project__desc">
-        UX/UI for a post-mortem feature giving players detailed feedback on tank
-        destruction, supporting learning, map exploration, and tactical review.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2024</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">Game UI/UX</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/206929287/World-of-Tanks-Post-Mortem-Mode" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 05 ================= -->
-<section class="project reveal" id="project-05">
-  <div class="project__bar">
-    <span>Unit / Project — 05</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="lol-slideshow-video"
-        class="project__slideshow"
-        muted
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">League of Legends — League+ UI/UX Project</h2>
-      <p class="project__desc">
-        A mobile UX case study redesigning League+, the companion app for LoL summoners —
-        making match tracking, profiles, and game updates more connected and effective for players.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2020</div></div>
-        <div><div class="label">Tools</div><div class="val">Adobe XD / Illustrator / AE</div></div>
-        <div><div class="label">Type</div><div class="val">Mobile UX</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/98365975/League-of-Legends-League-UIUX-Project" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 06 ================= -->
-<section class="project project--reverse reveal" id="project-06">
-  <div class="project__bar">
-    <span>Unit / Project — 06</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="language-slideshow" class="project__slideshow" alt="Regional Languages, Scripts, and Typefaces of PH1b screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Regional Languages, Scripts, and Typefaces of PH1b</h2>
-      <p class="project__desc">
-        Speculative typography for the KATU people of PH1b (Kepler-64b) —
-        writing systems shaped by a two-sun, three-moon cosmology, from an
-        ancient canyon script to a unified cross-community language.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">Typography / Worldbuilding</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/243584469/Regional-Languages-Scripts-and-Typefaces-of-PH1b" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 07 ================= -->
-<section class="project reveal" id="project-07">
-  <div class="project__bar">
-    <span>Unit / Project — 07</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="starwars-slideshow" class="project__slideshow" alt="STAR WARS, Project: RAXAR screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">STAR WARS, Project: RAXAR — UI &amp; Visual Identity</h2>
-      <p class="project__desc">
-        A study on translating the Star Wars universe into a mobile RPG —
-        balancing visual fidelity with device constraints and usability.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">UI/UX / Identity</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/241339433/STAR-WARS-Project-RAXAR-UI-Visual-Identity" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ============= CATEGORY: FUI / HUD (08–12) ============= -->
-
-<!-- ================= PROJECT 08 ================= -->
-<section class="project project--reverse reveal" id="project-08">
-  <div class="project__bar">
-    <span>Unit / Project — 08</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        class="project__video"
-        src="assets/Project_assets/SPEN-System.webm"
-        muted
-        loop
-        playsinline
-        preload="none"
-        aria-label="S·PEN — Silent Predictive Enforcement Network FUI-HUD demo"
-      ></video>
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">S·PEN — Silent Predictive Enforcement Network FUI-HUD</h2>
-      <p class="project__desc">
-        A speculative UX system for covert global threat monitoring, real-time operations,
-        and neural data extraction — a near-future tactical interface built around
-        decision-making under pressure.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Rive</div></div>
-        <div><div class="label">Type</div><div class="val">FUI / HUD</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/247442001/SPEN-Silent-Predictive-Enforcement-Network-FUI-HUD" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-      <span class="project__links-label label">Prototype projects based on SPEN</span>
-      <div class="project__links">
-        <a href="https://ozbayemrah.github.io/SPenTactical/" target="_blank" rel="noopener">View on GitHub - S·PEN</a>
-        <a href="https://ozbayemrah.github.io/SPEN-Satellite-Network/" target="_blank" rel="noopener">View on GitHub - Satellite Network</a>
-        <a href="https://ozbayemrah.github.io/MRI-Volume-Viewer/" target="_blank" rel="noopener">View on GitHub - Asset Health Network</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 09 ================= -->
-<section class="project reveal" id="project-09">
-  <div class="project__bar">
-    <span>Unit / Project — 09</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <video
-        id="spg-slideshow-video"
-        class="project__slideshow"
-        src="assets/Project_assets/SPG-Staticpen/SPG_elements%20(1).webm"
-        muted
-        loop
-        playsinline
-        preload="none"
-        aria-hidden="true"
-      ></video>
-      <img
-        id="spg-slideshow-img"
-        class="project__slideshow"
-        alt="SPG-StaticPen interface elements"
-        style="display: none;"
-      />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">SPG-StaticPen — A Cinematic Terminal/HUD System</h2>
-      <p class="project__desc">
-        A full simulated operating system: an animated boot log, an IP-authentication sequence,
-        and a system-select menu across four distinct tactical consoles.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Adobe XD / VS Code</div></div>
-        <div><div class="label">Type</div><div class="val">HUD / Terminal</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/253750323/SPG-StaticPen-A-cinematic-terminalHUD-system" target="_blank" rel="noopener">View on Behance</a>
-        <a href="https://ozbayemrah.github.io/SPenTactical/" target="_blank" rel="noopener">View on GitHub - S·PEN Tactical</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 10 ================= -->
-<section class="project project--reverse reveal" id="project-10">
-  <div class="project__bar">
-    <span>Unit / Project — 10</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="interstellar-slideshow" class="project__slideshow" alt="Interstellar Navigation &amp; Flight Control FUI screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Interstellar Navigation &amp; Flight Control FUI</h2>
-      <p class="project__desc">
-        A functional interface concept for a sub-light interstellar spacecraft,
-        grounded in real aerospace instrumentation, physics-driven data, and
-        transparent machine decision-making.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator</div></div>
-        <div><div class="label">Type</div><div class="val">FUI / Aerospace</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/243058909/Interstellar-Navigation-Flight-Control-FUI" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 11 ================= -->
-<section class="project reveal" id="project-11">
-  <div class="project__bar">
-    <span>Unit / Project — 11</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="cyberpunk-slideshow" class="project__slideshow" alt="Cyberpunk HUD &amp; Reticle Exploration screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Cyberpunk HUD &amp; Reticle Exploration</h2>
-      <p class="project__desc">
-        Futuristic targeting systems and control interfaces exploring how
-        minimal shapes and light communicate complex information.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">FUI / HUD</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/246334613/Cyberpunk-HUD-Reticle-Exploration" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 12 ================= -->
-<section class="project project--reverse reveal" id="project-12">
-  <div class="project__bar">
-    <span>Unit / Project — 12</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="fui-slideshow" class="project__slideshow" alt="Futuristic Aircraft HUD / FUI &amp; Reticle Design screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Futuristic Aircraft HUD / FUI &amp; Reticle Design</h2>
-      <p class="project__desc">
-        Interface explorations for military aircraft systems built for games
-        and film — near-future realism balanced against cinematic sci-fi.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop / Illustrator</div></div>
-        <div><div class="label">Type</div><div class="val">FUI / HUD / Military</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/241641475/Futuristic-Aircraft-HUD-FUI-Reticle-Design" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ============= CATEGORY: SaaS (13–18) ============= -->
-
-<!-- ================= PROJECT 13 ================= -->
-<section class="project reveal" id="project-13">
-  <div class="project__bar">
-    <span>Unit / Project — 13</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="dcen-slideshow" class="project__slideshow" alt="DCen — Smart City Energy Management Dashboard screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">DCen — Smart City Energy Management Dashboard</h2>
-      <p class="project__desc">
-        A conceptual UX platform simplifying complex energy infrastructure into a
-        clear, actionable interface for dispatchers and control-centre operators —
-        real-time monitoring, system diagnostics, and rapid decision-making.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">SaaS / Dashboard</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/246231075/DCen-Smart-City-Energy-Management-Dashboard" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 14 ================= -->
-<section class="project project--reverse reveal" id="project-14">
-  <div class="project__bar">
-    <span>Unit / Project — 14</span>
-    <span>Status: Live on Behance</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="austriawealth-slideshow" class="project__slideshow" alt="Austria Wealth — Fintech Landing Page, Web &amp; Mobile App screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Austria Wealth — Fintech Landing Page, Web &amp; Mobile App</h2>
-      <p class="project__desc">
-        A fintech ecosystem bridging legacy institutional banking with modern
-        SaaS efficiency — a streamlined, command-center style banking experience
-        inspired by gaming interfaces.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2026</div></div>
-        <div><div class="label">Tools</div><div class="val">Adobe XD / Figma / Illustrator / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">SaaS / Fintech</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://www.behance.net/gallery/244845973/Fintech-Landing-Page-Web-Mobile-App-PX-UX-Case" target="_blank" rel="noopener">View on Behance</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 15 ================= -->
-<section class="project reveal" id="project-15">
-  <div class="project__bar">
-    <span>Unit / Project — 15</span>
-    <span>Status: Live in Production</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="aestimo-slideshow" class="project__slideshow" alt="Aestimo remote valuation platform screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Aestimo — Remote Valuation Platform for Insurers</h2>
-      <p class="project__desc">
-        A remote valuation platform for insurance appraisers — video-first assessments
-        with AR-guided capture, letting appraisers close up to 86% more cases without
-        a single site visit.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2021</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">SaaS / Insurtech</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://u-centrix.com/aestimo/" target="_blank" rel="noopener">View Case Study</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 16 ================= -->
-<section class="project project--reverse reveal" id="project-16">
-  <div class="project__bar">
-    <span>Unit / Project — 16</span>
-    <span>Status: Live in Production</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="palma-slideshow" class="project__slideshow" alt="Palma travel agency booking platform screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">Palma — Travel Agency Booking Platform</h2>
-      <p class="project__desc">
-        UX for Travel Agency Palma's booking platform, turning a static brochure
-        site into a self-service search-and-book engine — real-time availability,
-        automated package tagging, and a 30% lift in package sales.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2022</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">SaaS / Travel</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://u-centrix.com/palma/" target="_blank" rel="noopener">View Case Study</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 17 ================= -->
-<section class="project reveal" id="project-17">
-  <div class="project__bar">
-    <span>Unit / Project — 17</span>
-    <span>Status: Live in Production</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="dopps-slideshow" class="project__slideshow" alt="DOPPS Forest Specialists donation platform screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">DOPPS Forest Specialists — Conservation Donation Platform</h2>
-      <p class="project__desc">
-        A bilingual donation platform for DOPPS (BirdLife Slovenia)'s Guardians of
-        Forest Specialists campaign — low-friction giving paths and a live progress
-        tracker that helped raise €45,000 and secure 10 hectares of forest in eight months.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2022</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">Nonprofit / Donation Platform</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://u-centrix.com/dopps-forest-specialists/" target="_blank" rel="noopener">View Case Study</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- ================= PROJECT 18 ================= -->
-<section class="project project--reverse reveal" id="project-18">
-  <div class="project__bar">
-    <span>Unit / Project — 18</span>
-    <span>Status: Live in Production</span>
-  </div>
-  <div class="project__grid">
-    <div class="project__media">
-      <span class="corner tl"></span><span class="corner tr"></span>
-      <span class="corner bl"></span><span class="corner br"></span>
-      <img id="bookinit-slideshow" class="project__slideshow" alt="BookinIT travel booking platform screens" />
-    </div>
-    <div class="project__body">
-      <h2 class="project__title">BookinIT — Centralised Travel Booking Platform</h2>
-      <p class="project__desc">
-        The centralised booking engine behind Palma's platform — smart search,
-        real-time inventory sync, a B2B partner portal, and a multilingual
-        storefront serving five markets from one system.
-      </p>
-      <div class="project__meta">
-        <div><div class="label">Role</div><div class="val">Designer</div></div>
-        <div><div class="label">Year</div><div class="val">2022</div></div>
-        <div><div class="label">Tools</div><div class="val">Figma / Photoshop</div></div>
-        <div><div class="label">Type</div><div class="val">SaaS / Travel Tech</div></div>
-      </div>
-      <div class="project__links">
-        <a href="https://u-centrix.com/bookinit/" target="_blank" rel="noopener">View Case Study</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<!-- footer -->
-<footer class="site">
-  <div class="footer__top">
-    <div class="footer__wordmark">Özbay Emrah</div>
-    <nav class="footer__links">
-      <a href="https://www.linkedin.com/in/ozbayemrah/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://www.behance.net/ozbayemrah" target="_blank" rel="noopener">Behance</a>
-      <a href="https://github.com/ozbayemrah" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.artstation.com/ozbayemrah" target="_blank" rel="noopener">ArtStation</a>
-      <a href="https://www.imdb.com/name/nm4696089/" target="_blank" rel="noopener">IMDb</a>
-      <a href="mailto:ozbayemrah.design@gmail.com">Email</a>
-    </nav>
-  </div>
   <div class="footer__bottom">
     <span>© <span id="footer-year"></span> Emrah Özbay — All rights reserved</span>
-    <span>Built on GitHub Pages — Status: Deployed</span>
-  </div>
-  <div class="footer__credits">
-    Music by <a href="https://pixabay.com/users/audiocopper-790745/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">AudioCopper</a>
-    from <a href="https://pixabay.com/music//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">Pixabay</a>
+    <span class="footer__credits">
+      Music by <a href="https://pixabay.com/users/audiocopper-790745/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">AudioCopper</a>
+      from <a href="https://pixabay.com/music//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=571483" target="_blank" rel="noopener">Pixabay</a>
+    </span>
   </div>
 </footer>
 

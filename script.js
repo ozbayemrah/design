@@ -33,33 +33,46 @@ const GITHUB_USER = "ozbayemrah";
   });
 })();
 
-/* ---------- hero flip card: name/contact/tagline <-> SPEN ID badge ---------- */
-(function () {
-  const flip = document.querySelector(".hero__flip");
-  const toggle = document.getElementById("heroFlipToggle");
-  if (!flip || !toggle) return;
+/* ---------- hero: copy email (for people without a mail app) ----------
+   The address isn't printed on the page. Copies synchronously through a
+   throwaway off-screen textarea (works inside the click everywhere),
+   falling back to the async Clipboard API — which can hang on a
+   permission prompt. If both fail, the button shows the address itself. */
+document.querySelectorAll("[data-copy]").forEach((btn) => {
+  const label = btn.textContent;
+  const text = btn.dataset.copy;
+  let resetTimer = null;
 
-  const front = flip.querySelector(".hero__flip-face--front");
-  const back = flip.querySelector(".hero__flip-face--back");
-  const label = toggle.querySelector(".hero__flip-toggle-label");
-
-  function setFlipped(flipped) {
-    flip.classList.toggle("is-flipped", flipped);
-    toggle.setAttribute("aria-pressed", String(flipped));
-    toggle.setAttribute("aria-label", flipped ? "Review Designer Profile" : "Review Designer ID");
-    if (label) label.textContent = flipped ? "Review Designer Profile" : "Review Designer ID";
-    // keep the face that's rotated away from the viewer out of tab
-    // order / assistive-tech reach, not just visually hidden
-    if (front) front.inert = flipped;
-    if (back) back.inert = !flipped;
+  function feedback(ok) {
+    btn.textContent = ok ? "Copied ✓" : text;
+    btn.classList.add("is-done");
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { btn.textContent = label; btn.classList.remove("is-done"); }, ok ? 2000 : 6000);
   }
 
-  setFlipped(false);
+  function copySync() {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:-9999px;opacity:0";
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
 
-  toggle.addEventListener("click", () => {
-    setFlipped(!flip.classList.contains("is-flipped"));
+  btn.addEventListener("click", () => {
+    if (copySync()) {
+      feedback(true);
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => feedback(true), () => feedback(false));
+    } else {
+      feedback(false);
+    }
   });
-})();
+});
 
 /* ---------- live clock: Vienna (home base) + the visitor's own local time ---------- */
 const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
@@ -94,6 +107,10 @@ function tickClock() {
   if (viennaZoneEl) viennaZoneEl.textContent = gmtOffsetLabel(now, "Europe/Vienna");
   if (localTimeEl) localTimeEl.textContent = localTime;
   if (localDateEl) localDateEl.textContent = localDate;
+  // contact section: Austria time without seconds
+  const hm = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Vienna" });
+  document.querySelectorAll("[data-vienna-time]").forEach((el) => { el.textContent = hm; });
+  document.querySelectorAll("[data-vienna-zone]").forEach((el) => { el.textContent = gmtOffsetLabel(now, "Europe/Vienna"); });
 }
 tickClock();
 setInterval(tickClock, 1000);
@@ -128,14 +145,12 @@ async function loadGithubStats() {
       statusEl.classList.add("on");
     }
   } catch (err) {
+    // usually GitHub's 60-requests/hour anonymous limit (shared office
+    // networks hit it) — an "OFFLINE" readout reads as broken, so the
+    // whole bar just steps aside instead
     console.warn("GitHub stats unavailable:", err);
-    if (statusEl) {
-      statusEl.textContent = "OFFLINE";
-      statusEl.classList.remove("on");
-    }
-    [elRepos, elLang, elLast].forEach((el) => {
-      if (el) el.textContent = "--";
-    });
+    const bar = document.getElementById("sysstatus");
+    if (bar) bar.hidden = true;
   }
 }
 loadGithubStats();
@@ -190,7 +205,9 @@ if ("IntersectionObserver" in window && revealEls.length) {
 
     items.forEach((item, i) => {
       const rect = item.section.getBoundingClientRect();
-      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+      // ignore a unit that's only a sliver tucked under the sticky header
+      // (e.g. on the Contact screen) — it isn't really "the current project"
+      if (rect.bottom > 140 && rect.top < window.innerHeight) {
         const dist = Math.abs((rect.top + rect.bottom) / 2 - viewportMid);
         if (dist < bestDist) {
           bestDist = dist;
@@ -242,16 +259,6 @@ if ("IntersectionObserver" in window && revealEls.length) {
   }
 })();
 
-/* ---------- bio panel toggle: one arrow opens/closes all three panels ---------- */
-document.querySelectorAll("[data-toggle-group]").forEach((btn) => {
-  const group = document.querySelectorAll(`.${btn.dataset.toggleGroup}__panel`);
-  btn.addEventListener("click", () => {
-    const open = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!open));
-    group.forEach((panel) => panel.classList.toggle("is-open", !open));
-  });
-});
-
 /* ---------- project videos: load + autoplay only once visible ---------- */
 const projectVideos = document.querySelectorAll(".project__video");
 if ("IntersectionObserver" in window && projectVideos.length) {
@@ -273,331 +280,104 @@ if ("IntersectionObserver" in window && projectVideos.length) {
   projectVideos.forEach((v) => v.play().catch(() => {}));
 }
 
-/* ---------- generic mixed slideshow: cycles a set of stills AND
-   webm clips (in filename order), only while its card is on screen.
-   Swaps between a <video> and an <img> element rather than trying to
-   reassign one element's src across two media types. ---------- */
-function createMixedSlideshow(videoId, imgId, base, slides) {
-  const videoEl = document.getElementById(videoId);
-  const imgEl = document.getElementById(imgId);
-  if (!videoEl || !imgEl || !slides.length) return;
-  const container = videoEl.closest(".project__media");
+/* ---------- project galleries: sideways strip of every still/clip.
+   Native scroll does the work (swipe, trackpad, shift+wheel); this
+   adds arrow buttons, a live "03 / 08" counter and mouse drag. ---------- */
+document.querySelectorAll(".project").forEach((section) => {
+  const track = section.querySelector(".project__track");
+  const ui = section.querySelector(".project__gallery-ui");
+  if (!track || !ui) return;
+  const slides = Array.from(track.querySelectorAll(".project__slide"));
+  const indexEl = ui.querySelector(".project__gallery-index");
+  const prevBtn = ui.querySelector('[data-dir="-1"]');
+  const nextBtn = ui.querySelector('[data-dir="1"]');
 
-  function url(file) {
-    return base + encodeURIComponent(file);
+  if (slides.length < 2) {
+    ui.classList.add("is-single");
+    track.style.cursor = "default";
+    return;
   }
 
-  let index = 0;
-  let timer = null;
-  let running = false;
-
-  function preloadNext() {
-    const next = slides[(index + 1) % slides.length];
-    if (!next.video) new Image().src = url(next.file);
+  // scroll position that puts slide i flush with the strip's left
+  // padding (the text column edge) — the strip itself is full-bleed
+  function slideLeft(i) {
+    const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+    return slides[i].offsetLeft - track.offsetLeft - pad;
   }
 
-  function show(i) {
-    index = i;
-    const slide = slides[index];
-    if (slide.video) {
-      imgEl.style.display = "none";
-      videoEl.style.display = "";
-      videoEl.style.opacity = "0";
-      videoEl.addEventListener("loadeddata", () => { videoEl.style.opacity = "1"; }, { once: true });
-      videoEl.src = url(slide.file);
-      videoEl.play().catch(() => {});
-    } else {
-      videoEl.pause();
-      videoEl.style.display = "none";
-      imgEl.style.display = "";
-      imgEl.style.opacity = "0";
-      imgEl.addEventListener("load", () => { imgEl.style.opacity = "1"; }, { once: true });
-      imgEl.src = url(slide.file);
-    }
-    preloadNext();
+  function currentIndex() {
+    const left = track.scrollLeft;
+    let best = 0;
+    slides.forEach((s, i) => {
+      if (Math.abs(slideLeft(i) - left) < Math.abs(slideLeft(best) - left)) best = i;
+    });
+    return best;
   }
 
-  function scheduleNext() {
-    clearTimeout(timer);
-    const dwell = slides[index].video ? 5000 : 2200;
-    timer = setTimeout(() => {
-      show((index + 1) % slides.length);
-      scheduleNext();
-    }, dwell);
+  function update() {
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    const i = atEnd ? slides.length - 1 : currentIndex();
+    indexEl.textContent = String(i + 1).padStart(2, "0");
+    prevBtn.disabled = track.scrollLeft <= 2;
+    nextBtn.disabled = atEnd;
   }
 
-  function start() {
-    if (running) return;
-    running = true;
-    if (slides[index].video) videoEl.play().catch(() => {});
-    scheduleNext();
-  }
-  function stop() {
-    running = false;
-    clearTimeout(timer);
-    videoEl.pause();
-  }
-
-  if ("IntersectionObserver" in window) {
-    const sio = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
-      { threshold: 0.25 }
-    );
-    sio.observe(container);
-  } else {
-    start();
-  }
-}
-
-createMixedSlideshow("spg-slideshow-video", "spg-slideshow-img", "assets/Project_assets/SPG-Staticpen/", [
-  { file: "SPG_elements (1).webm", video: true },
-  { file: "SPG_elements (2).jpg" },
-  { file: "SPG_elements (3).jpg" },
-  { file: "SPG_elements (4).jpg" },
-  { file: "SPG_elements (5).webm", video: true },
-  { file: "SPG_elements (6).jpg" },
-  { file: "SPG_elements (7).jpg" },
-  { file: "SPG_elements (8).jpg" },
-  { file: "SPG_elements (9).webm", video: true },
-  { file: "SPG_elements (10).jpg" },
-  { file: "SPG_elements (11).jpg" },
-  { file: "SPG_elements (12).jpg" },
-]);
-
-createMixedSlideshow("hyperion-slideshow-video", "hyperion-slideshow-img", "assets/Project_assets/WT-hyperion/", [
-  { file: "WT-hyperion (1).webm", video: true },
-  { file: "WT-hyperion (2).jpg" },
-  { file: "WT-hyperion (3).webm", video: true },
-  { file: "WT-hyperion (4).webm", video: true },
-  { file: "WT-hyperion (5).jpg" },
-  { file: "WT-hyperion (6).jpg" },
-]);
-
-createMixedSlideshow("paradox-slideshow-video", "paradox-slideshow-img", "assets/Project_assets/WT-paradox/", [
-  { file: "WT-paradox (1).webm", video: true },
-  { file: "WT-paradox (2).webm", video: true },
-  { file: "WT-paradox (3).webm", video: true },
-  { file: "WT-paradox (4).jpg" },
-  { file: "WT-paradox (5).jpg" },
-  { file: "WT-paradox (6).jpg" },
-  { file: "WT-paradox (7).jpg" },
-]);
-
-/* ---------- generic video-only slideshow: plays each clip through
-   to its natural end, then advances — no artificial dwell timer. ---------- */
-function createVideoSlideshow(videoId, base, files) {
-  const video = document.getElementById(videoId);
-  if (!video || !files.length) return;
-  const container = video.closest(".project__media");
-
-  function url(file) {
-    return base + encodeURIComponent(file);
+  // rapid clicks stack: count from the slide we're already heading to,
+  // not from wherever the smooth scroll happens to be mid-flight
+  let target = null;
+  let targetTimer = null;
+  function go(dir) {
+    const from = target === null ? currentIndex() : target;
+    target = Math.min(Math.max(from + dir, 0), slides.length - 1);
+    clearTimeout(targetTimer);
+    targetTimer = setTimeout(() => { target = null; }, 700);
+    track.scrollTo({ left: slideLeft(target), behavior: "smooth" });
   }
 
-  let index = 0;
-  let running = false;
-
-  function playCurrent() {
-    video.src = url(files[index]);
-    video.play().catch(() => {});
-  }
-
-  video.addEventListener("ended", () => {
-    index = (index + 1) % files.length;
-    playCurrent();
+  prevBtn.addEventListener("click", () => go(-1));
+  nextBtn.addEventListener("click", () => go(1));
+  track.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
   });
 
-  function start() {
-    if (running) return;
-    running = true;
-    if (!video.src) playCurrent();
-    else video.play().catch(() => {});
-  }
-  function stop() {
-    running = false;
-    video.pause();
-  }
+  let ticking = false;
+  track.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; update(); });
+  }, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  // lazy stills/clips have no width until they load — re-measure then,
+  // otherwise the strip can look "already at the end" with → disabled
+  track.querySelectorAll("img").forEach((img) => img.addEventListener("load", update));
+  track.querySelectorAll("video").forEach((v) => v.addEventListener("loadedmetadata", update));
+  update();
 
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
-      { threshold: 0.25 }
-    );
-    io.observe(container);
-  } else {
-    start();
-  }
-}
-
-createVideoSlideshow("reckoning-slideshow-video", "assets/Project_assets/WT-reckoning/", [
-  "WT-Reckoning (1).webm",
-  "WT-Reckoning (6).webm",
-  "WT-Reckoning (7).webm",
-  "WT-Reckoning (8).webm",
-  "WT-Reckoning (9).webm",
-]);
-
-createVideoSlideshow("postmortem-slideshow-video", "assets/Project_assets/DestroyCam/", [
-  "Destorycam (2).webm",
-  "Destorycam (3).webm",
-  "Destorycam (4).webm",
-]);
-
-/* ---------- generic image slideshow: cycles a set of stills in
-   filename order, only while its card is on screen. Used for the
-   project covers that are plain jpg sequences (no gif/webm slides). ---------- */
-function createImageSlideshow(imgId, base, files, dwell) {
-  const img = document.getElementById(imgId);
-  if (!img || !files.length) return;
-  const container = img.closest(".project__media");
-
-  function url(file) {
-    return base + encodeURIComponent(file);
-  }
-
-  let index = 0;
-  let timer = null;
-  let running = false;
-
-  function preloadNext() {
-    new Image().src = url(files[(index + 1) % files.length]);
-  }
-
-  function show(i) {
-    index = i;
-    img.style.opacity = "0";
-    img.addEventListener("load", () => { img.style.opacity = "1"; }, { once: true });
-    img.src = url(files[index]);
-    preloadNext();
-  }
-
-  function scheduleNext() {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      show((index + 1) % files.length);
-      scheduleNext();
-    }, dwell || 2600);
-  }
-
-  function start() {
-    if (running) return;
-    running = true;
-    if (!img.src) show(0);
-    scheduleNext();
-  }
-  function stop() {
-    running = false;
-    clearTimeout(timer);
-  }
-
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
-      { threshold: 0.25 }
-    );
-    io.observe(container);
-  } else {
-    start();
-  }
-}
-
-createImageSlideshow("interstellar-slideshow", "assets/Project_assets/Interstellar-nav/", [
-  "interstellar (1).jpg",
-  "interstellar (2).jpg",
-  "interstellar (3).jpg",
-  "interstellar (4).jpg",
-  "interstellar (5).jpg",
-  "interstellar (6).jpg",
-  "interstellar (7).jpg",
-]);
-
-createImageSlideshow("cyberpunk-slideshow", "assets/Project_assets/Cyberpunk-Hud/", [
-  "Cyberpunk (1).jpg",
-  "Cyberpunk (2).jpg",
-  "Cyberpunk (3).jpg",
-  "Cyberpunk (4).jpg",
-  "Cyberpunk (5).jpg",
-  "Cyberpunk (6).jpg",
-  "Cyberpunk (7).jpg",
-  "Cyberpunk (8).jpg",
-]);
-
-createImageSlideshow("fui-slideshow", "assets/Project_assets/FUI/", [
-  "Fui (1).jpg",
-  "Fui (2).jpg",
-  "Fui (3).jpg",
-  "Fui (4).jpg",
-  "Fui (5).jpg",
-  "Fui (6).jpg",
-]);
-
-createImageSlideshow("starwars-slideshow", "assets/Project_assets/Starwars/", [
-  "starwars (1).jpg",
-  "starwars (2).jpg",
-  "starwars (3).jpg",
-  "starwars (4).jpg",
-  "starwars (5).jpg",
-  "starwars (6).jpg",
-  "starwars (7).jpg",
-  "starwars (8).jpg",
-]);
-
-createImageSlideshow("language-slideshow", "assets/Project_assets/Language/", [
-  "language (1).jpg",
-  "language (2).jpg",
-  "language (3).jpg",
-  "language (4).jpg",
-  "language (5).jpg",
-  "language (6).jpg",
-]);
-
-createVideoSlideshow("lol-slideshow-video", "assets/Project_assets/Leaugeoflegends/", [
-  "lol1.webm",
-  "lol2.webm",
-  "lol3.webm",
-]);
-
-createImageSlideshow("dcen-slideshow", "assets/Project_assets/DCEN/", [
-  "Dcen (1).jpg",
-  "Dcen (2).jpg",
-  "Dcen (3).jpg",
-  "Dcen (4).jpg",
-  "Dcen (5).jpg",
-  "Dcen (6).jpg",
-  "Dcen (7).jpg",
-  "Dcen (8).jpg",
-]);
-
-createImageSlideshow("austriawealth-slideshow", "assets/Project_assets/Austria-Wealth/", [
-  "Austria_wealth (1).jpg",
-  "Austria_wealth (2).jpg",
-  "Austria_wealth (3).jpg",
-  "Austria_wealth (4).jpg",
-]);
-
-createImageSlideshow("aestimo-slideshow", "assets/Project_assets/Aestimo/", [
-  "Aestimo (1).jpg",
-  "Aestimo (2).jpg",
-  "Aestimo (3).jpg",
-]);
-
-createImageSlideshow("palma-slideshow", "assets/Project_assets/Palma/", [
-  "Palma (1).jpg",
-  "Palma (2).jpg",
-  "Palma (3).jpg",
-]);
-
-createImageSlideshow("dopps-slideshow", "assets/Project_assets/Dopps-Forest/", [
-  "Dopps (1).jpg",
-  "Dopps (2).jpg",
-  "Dopps (3).jpg",
-]);
-
-createImageSlideshow("bookinit-slideshow", "assets/Project_assets/BookinIT/", [
-  "BookinIT (1).jpg",
-  "BookinIT (2).jpg",
-  "BookinIT (3).jpg",
-]);
+  // mouse drag-to-scroll (touch already scrolls natively)
+  let startX = 0;
+  let startLeft = 0;
+  let dragging = false;
+  track.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    dragging = true;
+    startX = e.clientX;
+    startLeft = track.scrollLeft;
+  });
+  window.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) track.classList.add("is-dragging");
+    track.scrollLeft = startLeft - dx;
+  });
+  window.addEventListener("pointerup", () => {
+    if (!dragging) return;
+    dragging = false;
+    if (!track.classList.contains("is-dragging")) return;
+    track.classList.remove("is-dragging");
+    go(0); // re-settle onto the nearest slide
+  });
+});
 
 /* ---------- ID card: matrix-style decrypt/re-encrypt loop ---------- */
 /* Operates on individual text nodes (not elements) so structural children
@@ -665,13 +445,13 @@ function startIdCardDecryptLoop() {
 if (!reducedMotion) startIdCardDecryptLoop();
 
 /* ---------- project cards: same decrypt-reveal motion, once per card,
-   the first time it scrolls into view. Copy text only — buttons/links
-   keep their plain fade-in from .reveal. ---------- */
+   the first time it scrolls into view. Title only — description and
+   specs stay readable from the first frame. ---------- */
 function decryptRevealProject(section) {
   if (reducedMotion) return;
   const nodes = [];
   section
-    .querySelectorAll(".project__title, .project__desc, .project__meta .label, .project__meta .val")
+    .querySelectorAll(".project__title")
     .forEach((el) => nodes.push(...collectTextNodes(el)));
   nodes.forEach((node, i) => {
     setTimeout(() => scrambleReveal(node, 500 + Math.random() * 400), i * 55);
@@ -689,13 +469,16 @@ function decryptRevealProject(section) {
     return;
   }
 
-  document.documentElement.classList.add("has-tactical-cursor");
 
+  // the reticle is a hero-only flourish: everywhere else the native
+  // cursor comes back, so reading and clicking stay precise
+  const root = document.documentElement;
   window.addEventListener(
     "mousemove",
     (e) => {
       cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       cursor.classList.add("is-active");
+      root.classList.toggle("tc-in-hero", !!(e.target.closest && e.target.closest(".hero")));
     },
     { passive: true }
   );
@@ -873,6 +656,10 @@ function decryptRevealProject(section) {
 
   function drawShader() {
     sctx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
+    if (!document.documentElement.classList.contains("tc-in-hero")) {
+      requestAnimationFrame(drawShader);
+      return;
+    }
     const target = getShaderTarget(mouseX, mouseY);
 
     if (target && target.type === "image") {
