@@ -448,16 +448,32 @@
     return;
   }
 
+  // animate only while the hero is on screen; colours are refreshed on
+  // "theme:change" (above), not re-read from CSS every frame
   let last = performance.now();
+  let running = false;
   function frame(now) {
+    if (!running) return;
     const seconds = Math.min(0.05, (now - last) / 1000);
     last = now;
-    updateEyeColors();
     eyes.forEach((e) => {
       e.update(seconds);
       e.draw();
     });
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  function setRunning(on) {
+    if (on === running) return;
+    running = on;
+    if (on) {
+      last = performance.now();
+      requestAnimationFrame(frame);
+    }
+  }
+  const hero = document.querySelector(".hero");
+  if (hero && "IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => setRunning(entries[0].isIntersecting)).observe(hero);
+  } else {
+    setRunning(true);
+  }
 })();

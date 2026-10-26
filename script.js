@@ -3,8 +3,6 @@
 // live clock, GitHub stats readout, scroll-reveal.
 // ============================================================
 
-const GITHUB_USER = "ozbayemrah";
-
 /* ---------- theme switch: day / night / ops, persisted in localStorage.
    "dark" is the base palette (no data-theme attribute). ---------- */
 (function () {
@@ -86,9 +84,8 @@ document.querySelectorAll("[data-copy]").forEach((btn) => {
   });
 });
 
-/* ---------- live clock: Vienna (home base) + the visitor's own local time ---------- */
+/* ---------- live clock: Vienna (home base) ---------- */
 const TIME_OPTS = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
-const DATE_OPTS = { weekday: "long", month: "short", day: "2-digit", year: "numeric" };
 
 // "GMT+1" / "GMT+2" — computed live so it stays correct across DST
 // changes instead of hardcoding Vienna's offset.
@@ -105,67 +102,19 @@ function gmtOffsetLabel(date, timeZone) {
 function tickClock() {
   const now = new Date();
   const viennaTime = now.toLocaleTimeString("en-GB", { ...TIME_OPTS, timeZone: "Europe/Vienna" });
-  const viennaDate = now.toLocaleDateString("en-GB", { ...DATE_OPTS, timeZone: "Europe/Vienna" }).toUpperCase();
-  const localTime = now.toLocaleTimeString("en-GB", TIME_OPTS);
-  const localDate = now.toLocaleDateString("en-GB", DATE_OPTS).toUpperCase();
-
+  const zone = gmtOffsetLabel(now, "Europe/Vienna");
   const timeEl = document.getElementById("clock-time");
-  const dateEl = document.getElementById("clock-date");
-  const viennaZoneEl = document.getElementById("clock-zone-vienna");
-  const localTimeEl = document.getElementById("clock-time-local");
-  const localDateEl = document.getElementById("clock-date-local");
+  const zoneEl = document.getElementById("clock-zone-vienna");
   if (timeEl) timeEl.textContent = viennaTime;
-  if (dateEl) dateEl.textContent = viennaDate;
-  if (viennaZoneEl) viennaZoneEl.textContent = gmtOffsetLabel(now, "Europe/Vienna");
-  if (localTimeEl) localTimeEl.textContent = localTime;
-  if (localDateEl) localDateEl.textContent = localDate;
+  if (zoneEl) zoneEl.textContent = zone;
   // contact section: Austria time without seconds
   const hm = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Vienna" });
   document.querySelectorAll("[data-vienna-time]").forEach((el) => { el.textContent = hm; });
-  document.querySelectorAll("[data-vienna-zone]").forEach((el) => { el.textContent = gmtOffsetLabel(now, "Europe/Vienna"); });
+  document.querySelectorAll("[data-vienna-zone]").forEach((el) => { el.textContent = zone; });
 }
 tickClock();
 setInterval(tickClock, 1000);
 
-/* ---------- GitHub live stats ---------- */
-async function loadGithubStats() {
-  const elRepos = document.getElementById("stat-repos");
-  const elLang = document.getElementById("stat-lang");
-  const elLast = document.getElementById("stat-last");
-  const statusEl = document.getElementById("stat-status");
-
-  try {
-    const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`);
-    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-    const repos = await res.json();
-
-    const repoCount = repos.length;
-
-    const langCounts = {};
-    repos.forEach((r) => {
-      if (r.language) langCounts[r.language] = (langCounts[r.language] || 0) + 1;
-    });
-    const topLang = Object.entries(langCounts).sort((a, b) => b[1] - a[1])[0];
-
-    const mostRecent = repos[0];
-
-    if (elRepos) elRepos.textContent = String(repoCount).padStart(2, "0");
-    if (elLang) elLang.textContent = topLang ? topLang[0].toUpperCase() : "—";
-    if (elLast) elLast.textContent = mostRecent ? mostRecent.name.toUpperCase() : "—";
-    if (statusEl) {
-      statusEl.textContent = "ONLINE";
-      statusEl.classList.add("on");
-    }
-  } catch (err) {
-    // usually GitHub's 60-requests/hour anonymous limit (shared office
-    // networks hit it) — an "OFFLINE" readout reads as broken, so the
-    // whole bar just steps aside instead
-    console.warn("GitHub stats unavailable:", err);
-    const bar = document.getElementById("sysstatus");
-    if (bar) bar.hidden = true;
-  }
-}
-loadGithubStats();
 
 /* ---------- scroll reveal ---------- */
 const revealEls = document.querySelectorAll(".reveal");
@@ -442,7 +391,16 @@ function startIdCardDecryptLoop() {
   const targets = collectTextNodes(root);
   if (!targets.length) return;
 
+  // only scramble while the card is actually on screen
+  let onScreen = false;
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => { onScreen = entries[0].isIntersecting; }).observe(root);
+  } else {
+    onScreen = true;
+  }
+
   function tick() {
+    if (!onScreen) { setTimeout(tick, 1500); return; }
     const pool = targets.filter((node) => !idcLocked.has(node));
     const count = 2 + ((Math.random() * 4) | 0);
     for (let i = 0; i < count && pool.length; i++) {
@@ -669,7 +627,7 @@ function decryptRevealProject(section) {
   function drawShader() {
     sctx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
     if (!document.documentElement.classList.contains("tc-in-hero")) {
-      requestAnimationFrame(drawShader);
+      running = false; // idle outside the hero; mousemove restarts it
       return;
     }
     const target = getShaderTarget(mouseX, mouseY);
@@ -705,7 +663,13 @@ function decryptRevealProject(section) {
 
     requestAnimationFrame(drawShader);
   }
-  requestAnimationFrame(drawShader);
+  let running = false;
+  function startShader() {
+    if (running || !document.documentElement.classList.contains("tc-in-hero")) return;
+    running = true;
+    requestAnimationFrame(drawShader);
+  }
+  window.addEventListener("mousemove", startShader, { passive: true });
 })();
 
 /* ---------- background music toggle ---------- */

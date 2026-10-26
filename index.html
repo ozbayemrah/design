@@ -23,7 +23,6 @@
 </script>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
 
 <!-- background music — user-initiated, respects browser autoplay
      policy. Track credited in the footer per Pixabay license. -->
@@ -89,27 +88,8 @@
   </nav>
   <div class="header__right">
     <div class="header__clockgroup">
-      <div class="status-block">
-        <span class="label">Based in Austria</span>
-        <span class="label">Open to work</span>
-      </div>
-
-      <div class="clock-block">
-        <div class="clock-block__col">
-          <div class="clock-block__timerow">
-            <span class="clock-block__zone" id="clock-zone-vienna">GMT</span>
-            <span class="time mono" id="clock-time">--:--:--</span>
-          </div>
-          <span class="date" id="clock-date">LOADING</span>
-        </div>
-        <div class="clock-block__col clock-block__col--local">
-          <div class="clock-block__timerow">
-            <span class="clock-block__zone" id="clock-zone-local">Local Time</span>
-            <span class="time mono" id="clock-time-local">--:--:--</span>
-          </div>
-          <span class="date" id="clock-date-local">LOADING</span>
-        </div>
-      </div>
+      <span class="label header__status">Open to work</span>
+      <span class="header__clock mono"><span class="clock-block__zone" id="clock-zone-vienna">GMT</span> <span class="time" id="clock-time">--:--:--</span></span>
 
       <span class="header__sep" aria-hidden="true"></span>
     </div>
@@ -167,7 +147,6 @@
     <div class="hero__content">
       <div class="hero__eyebrow">
         <span class="label">Product UX / Game UX/UI / Interface Systems / Design Systems / AI-assisted Prototyping</span>
-        <span class="label">Open to work — Austria / Remote</span>
       </div>
 
       <h1 class="hero__wordmark">Emrah<br />Özbay</h1>
@@ -189,48 +168,12 @@
         13+ years across AAA games, enterprise SaaS and interactive systems. I combine UX, UI, visual design and technical understanding to turn complex workflows into clear, usable experiences.
       </p>
 
-      <div class="hero__readout">
-        <span class="chip on"><span class="dot"></span>Status: Online</span>
-        <span class="chip">Based: Gralla, Austria</span>
-      </div>
     </div><!-- /.hero__content -->
 
 
   </div>
 </section>
 
-<!-- ticker -->
-<div class="ticker" aria-hidden="true">
- <div class="ticker__unit">
-  <div class="ticker__corner">
-    <span class="ticker__corner-cell ticker__corner-cell--tl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--tr"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--c"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--bl"></span>
-    <span class="ticker__corner-cell ticker__corner-cell--br"></span>
-  </div>
-  <div class="ticker__band">
-    <div class="ticker__track">
-      <span>PORTFOLIO STATUS: LIVE</span>
-      <span>/</span>
-      <span>LAST UPDATE: 08.2026</span>
-      <span>/</span>
-      <span>UPCOMING PROJECT: 4 PROFILES — MOVIE</span>
-      <span>/</span>
-      <span>OPEN TO COLLABORATION</span>
-      <span>/</span>
-      <span>REACH OUT FOR INQUIRIES</span>
-      <span>/</span>
-      <span>LET'S TAKE YOUR PROJECT TO THE NEXT LEVEL</span>
-      <span>/</span>
-      <span>FOLLOW: LINKEDIN · BEHANCE · GITHUB</span>
-    </div>
-  </div>
-  <div class="ticker__index">
-    <span class="ticker__index-num">01</span>
-  </div>
- </div>
-</div>
 
 <!-- project index — small clickable tiles, jump straight to a unit below.
      Grouped into 2 categories (GUI / FUI-HUD); the sections
@@ -386,20 +329,6 @@
   </div>
 </section>
 
-<!-- live system status, pulled from the GitHub API -->
-<section class="sysstatus reveal" id="sysstatus">
-  <div class="sysstatus__row">
-    <span class="label">System Status <span id="stat-status" class="accent">CHECKING…</span></span>
-    <span class="sysstatus__stats">
-      <span class="sysstatus__stat"><span class="accent" id="stat-repos">--</span> Public repos</span>
-      <span class="sysstatus__sep">/</span>
-      <span class="sysstatus__stat">Top language: <span class="accent" id="stat-lang">--</span></span>
-      <span class="sysstatus__sep">/</span>
-      <span class="sysstatus__stat">Last updated: <span class="accent" id="stat-last">--</span></span>
-    </span>
-    <span class="label">Source: api.github.com/users/<span class="accent">ozbayemrah</span></span>
-  </div>
-</section>
 
 <!-- ============= CATEGORY: GUI (01–07) ============= -->
 
@@ -924,7 +853,7 @@
           <div class="idcard__photo">
             <span class="idcard__photo-label">SP-LAB</span>
             <div class="idcard__photo-frame">
-              <img src="assets/ID_assets/emrahprofile.png" alt="Emrah Özbay" />
+              <img src="assets/ID_assets/emrahprofile.jpg" alt="Emrah Özbay" />
               <span class="idcard__crosshair"></span>
               <span class="idcard__coord idcard__coord--a">0*78946</span>
               <span class="idcard__coord idcard__coord--b">0*788941</span>
@@ -1069,7 +998,7 @@
     <div class="contact__main">
       <p class="contact__lead">
         Open to full-time and contract roles in product UX, game UI/UX and
-        FUI/HUD design. Based in Austria, working on-site or remote.
+        FUI/HUD design.
       </p>
       <div class="contact__actions">
         <div class="cta contact__cta">
