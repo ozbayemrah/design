@@ -5,32 +5,44 @@
 
 const GITHUB_USER = "ozbayemrah";
 
-/* ---------- theme toggle: light/dark, persisted in localStorage ---------- */
+/* ---------- theme switch: day / night / ops, persisted in localStorage.
+   "dark" is the base palette (no data-theme attribute). ---------- */
 (function () {
   const root = document.documentElement;
-  const btn = document.querySelector(".theme-toggle");
-  if (!btn) return;
+  const opts = Array.from(document.querySelectorAll("[data-theme-opt]"));
+  if (!opts.length) return;
 
-  function isLight() {
-    return root.getAttribute("data-theme") === "light";
+  function current() {
+    return root.getAttribute("data-theme") || "dark";
   }
-  function updateButton() {
-    btn.setAttribute("aria-pressed", String(isLight()));
-    btn.setAttribute("aria-label", isLight() ? "Switch to dark theme" : "Switch to light theme");
+  function sync() {
+    const t = current();
+    opts.forEach((o) => {
+      const on = o.dataset.themeOpt === t;
+      o.setAttribute("aria-checked", String(on));
+      o.tabIndex = on ? 0 : -1; // roving tabindex: one tab stop for the group
+    });
   }
-  updateButton();
-
-  btn.addEventListener("click", () => {
-    if (isLight()) {
-      root.removeAttribute("data-theme");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-    updateButton();
+  function apply(t) {
+    if (t === "dark") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", t);
+    try { localStorage.setItem("theme", t); } catch (e) {}
+    sync();
     window.dispatchEvent(new Event("theme:change"));
+  }
+
+  opts.forEach((o, i) => {
+    o.addEventListener("click", () => apply(o.dataset.themeOpt));
+    o.addEventListener("keydown", (e) => {
+      const dir = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      const next = opts[(i + dir + opts.length) % opts.length];
+      apply(next.dataset.themeOpt);
+      next.focus();
+    });
   });
+  sync();
 })();
 
 /* ---------- hero: copy email (for people without a mail app) ----------

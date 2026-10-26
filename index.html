@@ -14,7 +14,12 @@
 <link rel="stylesheet" href="styles.css" />
 <script>
   document.documentElement.classList.add("js");
-  try { if (localStorage.getItem("theme") !== "dark") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
+  try {
+    // "dark" = no attribute (the base palette); "ops" = night-vision green/black; default = light
+    var t = localStorage.getItem("theme");
+    if (t === "ops") document.documentElement.setAttribute("data-theme", "ops");
+    else if (t !== "dark") document.documentElement.setAttribute("data-theme", "light");
+  } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
 </script>
 </head>
 <body>
@@ -109,24 +114,38 @@
       <span class="header__sep" aria-hidden="true"></span>
     </div>
 
-    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to light theme">
-      <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <line x1="12" y1="1.5" x2="12" y2="4.5" />
-          <line x1="12" y1="19.5" x2="12" y2="22.5" />
-          <line x1="1.5" y1="12" x2="4.5" y2="12" />
-          <line x1="19.5" y1="12" x2="22.5" y2="12" />
-          <line x1="4.4" y1="4.4" x2="6.5" y2="6.5" />
-          <line x1="17.5" y1="17.5" x2="19.6" y2="19.6" />
-          <line x1="4.4" y1="19.6" x2="6.5" y2="17.5" />
-          <line x1="17.5" y1="6.5" x2="19.6" y2="4.4" />
-        </g>
-      </svg>
-      <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-      </svg>
-    </button>
+    <!-- 3-way colour theme: a segmented "selected option" control -->
+    <div class="theme-switch" role="radiogroup" aria-label="Colour theme">
+      <button class="theme-switch__opt" type="button" role="radio" aria-checked="false" data-theme-opt="light" title="Day">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8" />
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="12" y1="1.5" x2="12" y2="4.5" /><line x1="12" y1="19.5" x2="12" y2="22.5" />
+            <line x1="1.5" y1="12" x2="4.5" y2="12" /><line x1="19.5" y1="12" x2="22.5" y2="12" />
+            <line x1="4.4" y1="4.4" x2="6.5" y2="6.5" /><line x1="17.5" y1="17.5" x2="19.6" y2="19.6" />
+            <line x1="4.4" y1="19.6" x2="6.5" y2="17.5" /><line x1="17.5" y1="6.5" x2="19.6" y2="4.4" />
+          </g>
+        </svg>
+        <span class="theme-switch__label">Day</span>
+      </button>
+      <button class="theme-switch__opt" type="button" role="radio" aria-checked="false" data-theme-opt="dark" title="Night">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+        </svg>
+        <span class="theme-switch__label">Night</span>
+      </button>
+      <button class="theme-switch__opt" type="button" role="radio" aria-checked="false" data-theme-opt="ops" title="Ops (night-vision green / black)">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8" />
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="12" y1="1.5" x2="12" y2="7" /><line x1="12" y1="17" x2="12" y2="22.5" />
+            <line x1="1.5" y1="12" x2="7" y2="12" /><line x1="17" y1="12" x2="22.5" y2="12" />
+          </g>
+          <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+        </svg>
+        <span class="theme-switch__label">Ops</span>
+      </button>
+    </div>
   </div>
 </header>
 

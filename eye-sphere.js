@@ -55,8 +55,11 @@
   let COL_IRIS, COL_IRIS_INNER, COL_DETAIL, COL_HIGHLIGHT;
 
   function updateEyeColors() {
-    const light = document.documentElement.getAttribute("data-theme") === "light";
-    const base = light ? 0x16171a : 0xe5e3e6;
+    // read the live --fg token so every theme (day / night / ops) tints
+    // the eyes with its own text colour
+    const fg = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim();
+    const m = /^#([0-9a-f]{6})$/i.exec(fg);
+    const base = m ? parseInt(m[1], 16) : 0xe5e3e6;
     COL_SCLERA_100 = argb(0xff000000 | base);
     COL_SCLERA_80 = argb(0xcc000000 | base);
     COL_SCLERA_60 = argb(0x99000000 | base);
